@@ -1,0 +1,4 @@
+
+About allowed functions	--	https://42-cursus.gitbook.io/guide/rank-03/minishell/functions
+
+About allowed functions -- 	file:///home/lufiguei/Downloads/Base%20Documentation.html
