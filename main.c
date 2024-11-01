@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdlib.h>
+#include "minishell.h"
 
 int	main()
 {
@@ -21,7 +18,7 @@ int	main()
 	rl = readline("Prompt > ");
 	//if (signal received)
 	//	call sighandler;
-	// call tokenizer
+	tokenizer(rl);
 	// call parser
 	// call exec
 	free(rl);
