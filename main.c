@@ -19,7 +19,11 @@ int	main()
 {
 	char *rl;
 	rl = readline("Prompt > ");
-	printf("%s\n", rl);
+	//if (signal received)
+	//	call sighandler;
+	// call tokenizer
+	// call parser
+	// call exec
 	free(rl);
 	rl_clear_history();
 	return (0);
