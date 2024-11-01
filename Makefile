@@ -6,8 +6,8 @@ NAME = minishell
 LIBFT = libft/libft.a
 
 OBJ_DIR = obj/
-SRC = main.c \
-      parser.c
+
+SRC = main.c parser.c tokenizer.c\
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
@@ -29,7 +29,7 @@ $(NAME): $(OBJ) $(LIBFT)
 
 # Compile source files into object files
 $(OBJ_DIR)%.o: %.c | $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@ > /dev/null 2>&1
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Clean up object files
 clean:
