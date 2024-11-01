@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lufiguei <lufiguei@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 13:15:44 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/01 14:11:16 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/01 13:17:10 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_token	*append_token(t_token **token_list, t_token_type type, char *value)
+/*static t_token	*append_token(t_token **token_list, t_token_type type, char *value)
 {
 	t_token	*new_token;
 	t_token	*tmp;
@@ -53,4 +53,28 @@ static void	free_token_list(t_token **token_list)
 	*token_list = NULL;
 }
 
-t_token	**
+t_token	**tokenizer(char *line)
+{
+	int	i;
+	char *tmp;
+
+	i = -1;
+	while (line[++i])
+	{
+		if (line[i] == 32 || line[i] == 9)
+			i++;
+		else if (ft_isalpha(line[i]) == 1 || '-' || '$')
+		{
+			j = i;
+			while (line[i] && ft_isalpha(line[i]) == 1)
+				i++;
+			ft_cpy(line[j] > line[i])
+
+			append (value)
+		}
+	}
+}
+
+t_token_type check_type(t_token *token)
+{
+}*/
