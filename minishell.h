@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/01 13:27:28 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/01 14:22:56 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,16 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include <stropts.h>
-# include <sys/types>
-# include <sys/stat>
-# include <sys/wait>
+//# include <stropts .h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
-# include <readline/history>
-# include <readline/readline>
+# include <readline/history.h>
+# include <readline/readline.h>
+#include "./libft/libft.h"
 
 typedef enum	e_token_type
 {
