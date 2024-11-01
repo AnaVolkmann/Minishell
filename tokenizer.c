@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-/*static t_token	*append_token(t_token **token_list, t_token_type type, char *value)
+static t_token	*append_token(t_token **token_list, t_token_type type, char *value)
 {
 	t_token	*new_token;
 	t_token	*tmp;
@@ -56,25 +56,29 @@ static void	free_token_list(t_token **token_list)
 t_token	**tokenizer(char *line)
 {
 	int	i;
-	char *tmp;
+	t_token **token_list;
+	char **split;
 
-	i = -1;
-	while (line[++i])
+	i = 0;
+	split = ft_split(line, ' ');
+	*token_list = NULL;
+	if (split == NULL)
+		return (NULL);
+	while (split[i])
 	{
-		if (line[i] == 32 || line[i] == 9)
-			i++;
-		else if (ft_isalpha(line[i]) == 1 || '-' || '$')
-		{
-			j = i;
-			while (line[i] && ft_isalpha(line[i]) == 1)
-				i++;
-			ft_cpy(line[j] > line[i])
-
-			append (value)
-		}
+		if (split[i][0] == '-')
+			if (!append_token(*token_list, RULE, split[i++]))
+				return (printf(stderr, "Error: Memory allocation.\n"), free_token_list(*token_list), NULL);
+		else if (split[i][0] == '$')
+			append_token(*token_list, ENV_VAR, split[i++]);
+		else if (islower(split[i][0]) == 1)
+			append_token(*token_list, COMMAND, split[i++]);
+		else if (split[i][0] == '|' || split[i][0] == '<' || split[i][0] == '>')
+			append_token(*token_list, OPERATOR, split[i++]);
+		else if (split[i][0] == 34 || split[i][0] == 39)
+			append_token(*token_list, QUOTE, split[i++]);
+		else
+			append_token(*token_list, WORD, split[i++]);
 	}
-}
 
-t_token_type check_type(t_token *token)
-{
-}*/
+}

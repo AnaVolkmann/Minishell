@@ -19,7 +19,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-//# include <stropts .h>
+//# include <stropts.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
@@ -46,5 +46,7 @@ typedef struct s_token
 	char		*value;
 	struct s_token	*next;
 }	t_token;
+
+t_token	**tokenizer(char *line);
 
 #endif
