@@ -5,6 +5,13 @@ About allowed functions -- 	file:///home/lufiguei/Downloads/Base%20Documentation
 
 
 
+Git commands:
+git pull origin main
+git branch <name of the new branch>
+git branch (just shows what branch you are with *)
+git checkout <name of the branch>
+git commit -m "your message"
+git push 
 
 compile the program with -lreadline flag
 valgrind -s --track-origins=yes --leak-check=full --show-leak-kinds=all --suppressions=valgrind_readline.supp

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_token	*append_token(t_token **token_list, t_token_type type, char *value)
+static t_token	*append_token(t_token **token_list, t_token_type type, char *value)
 {
 	t_token	*new_token;
 	t_token	*tmp;
@@ -37,7 +37,7 @@ t_token	*append_token(t_token **token_list, t_token_type type, char *value)
 	return (new_token);
 }
 
-void	free_token_list(t_token **token_list)
+static void	free_token_list(t_token **token_list)
 {
 	t_token	*tmp;
 	t_token	*next;
@@ -46,8 +46,11 @@ void	free_token_list(t_token **token_list)
 	while (tmp != NULL)
 	{
 		next = tmp->next;
+		free(tmp->value);
 		free(tmp);
 		tmp = next;
 	}
 	*token_list = NULL;
 }
+
+t_token	**
