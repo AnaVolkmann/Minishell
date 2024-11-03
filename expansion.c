@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	expansion(char *path)
+char	*expansion(char *path)
 {
 	int	i;
 	int	j;
@@ -25,11 +25,11 @@ int	expansion(char *path)
 		if (path[i] == '$')
 		{
 			i++;
-			while ((path[i] == '_' || isalnum(path[i])) && path[i])
+			while ((path[i] == '_' || ft_isalnum(path[i])) && path[i])
 				var_name[j++] = path[i++];
 			var_name[j] = '\0';
 		}
 		i++;
 	}
-	return (printf("%s\n", getenv(var_name)), 0);
+	return (get_env(var_name));
 }

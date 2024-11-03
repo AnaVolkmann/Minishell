@@ -65,17 +65,18 @@ t_token	**tokenizer(char *line)
 		if (line[i] == 32)
 			i++;
 		else if (line[i] == '-')
-			if (!append_token(*token_list, RULE, line[i++]))
+			if (!append_token(*token_list, RULE, line[i]))
 				return (printf(stderr, "Error: Memory allocation.\n"), free_token_list(*token_list), NULL);
 		else if (line[i] == '$')
-			append_token(*token_list, ENV_VAR, line[i++]);
-		else if (islower(line[i]) == 1)
-			append_token(*token_list, COMMAND, line[i++]);
+			append_token(*token_list, ENV_VAR, expansion(line));
+		else if (line[i] >= 'a' && line[i] <= 'z')
+			append_token(*token_list, COMMAND, line[i]);
 		else if (line[i] == '|' || line[i] == '<' || line[i] == '>')
-			append_token(*token_list, OPERATOR, line[i++]);
+			append_token(*token_list, OPERATOR, line[i]);
 		else if (line[i] == 34 || line[i] == 39)
-			append_token(*token_list, QUOTE, line[i++]);
+			append_token(*token_list, QUOTE, line[i]);
 		else
-			append_token(*token_list, WORD, line[i++]);
+			append_token(*token_list, WORD, line[i]);
+		i++;
 	}
 }
