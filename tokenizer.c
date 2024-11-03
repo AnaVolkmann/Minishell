@@ -57,28 +57,25 @@ t_token	**tokenizer(char *line)
 {
 	int	i;
 	t_token **token_list;
-	char **split;
 
 	i = 0;
-	split = ft_split(line, ' ');
 	*token_list = NULL;
-	if (split == NULL)
-		return (NULL);
-	while (split[i])
+	while (line[i])
 	{
-		if (split[i][0] == '-')
-			if (!append_token(*token_list, RULE, split[i++]))
+		if (line[i] == 32)
+			i++;
+		else if (line[i] == '-')
+			if (!append_token(*token_list, RULE, line[i++]))
 				return (printf(stderr, "Error: Memory allocation.\n"), free_token_list(*token_list), NULL);
-		else if (split[i][0] == '$')
-			append_token(*token_list, ENV_VAR, split[i++]);
-		else if (islower(split[i][0]) == 1)
-			append_token(*token_list, COMMAND, split[i++]);
-		else if (split[i][0] == '|' || split[i][0] == '<' || split[i][0] == '>')
-			append_token(*token_list, OPERATOR, split[i++]);
-		else if (split[i][0] == 34 || split[i][0] == 39)
-			append_token(*token_list, QUOTE, split[i++]);
+		else if (line[i] == '$')
+			append_token(*token_list, ENV_VAR, line[i++]);
+		else if (islower(line[i]) == 1)
+			append_token(*token_list, COMMAND, line[i++]);
+		else if (line[i] == '|' || line[i] == '<' || line[i] == '>')
+			append_token(*token_list, OPERATOR, line[i++]);
+		else if (line[i] == 34 || line[i] == 39)
+			append_token(*token_list, QUOTE, line[i++]);
 		else
-			append_token(*token_list, WORD, split[i++]);
+			append_token(*token_list, WORD, line[i++]);
 	}
-
 }
