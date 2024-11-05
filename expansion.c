@@ -14,22 +14,24 @@
 
 char	*expansion(char *path)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	var_name[256];
+	char	*env_value;
 
 	i = 0;
 	j = 0;
-	while (path[i])
+	if (path[i] == '$')
 	{
-		if (path[i] == '$')
-		{
-			i++;
-			while ((path[i] == '_' || ft_isalnum(path[i])) && path[i])
-				var_name[j++] = path[i++];
-			var_name[j] = '\0';
-		}
 		i++;
+		while ((path[i] == '_' || ft_isalnum(path[i])) && path[i])
+			var_name[j++] = path[i++];
+		var_name[j] = '\0';
+		if (j == 0)
+			return (NULL);
 	}
-	return (get_env(var_name));
+	env_value = get_env(var_name);
+	if (env_value != NULL)
+		return (ft_strdup(env_value));
+	return (NULL);
 }

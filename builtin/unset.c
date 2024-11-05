@@ -4,7 +4,7 @@
 // the delete works as in a swap, you overwrite the one you want to "delete", 
 // and shift everything else on top of it
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int unset(char *path)
 {
