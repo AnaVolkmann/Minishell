@@ -30,6 +30,8 @@
 # include <readline/readline.h>
 #include "./libft/libft.h"
 
+extern char **environ;
+
 typedef enum	e_token_type
 {
 	COMMAND,
