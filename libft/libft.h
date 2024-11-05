@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 21:05:47 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/09/12 13:50:57 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/05 17:29:48 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 size_t	ft_strlcat(char *dest, const char *src, size_t size);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
+int		ft_strcmp(char *s1, char *s2);
 
 /*.....................MEMORY.....................*/
 
