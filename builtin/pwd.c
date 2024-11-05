@@ -12,14 +12,13 @@
 
 #include "minishell.h"
 
-int	main()
+int	pwd()
 {
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
 	
-	if (pwd != NULL)
-		return (printf("%s\n", pwd), free(pwd), 0);
-	else
-		return (printf("Error: getcwd()\n"),free(pwd), 1);
+	if (pwd == NULL)
+		return (printf("Error: getcwd() failed: %s\n", strerror(errno)), 1);
+	return (printf("%s\n", pwd), free(pwd), 0);
 }
