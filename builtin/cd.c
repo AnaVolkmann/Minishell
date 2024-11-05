@@ -23,5 +23,5 @@ int	cd(char	*path)
 	if (chdir(path) == 0)
 		return (printf("Changed Directory to: %s\n", path), 0);
 	else
-		return (printf("Error: chdir()", 1);
+		return (printf("Error: chdir()", 1));
 }
