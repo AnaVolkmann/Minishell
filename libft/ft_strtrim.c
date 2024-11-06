@@ -6,38 +6,90 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:32:41 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/09/04 14:41:08 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:45:39 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/** @brief remove os characteres especificados em set de s1 no inicio
-e no final da string 
- @param s1 string a ser aparada
- @param set characeres a serem cortados
- @return a string aparada
-*/
-// linha 38 - Extrai a substring de s1 que começa
-// no índice first e termina no índice last - 1.
+static int	first_set(const char *s1, const char *set)
+{
+	int	i;
+	int	c;
+	int	j;
+
+	i = 0;
+	while (s1[i] != '\0')
+	{
+		c = 0;
+		j = 0;
+		while (set[j] != '\0')
+		{
+			if (set[j] == s1[i])
+				c++;
+			j++;
+		}
+		if (c == 0)
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
+static int	last_set(const char *s1, const char *set)
+{
+	int	c;
+	int	j;
+	int	len;
+
+	len = ft_strlen(s1);
+	while (len--)
+	{
+		c = 0;
+		j = 0;
+		while (set[j] != '\0')
+		{
+			if (set[j] == s1[len])
+				c++;
+			j++;
+		}
+		if (c == 0)
+			return (len);
+	}
+	return (len);
+}
+
+/** @brief Description : Allocates (with malloc(3)) and returns a copy of ’s1’ with the 
+	characters specified in ’set’ removed from the beginning and the end of 
+	the string.
+
+	s1:		The string to be trimmed.
+	set:	The reference set of characters to trim.*/
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	size_t	first;
-	size_t	last;
-	char	*final;
+	char	*ptr;
+	int		i;
+	int		first;
+	int		last;
 
-	final = NULL;
-	if (s1 && set)
+	i = 0;
+	if (!s1)
+		return (NULL);
+	first = first_set(s1, set);
+	last = last_set(s1, set);
+	if (first > last)
+		return (ft_strdup(""));
+	ptr = (char *)malloc(sizeof(char) * ((last - first) + 2));
+	if (ptr == NULL)
+		return (NULL);
+	while (first <= last)
 	{
-		first = 0;
-		last = ft_strlen(s1);
-		while (s1[first] && first < last && ft_strchr(set, s1[first]) != NULL)
-			first++;
-		while (last > first && ft_strchr(set, s1[last - 1]) != NULL)
-			last--;
-		final = ft_substr(s1, first, last - first);
+		ptr[i] = s1[first];
+		first++;
+		i++;
 	}
-	return (final);
+	ptr[i] = '\0';
+	return (ptr);
 }
 /*#include <stdio.h>
 

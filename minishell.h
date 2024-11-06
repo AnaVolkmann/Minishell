@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/06 15:18:42 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:25:37 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_token
 	char			*value;
 	struct s_token	*next;
 }			t_token;
-
 
 typedef struct s_shell
 {

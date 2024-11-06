@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 15:09:43 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/09/02 15:39:45 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:42:38 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,17 @@
   @param c charcarter a ser procurado.
   @return ponteiro para a primeira ocorrencia do char c na string str
   ou null, se o char nao for encontrado.*/
-char	*ft_strchr(const char *str, int c)
+char	*ft_strchr(const char *s, int c)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
+	while (*s != '\0')
 	{
-		if (str[i] == (char) c)
-			return ((char *) &str[i]);
-		i++;
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
 	}
-	if ((char) c == '\0')
-		return ((char *)&str[i]);
-	return (NULL);
+	if (*s == (char)c)
+		return ((char *)s);
+	return (0);
 }
 /*#include <string.h>
 #include <stdio.h>
