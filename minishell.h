@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/05 15:12:53 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/05 17:52:21 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 #include "./libft/libft.h"
+#include <stdbool.h>
+#include <limits.h>
 
 extern char **environ;
 
