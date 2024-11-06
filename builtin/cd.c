@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	cd(char	*path)
+int	ft_cd(char	*path)
 {
 	if (path == NULL)
 	{

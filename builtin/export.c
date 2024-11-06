@@ -22,7 +22,7 @@ static int key_len(char *path)
     return (i);
 }
 
-int export(char *path, char **envp)
+int ft_export(char *path, char **envp)
 {
     int     len;
     int     i;

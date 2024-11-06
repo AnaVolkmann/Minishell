@@ -18,7 +18,7 @@
 
 #include "../minishell.h"
 
-int unset(char *path, char **envp)
+int ft_unset(char *path, char **envp)
 {
     int len;
     int i;

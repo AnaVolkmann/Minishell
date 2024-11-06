@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	pwd()
+int	ft_pwd()
 {
 	char	*pwd;
 
