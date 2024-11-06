@@ -16,10 +16,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	char *input;
 	t_shell shell;
-	
+	input = readline("Prompt > ");
 	//check_input(argc, argv);
 	//init_shell(&shell, envp);
-	input = readline("Prompt > ");
 	//if (signal received)
 	//	call sighandler;
 	tokenizer(input);

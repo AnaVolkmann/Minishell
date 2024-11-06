@@ -31,9 +31,6 @@
 #include "./libft/libft.h"
 #include <stdbool.h>
 #include <limits.h>
-// # include <stropts.h>
-
-extern char **environ;
 
 typedef enum	e_token_type
 {
@@ -44,10 +41,9 @@ typedef enum	e_token_type
 	TOKEN_REDIR_APPEND, // For '>>'
 	TOKEN_REDIR_HEREDOC, // For '<<'
 	TOKEN_ENV_VAR, // For environment variables
-	COMMAND,
-	RULE,
-	OPERATOR,
-	QUOTE,
+	TOKEN_COMMAND,
+	TOKEN_RULE,
+	TOKEN_QUOTE,
 }	t_token_type;
 
 typedef struct s_token

@@ -22,7 +22,7 @@ static int key_len(char *path)
     return (i);
 }
 
-int export(char *path)
+int export(char *path, char **envp)
 {
     int     len;
     int     i;
@@ -35,17 +35,17 @@ int export(char *path)
     exp = ft_strdup(path);
     if (exp == NULL)
         return (printf("Error: memory allocation failed: %s.\n", strerror(errno)), -1);
-    while (environ[i] != NULL)
+    while (envp[i] != NULL)
     {
-        if (ft_strncmp(environ[i], path, len) == 0 && environ[i][len] == '=')
+        if (ft_strncmp(envp[i], path, len) == 0 && envp[i][len] == '=')
         {
-            free(environ[i]);
-            environ[i] = exp;
+            free(envp[i]);
+            envp[i] = exp;
             return (0);
         }
         i++;
     }
-    environ[i] = exp;
-    environ[i + 1] = NULL;
+    envp[i] = exp;
+    envp[i + 1] = NULL;
     return (0);
 }

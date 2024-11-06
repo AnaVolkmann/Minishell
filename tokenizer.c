@@ -53,6 +53,30 @@ static void	free_token_list(t_token **token_list)
 	*token_list = NULL;
 }
 
+int	token_to_str(t_token_type type)
+{
+	if (type == TOKEN_WORD)
+		printf("TOKEN_WORD");
+	else if (type == TOKEN_PIPE)
+		printf("TOKEN_PIPE");
+	else if (type == TOKEN_REDIR_IN)
+		printf("TOKEN_REDIR_IN");
+	else if (type == TOKEN_REDIR_OUT)
+		printf("TOKEN_REDIR_OUT");
+	else if (type == TOKEN_REDIR_APPEND)
+		printf("TOKEN_REDIR_APPEND");
+	else if (type == TOKEN_REDIR_HEREDOC)
+		printf("TOKEN_REDIR_HEREDOC");
+	else if (type == TOKEN_ENV_VAR)
+		printf("TOKEN_ENV_VAR");
+	else if (type == TOKEN_COMMAND)
+		printf("TOKEN_COMAND");
+	else if (type == TOKEN_RULE)
+		printf("TOKEN_RULE");
+	else if (type == TOKEN_QUOTE)
+		printf("TOKEN_QUOTE");
+}
+
 /*t_token	**tokenizer(char *line)
 {
 	int		i;
@@ -125,7 +149,8 @@ static void	free_token_list(t_token **token_list)
 			free (value);
 		}
 		if (*line == '|' || *line == '<' || *line == '>')
-		{
+		{	else if (type == TOKEN_PIPE)
+		printf("TOKEN_PIPE");
 			value = malloc(sizeof(char) * 2);
 			if (value == NULL)
 				return (printf("Error: Memory allocation OPERATOR.\n"), free_token_list(token_list), NULL);

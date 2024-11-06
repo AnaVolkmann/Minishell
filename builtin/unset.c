@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// duplicate the environ variable so i can change it freely without screwin something else
-// environ works as KEY=VALUE
+// duplicate the envp variable so i can change it freely without screwin something else
+// envp works as KEY=VALUE
 // look up for the value you want, if you find it, delete, if not, all good
 // the delete works as in a swap, you overwrite the one you want to "delete", 
 // and shift everything else on top of it
 
 #include "../minishell.h"
 
-int unset(char *path)
+int unset(char *path, char **envp)
 {
     int len;
     int i;
@@ -26,18 +26,18 @@ int unset(char *path)
 
     len = ft_strlen(path);
     i = 0;
-    while (environ[i] != NULL)
+    while (envp[i] != NULL)
     {
-        if (ft_strncmp(environ[i], path, len) == 0 && environ[i][len] == '=')
+        if (ft_strncmp(envp[i], path, len) == 0 && envp[i][len] == '=')
         {
-            free (environ[i]);
+            free (envp[i]);
             j = i;
-            while (environ[j] != NULL)
+            while (envp[j] != NULL)
             {
-                environ[j] = environ[j + 1];
+                envp[j] = envp[j + 1];
                 j++;
             }
-            environ[j - 1] = NULL;
+            envp[j - 1] = NULL;
             return (0);
         }
         i++;
