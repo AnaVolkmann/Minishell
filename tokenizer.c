@@ -53,117 +53,115 @@ static void	free_token_list(t_token **token_list)
 	*token_list = NULL;
 }
 
-// t_token	**tokenizer(char *line)
-// {
-// 	int		i;
-// 	char	*start;
-// 	char	*value;
-// 	t_token	**token_list;
+/*t_token	**tokenizer(char *line)
+{
+	int		i;
+	char	*start;
+	char	*value;
+	t_token	**token_list;
 
-// 	token_list = malloc(sizeof(t_token *));
-// 	if (token_list == NULL)
-// 		return (printf("Error: Memory allocation for token list.\n"), NULL);
-// 	*token_list = NULL;
-// 	while (*line)
-// 	{
-// 		i = 0;
-// 		if (*line == ' ')
-// 			line++;
-// 		if (*line >= 'a' && *line <= 'z')
-// 		{
-// 			start = line;
-// 			while (*line >= 'a' && *line <= 'z')
-// 			{
-// 				line++;
-// 				i++;
-// 			}
-// 			value = malloc(sizeof(char) * (i + 1));
-// 			if (value == NULL)
-// 				return (printf("Error: Memory allocation CMD.\n"), free_token_list(token_list), NULL);
-// 			ft_strlcpy(value, start, i + 1);
-// 			if (!append_token(token_list, COMMAND, value))
-// 					return (printf("Error: Memory allocation CMD.\n"), free_token_list(token_list), NULL);
-// 			free (value);
-// 		}
-// 		if (*line == '-')
-// 		{append_token(t_token **token_list, t_token_type type, char *value)
-                 ^
-
-// 			start = line;
-// 			line++;
-// 			i++;
-// 			if (*line + 1 >= 'a' && *line + 1 <= 'z')
-// 			{
-// 				while (*line >= 'a' && *line <= 'z')
-// 				{
-// 					line++;
-// 					i++;
-// 				}
-// 				value = malloc(sizeof(char) * (i + 1));
-// 				if (value == NULL)
-// 					return (printf("Error: Memory allocation RULE.\n"), free_token_list(token_list), NULL);
-// 				ft_strlcpy(value, start, i + 1);
-// 				if (!append_token(token_list, RULE, value))
-// 					return (printf("Error: Memory allocation RULE.\n"), free_token_list(token_list), NULL);
-// 				free (value);
-// 			}
-// 		}
-// 		if (*line == '$')
-// 		{
-// 			start = line;
-// 			line++;
-// 			i++;
-// 			while (*line && (ft_isalnum(*line) || *line == '_'))
-// 			{
-// 				line++;
-// 				i++;
-// 			}
-// 			value = malloc(sizeof(char) * (i + 1));
-// 			if (value == NULL)
-// 				return (printf("Error: Memory allocation ENV_VAR.\n"), free_token_list(token_list), NULL);
-// 			ft_strlcpy(value, start, i + 1);
-// 			if (!append_token(token_list, ENV_VAR, value))
-// 				return (printf("Error: Memory allocation ENV_VAR.\n"), free_token_list(token_list), NULL);
-// 			free (value);
-// 		}
-// 		if (*line == '|' || *line == '<' || *line == '>')
-// 		{
-// 			value = malloc(sizeof(char) * 2);
-// 			if (value == NULL)
-// 				return (printf("Error: Memory allocation OPERATOR.\n"), free_token_list(token_list), NULL);
-// 			ft_strlcpy(value, line, 2);
-// 			if (!append_token(token_list, OPERATOR, value))
-// 				return (printf("Error: Memory allocation OPERATOR.\n"), free_token_list(token_list), NULL);
-// 			free (value);
-// 		}
-// 		if (*line == 34 || *line == 39)
-// 		{
-// 			value = malloc(sizeof(char) * 2);
-// 			if (value == NULL)
-// 				return (printf("Error: Memory allocation QUOTE.\n"), free_token_list(token_list), NULL);
-// 			ft_strlcpy(value, line, 2);
-// 			if (!append_token(token_list, QUOTE, value))
-// 				return (printf("Error: Memory allocation QUOTE.\n"), free_token_list(token_list), NULL);
-// 			free (value);
-// 			line++;
-// 			// chamar recursiva? tokenizer(line);
-// 		}
-// 		else
-// 		{
-// 			start = line;
-// 			line++;
-// 			i++;
-// 			while (*line && (*line != '$' && *line != 34 && *line != 39
-// 					&& *line != '|' && *line != '<' && *line != '>'))
-// 			value = malloc(sizeof(char) * (i + 1));
-// 			if (value == NULL)
-// 				return (printf("Error: Memory allocation WORD.\n"), free_token_list(token_list), NULL);
-// 			ft_strlcpy(value, line, i + 1);
-// 			if (!append_token(token_list, WORD, value))
-// 				return (printf("Error: Memory allocation WORD.\n"), free_token_list(token_list), NULL);
-// 			free (value);
-// 		}
-// 		line++;
-// 	}
-// 	return (token_list);
-// }
+	token_list = malloc(sizeof(t_token *));
+	if (token_list == NULL)
+		return (printf("Error: Memory allocation for token list.\n"), NULL);
+	*token_list = NULL;
+	while (*line)
+	{
+		i = 0;
+		if (*line == ' ' || (*line <= 13 && *line >= 9))
+			line++;
+		if (*line >= 'a' && *line <= 'z')
+		{
+			start = line;
+			while (*line >= 'a' && *line <= 'z')
+			{
+				line++;
+				i++;
+			}
+			value = malloc(sizeof(char) * (i + 1));
+			if (value == NULL)
+				return (printf("Error: Memory allocation CMD.\n"), free_token_list(token_list), NULL);
+			ft_strlcpy(value, start, i + 1);
+			if (!append_token(token_list, COMMAND, value))
+					return (printf("Error: Memory allocation CMD.\n"), free_token_list(token_list), NULL);
+			free (value);
+		}
+		if (*line == '-')
+		{
+			start = line;
+			line++;
+			i++;
+			if (*line >= 'a' && *line <= 'z')
+			{
+				while (*line >= 'a' && *line <= 'z')
+				{
+					line++;
+					i++;
+				}
+				value = malloc(sizeof(char) * (i + 1));
+				if (value == NULL)
+					return (printf("Error: Memory allocation RULE.\n"), free_token_list(token_list), NULL);
+				ft_strlcpy(value, start, i + 1);
+				if (!append_token(token_list, RULE, value))
+					return (printf("Error: Memory allocation RULE.\n"), free_token_list(token_list), NULL);
+				free (value);
+			}
+		}
+		if (*line == '$')
+		{
+			start = line;
+			line++;
+			i++;
+			while (*line && (ft_isalnum(*line) || *line == '_'))
+			{
+				line++;
+				i++;
+			}
+			value = malloc(sizeof(char) * (i + 1));
+			if (value == NULL)
+				return (printf("Error: Memory allocation ENV_VAR.\n"), free_token_list(token_list), NULL);
+			ft_strlcpy(value, start, i + 1);
+			if (!append_token(token_list, TOKEN_ENV_VAR, value))
+				return (printf("Error: Memory allocation ENV_VAR.\n"), free_token_list(token_list), NULL);
+			free (value);
+		}
+		if (*line == '|' || *line == '<' || *line == '>')
+		{
+			value = malloc(sizeof(char) * 2);
+			if (value == NULL)
+				return (printf("Error: Memory allocation OPERATOR.\n"), free_token_list(token_list), NULL);
+			ft_strlcpy(value, line, 2);
+			if (!append_token(token_list, OPERATOR, value))
+				return (printf("Error: Memory allocation OPERATOR.\n"), free_token_list(token_list), NULL);
+			free (value);
+		}
+		if (*line == 34 || *line == 39)
+		{
+			value = malloc(sizeof(char) * 2);
+			if (value == NULL)
+				return (printf("Error: Memory allocation QUOTE.\n"), free_token_list(token_list), NULL);
+			ft_strlcpy(value, line, 2);
+			if (!append_token(token_list, QUOTE, value))
+				return (printf("Error: Memory allocation QUOTE.\n"), free_token_list(token_list), NULL);
+			free (value);
+			line++;
+			// chamar recursiva? tokenizer(line);
+		}
+		else
+		{
+			start = line;
+			line++;
+			i++;
+			while (*line && (*line != '$' && *line != 34 && *line != 39
+					&& *line != '|' && *line != '<' && *line != '>'))
+			value = malloc(sizeof(char) * (i + 1));
+			if (value == NULL)
+				return (printf("Error: Memory allocation WORD.\n"), free_token_list(token_list), NULL);
+			ft_strlcpy(value, line, i + 1);
+			if (!append_token(token_list, WORD, value))
+				return (printf("Error: Memory allocation WORD.\n"), free_token_list(token_list), NULL);
+			free (value);
+		}
+		line++;
+	}
+	return (token_list);
+}*/
