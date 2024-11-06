@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.co      +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 13:15:44 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/01 13:17:10 by lufiguei         ###   ########.fr       */
+/*   Updated: 2024/11/06 12:35:03 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ static void	free_token_list(t_token **token_list)
 // 			free (value);
 // 		}
 // 		if (*line == '-')
-// 		{
+// 		{ppend_token(t_token **token_list, t_token_type type, char *value)
+                 ^
+
 // 			start = line;
 // 			line++;
 // 			i++;

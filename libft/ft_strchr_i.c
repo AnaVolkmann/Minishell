@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   ft_strchr_i.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/03 13:22:23 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/06 11:55:14 by ana-lda-         ###   ########.fr       */
+/*   Created: 2024/11/06 12:18:16 by ana-lda-          #+#    #+#             */
+/*   Updated: 2024/11/06 12:20:40 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-int	cd(char	*path)
+int	ft_strchr_i(const char *s, int c)
 {
-	if (path == NULL)
+	unsigned char	c_unsigned;
+	int				i;
+
+	i = 0;
+	if (!s)
+		return (-1);
+	c_unsigned = (unsigned char)c;
+	while (s[i] != '\0')
 	{
-		path = getenv("HOME");
-		if (path == NULL)
-			return (printf("Error: HOME unset\n"), 1);
+		if (s[i] == c_unsigned)
+			return (i);
+		i++;
 	}
-	if (chdir(path) != 0)
-		return (printf("cd: %s: %s\n", path, strerror(errno)), 1);
-	return (printf("Changed Directory to: %s\n", path), 0);
+	if (c_unsigned == '\0')
+		return (i);
+	return (-1);
 }
