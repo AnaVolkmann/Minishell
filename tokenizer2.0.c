@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:18:14 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/06 18:00:42 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/06 18:06:50 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,29 @@ t_token *tokenize_input(char *input)
 }
 // (TODO)add_token_to_list
 // (TODO)new_token
+// (TODO)add_word_to_list
+// (TODO)syntax_verification funtion
 void	handle_special_chars(char **input, t_token **tokens)
 {
 	if (**input == '>')
 	{
 		if (*(*input + 1) == '>')
 		{
-			add_token_to_list(tokens, new_token(TOKEN_REDIR_APPEND, ">>"));
+			//add_token_to_list(tokens, new_token(TOKEN_REDIR_APPEND, ">>"));
 			(*input)++;
 		}
 		else
-			add_token_to_list(tokens, new_token(TOKEN_REDIR_OUT, ">"));
+			//add_token_to_list(tokens, new_token(TOKEN_REDIR_OUT, ">"));
 	}
 	else if (**input == '<')
 	{
 		if (*(*input + 1) == '<')
 		{
-			add_token_to_list(tokens, new_token(TOKEN_REDIR_HEREDOC, "<<"));
+			//add_token_to_list(tokens, new_token(TOKEN_REDIR_HEREDOC, "<<"));
 			(*input)++;
 		}
 		else
-			add_token_to_list(tokens, new_token(TOKEN_REDIR_IN, "<"));
+			//add_token_to_list(tokens, new_token(TOKEN_REDIR_IN, "<"));
 	}
 	else if (**input == '|')
 		add_token_to_list(tokens, new_token(TOKEN_PIPE, "|"));
