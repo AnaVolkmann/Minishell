@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unsett.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lufiguei <lufiguei@student.42porto.co      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/06 17:07:08 by lufiguei          #+#    #+#             */
+/*   Updated: 2024/11/06 17:07:17 by lufiguei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 // duplicate the environ variable so i can change it freely without screwin something else
 // environ works as KEY=VALUE
 // look up for the value you want, if you find it, delete, if not, all good
