@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/06 16:25:37 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/06 18:00:42 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-// # include <stropts.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
@@ -32,13 +31,15 @@
 #include "./libft/libft.h"
 #include <stdbool.h>
 #include <limits.h>
+// # include <stropts.h>
 
 extern char **environ;
 
 typedef enum	e_token_type
 {
 	TOKEN_WORD,      // For comands and arguments
-	TOKEN_PIPE,      // For '|'	TOKEN_REDIR_IN,  // For '<'
+	TOKEN_PIPE,      // For '|'
+	TOKEN_REDIR_IN,  // For '<'
 	TOKEN_REDIR_OUT, // For '>'
 	TOKEN_REDIR_APPEND, // For '>>'
 	TOKEN_REDIR_HEREDOC, // For '<<'
