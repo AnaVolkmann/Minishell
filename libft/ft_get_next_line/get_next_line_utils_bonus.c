@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 11:11:12 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/09/12 13:51:22 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/07 12:05:21 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_sstrchr(const char *s, int c)
 {
 	int	i;
 

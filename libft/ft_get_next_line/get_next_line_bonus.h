@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:23:22 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/05/26 17:36:57 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/07 12:05:21 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <stddef.h>
 
 size_t	ft_strlen(const char *s);
-char	*ft_strchr(const char *s, int c);
+char	*ft_sstrchr(const char *s, int c);
 char	*ft_strjoin(char *s1, const char *s2);
 char	*get_next_line(int fd);
 

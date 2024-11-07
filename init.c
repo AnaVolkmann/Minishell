@@ -1,30 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 11:03:21 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/07 12:05:21 by ana-lda-         ###   ########.fr       */
+/*   Created: 2024/11/07 12:41:56 by ana-lda-          #+#    #+#             */
+/*   Updated: 2024/11/07 12:44:40 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stddef.h>
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
-
-size_t	ft_strlen(const char *s);
-char	*ft_sstrchr(const char *s, int c);
-char	*ft_strjoin(char *s1, const char *s2);
-char	*get_next_line(int fd);
-
-#endif

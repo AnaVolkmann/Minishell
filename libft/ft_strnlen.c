@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strnlen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 11:03:21 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/07 12:05:21 by ana-lda-         ###   ########.fr       */
+/*   Created: 2024/11/07 11:48:33 by ana-lda-          #+#    #+#             */
+/*   Updated: 2024/11/07 11:48:58 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stddef.h>
+size_t	ft_strnlen(const char *s, size_t maxlen)
+{
+	size_t	len;
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
-
-size_t	ft_strlen(const char *s);
-char	*ft_sstrchr(const char *s, int c);
-char	*ft_strjoin(char *s1, const char *s2);
-char	*get_next_line(int fd);
-
-#endif
+	len = 0;
+	while (len < maxlen && s[len])
+		len++;
+	return (len);
+}

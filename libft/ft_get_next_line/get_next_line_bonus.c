@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:23:06 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/05/26 18:09:39 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/07 12:05:21 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_read_left_str(int fd, char *laststr)
 	if (!buffer)
 		return (NULL);
 	read_bytes = 1;
-	while (!ft_strchr(laststr, '\n') && read_bytes > 0)
+	while (!ft_sstrchr(laststr, '\n') && read_bytes > 0)
 	{
 		read_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (read_bytes == -1)

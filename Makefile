@@ -1,4 +1,4 @@
-CC = cc
+CC = gcc
 RM = rm -rf
 CFLAGS = -Wall -Werror -Wextra -g
 
@@ -7,7 +7,7 @@ LIBFT = libft/libft.a
 
 OBJ_DIR = obj/
 
-SRC = main.c parser.c tokenizer.c\
+SRC = ../token/tokenizer2.0.c ../token/tokenizer_utils.c main.c
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
@@ -24,7 +24,7 @@ $(LIBFT):
 
 # Link the final executable
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ) -s -o $(NAME) $(LIBFT) -lreadline > /dev/null 2>&1
+	$(CC) $(CFLAGS) $(OBJ) -s -o $(NAME) $(LIBFT) -lreadline
 	@printf "\r \e[1;32mMINISHELL\e[0m compiled successfully\n"
 
 # Compile source files into object files

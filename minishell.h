@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/06 18:00:42 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:58:04 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ typedef enum	e_token_type
 	TOKEN_REDIR_APPEND, // For '>>'
 	TOKEN_REDIR_HEREDOC, // For '<<'
 	TOKEN_ENV_VAR, // For environment variables
-	TOKEN_COMMAND,
+}				t_token_type;
+/* 	TOKEN_COMMAND,
 	TOKEN_RULE,
-	TOKEN_QUOTE,
-}	t_token_type;
+	TOKEN_QUOTE, */ //comentei pq nao estou utilizando de momento!
 
 typedef struct s_token
 {
@@ -61,6 +61,33 @@ typedef struct s_shell
 	char	*input;
 }				t_shell;
 
-t_token	**tokenizer(char *line);
+typedef	struct	s_env
+{
+	char **orinal_env;
+	char ***parsed_env;
+}
+				t_env;
+
+//t_token	**tokenizer(char *line);
+
+
+/******************input processing****************/
+
+t_token	*process_to_tokenize_input(char *input);
+
+/******************TOKEN MANAGEMENT****************/
+
+void	free_tokens(t_token *tokens);
+t_token	*tokenize_input(char *input);
+t_token	*new_token(t_token_type type, char *value);
+void	handle_word(char **input, t_token **tokens);
+void	handle_special_chars(char **input, t_token **tokens);
+void	add_token_to_list(t_token **tokens, t_token *new_token);
+
+/**********************syntax************************/
+
+void	add_word_token(char **start, char **input, t_token **tokens);
+void	update_quote_status(char c, int *in_quote, char *quote_char);
+
 
 #endif
