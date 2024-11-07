@@ -6,15 +6,26 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:18:14 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/07 13:51:26 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/07 14:03:32 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../libft/libft.h"
 
 // (TODO)syntax_verification funtion
 // Trims whitespace from the input and then calls
+
+/**
+ * @brief Processes input string by trimming whitespace and tokenizing it.
+ * 
+ * This function trims leading and trailing whitespace characters from the
+ * input string and then tokenizes it into meaningful chunks (e.g., words, 
+ * special characters) by calling the `tokenize_input` function.
+ *
+ * @param input The input string to be processed and tokenized.
+ *
+ * @return A linked list of tokens representing the tokenized input, or NULL
+ *         if memory allocation fails or if the input is empty.*/
 t_token *process_to_tokenize_input(char *input)
 {
 	char *trimmed_input;
@@ -30,7 +41,17 @@ t_token *process_to_tokenize_input(char *input)
 	free(trimmed_input);
 	return (tokens);
 }
-/** @brief splits the input into tokens based on spaces, special characters, and words) */
+
+/**
+ * @brief Tokenizes an input string into individual tokens based on delimiters.
+ * 
+ * This function parses the input string and splits it into tokens. It handles
+ * special characters (`<`, `>`, `|`) and words. It calls the appropriate
+ * handler functions for different types of tokens.
+ *
+ * @param input The input string to be tokenized.
+ *
+ * @return A linked list of tokens representing the tokenized input.*/
 t_token *tokenize_input(char *input)
 {
 	t_token *token;
@@ -48,7 +69,15 @@ t_token *tokenize_input(char *input)
 	return(token);
 }
 
-//
+/**
+ * @brief Handles special characters in the input string and adds tokens for them.
+ * 
+ * This function checks for special characters (`>`, `<`, `|`) and processes
+ * them accordingly. It creates tokens for redirect operators (`>`, `>>`, `<`, `<<`)
+ * and pipes (`|`), then adds them to the token list.
+ *
+ * @param input A pointer to the current position in the input string.
+ * @param tokens A pointer to the token list where new tokens are added.*/
 void	handle_special_chars(char **input, t_token **tokens)
 {
 	if (**input == '>')
@@ -76,6 +105,15 @@ void	handle_special_chars(char **input, t_token **tokens)
 	(*input)++;
 }
 
+/**
+ * @brief Processes a word in the input string and adds it as a token.
+ * 
+ * This function processes a word in the input string, which may be surrounded
+ * by quotes, and adds it as a token to the token list. It also handles
+ * quote characters (single or double quotes).
+ *
+ * @param input A pointer to the current position in the input string.
+ * @param tokens A pointer to the token list where the word token is added.*/
 void handle_word(char **input, t_token **tokens)
 {
 	char	*start;
