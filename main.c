@@ -55,7 +55,10 @@ int	run_command_builtin(char *cmd, char *path)
 		return (ft_unset(char *path, char **envp), 0);
 }
 
-int	run_command_exec(char *cmd)
+int	run_command_exec(char *cmd, char *argument, char **envp)
 {
-	// find what cmd and look it up on path;
+	if (execve(cmd, argument, envp) == -1)
+		return (printf("execve: %s: %s\n", cmd, strerror(errno)), 1);
+	return (0);
 }
+// this needs testing
