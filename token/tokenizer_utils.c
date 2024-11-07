@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 11:11:47 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/07 14:06:57 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/07 14:29:19 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@
  * @param new_token The token to be added to the list.*/
 void	add_token_to_list(t_token **tokens, t_token *new_token)
 {
-	t_token *last;
+	t_token	*last;
 
-	if(!*tokens)
+	if (!*tokens)
 		*tokens = new_token;
 	else
 	{
 		last = *tokens;
-		while(last->next)
+		while (last->next)
 			last = last->next;
 		last->next = new_token;
 	}
@@ -42,13 +42,15 @@ void	add_token_to_list(t_token **tokens, t_token *new_token)
  * and initializes its `next` pointer to NULL. If memory allocation fails, 
  * it returns NULL.
  *
- * @param type The type of the new token (e.g., TOKEN_WORD, TOKEN_REDIR_IN, etc.).
+ * @param type The type of the new token
+ *  (e.g., TOKEN_WORD, TOKEN_REDIR_IN, etc.).
  * @param value The string value associated with the token.
  *
- * @return A pointer to the newly created token, or NULL if memory allocation fails.*/
+ * @return A pointer to the newly created token,
+ *  or NULL if memory allocation fails.*/
 t_token	*new_token(t_token_type type, char *value)
 {
-	t_token *new_token;
+	t_token	*new_token;
 
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
@@ -76,7 +78,7 @@ t_token	*new_token(t_token_type type, char *value)
  * @param tokens A pointer to the head of the token list.*/
 void	add_word_token(char **start, char **input, t_token **tokens)
 {
-	char *word;
+	char	*word;
 
 	if (*input > *start)
 	{
@@ -121,8 +123,10 @@ void	free_tokens(t_token *tokens)
  * when the `in_quote` status is not active.
  *
  * @param c The current character being processed.
- * @param in_quote A pointer to an integer that tracks whether we are inside quotes.
- * @param quote_char A pointer to the character that indicates the current quote type (single or double).*/
+ * @param in_quote A pointer to an integer that tracks whether 
+ * we are inside quotes.
+ * @param quote_char A pointer to the character that indicates
+ *  the current quote type (single or double).*/
 void	update_quote_status(char c, int *in_quote, char *quote_char)
 {
 	if (!*in_quote && (c == '\'' || c == '\"'))
