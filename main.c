@@ -16,11 +16,19 @@ int	main(int argc, char **argv, char **envp)
 {
 	char *input;
 	t_shell shell;
-	input = readline("Prompt > ");
+
+	signal(SIGINT, sighandler); // handles ctrl c
+	signal(SIGQUIT, SIG_IGN); //this is maybe useless, since ctrl \ should do nothing
+	while (1)
+	{
+		input = readline("Prompt > ");
+		if (input == NULL) // handles ctrl d?
+			break ;
+		if (ft_strlen(input) > 0)
+			add_history(input);
+	}
 	//check_input(argc, argv);
 	//init_shell(&shell, envp);
-	//if (signal received)
-	//	call sighandler;
 	tokenizer(input);
 	// call parser
 	// call exec
@@ -47,7 +55,7 @@ int	run_command_builtin(char *cmd, char *path)
 		return (ft_unset(char *path, char **envp), 0);
 }
 
-int	run_command_exec(char *cmd, char *path)
+int	run_command_exec(char *cmd)
 {
 	// find what cmd and look it up on path;
 }

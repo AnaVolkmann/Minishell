@@ -16,14 +16,9 @@ void    sighandler(int signal)
 {
     if (signal == SIGINT) // ctrl + c
     {
-        // gives back a new prompt on a new line
-    }
-    else if (signal == SIGQUIT)
-    {
-        // does nothing
+        write (STDOUT_FILENO, "\nPrompt > ", 10); //either that
+        //rl_replace_line("", 0);// OR THAT
+        //rl_on_new_line();
+        //rl_redisplay();
     }
 }
-
-// call on 'signalizer':
-// signal(SIGINT, sighandler);
-// signal(SIGQUIT, sighandler);
