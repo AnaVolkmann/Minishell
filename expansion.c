@@ -30,7 +30,7 @@ char	*expansion(char *path, char **envp)
 		if (j == 0)
 			return (NULL);
 	}
-	env_value = get_env(var_name, envp);
+	env_value = getenv(var_name);
 	if (env_value != NULL)
 		return (ft_strdup(env_value));
 	return (NULL);

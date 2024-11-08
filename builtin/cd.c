@@ -12,15 +12,28 @@
 
 #include "../minishell.h"
 
-int	ft_cd(char	*path)
+int	ft_cd(char *path, char **envp)
 {
+	char	*old_pwd;
+	
 	if (path == NULL)
 	{
 		path = getenv("HOME");
 		if (path == NULL)
 			return (printf("Error: HOME unset\n"), 1);
 	}
+	else if (ft_strncmp(path, "-", 1) == 0)
+	{
+		path = getenv("OLDPWD");
+		if (path == NULL)
+			return (printf("Error: OLDPWD unset\n"), 1);
+	}
+	old_pwd = getenv("PWD");
 	if (chdir(path) != 0)
 		return (printf("cd: %s: %s\n", path, strerror(errno)), 1);
+	//if (old_pwd != NULL)
+	//	ft_setenv("OLDPWD", old_pwd, 1);
+	if (ft_pwd() != 0)
+		return (1);
 	return (printf("Changed Directory to: %s\n", path), 0);
 }

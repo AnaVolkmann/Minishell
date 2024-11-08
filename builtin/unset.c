@@ -45,3 +45,30 @@ int	ft_unset(char *path, char **envp)
 	}
 	return (-1);
 }
+
+int	ft_setenv(char *name, char *value, char **envp, int overwrite)
+{
+	int		i;
+	int		len;
+	char	*new_var;
+
+	if (name == NULL || value == NULL)
+		return (1);
+	i = 0;
+	len = ft_strlen(name) + ft_strlen(value) + 2;
+	new_var = (char *)malloc(sizeof(char) * len);
+	if (new_var == NULL)
+		return (1);
+	len = ft_strlen(name);
+	while (envp[i])
+	{
+		if (strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
+			if (overwrite == 1)
+			{
+				free(envp[i]);
+				envp[i] = new_var;
+				return (0);
+			}
+			return (free(new_var), 0);
+	}
+}

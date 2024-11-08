@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-/* int ft_strcmp(char *s1, char *s2)
+static int ft_strcmp(char *s1, char *s2)
 {
 	int i;
 
@@ -20,7 +20,7 @@
 	while((s1[i] == s2[i]) && s1[i] && s2[i])
 		i++;
 	return (s1[i]-s2[i]);
-} */
+}
 
 int	echo(char **args, int argc, int fd)
 {

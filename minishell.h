@@ -88,9 +88,10 @@ void	update_quote_status(char c, int *in_quote, char *quote_char);
 /**********************Builtins********************/
 
 int	bash_exit(char **args, int arg_count);
-int	ft_cd(char *path);
+int	ft_cd(char *path, char **envp);
 int	ft_export(char *path, char **envp);
 int	ft_pwd(void);
+int	ft_setenv(char *name, char *value, char **envp, int overwrite);
 int	ft_unset(char *path, char **envp);
 int	echo(char **args, int argc, int fd);
 char	*get_env(char *var, char **envp);
