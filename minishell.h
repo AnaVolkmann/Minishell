@@ -100,5 +100,8 @@ char	*get_env(char *var, char **envp);
 char	*expansion(char *path, char **envp);
 void	sighandler(int signal);
 
+/*********************Init***********************/
+
+void	init_shell(t_shell shell, char **env, char **original_env);
 
 #endif

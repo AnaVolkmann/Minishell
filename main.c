@@ -15,6 +15,7 @@
 int	main(int argc, char **argv, char **original_env)
 {
 	char	*input;
+	//t_shell	shell;
 	//t_env	env;//estrutura para lidarcom env trimmed e inteira
 
 	(void)argv;
@@ -25,7 +26,7 @@ int	main(int argc, char **argv, char **original_env)
 	signal(SIGINT, sighandler);
 	signal(SIGQUIT, SIG_IGN);
 	//env = malloc(sizeof(env));
-	//if (argc == 1 && init_shell(env, original_env))
+	//if (argc == 1 && init_shell(shell, env, original_env))
 	//{
 	    //shell_execution_loop
 	    //cheanup and exit function
@@ -34,9 +35,11 @@ int	main(int argc, char **argv, char **original_env)
 	if (input == NULL)
 		return (printf("exiting Minishell\n"), 0);
 	if (ft_strlen(input) > 0)
+	{
 		add_history(input);
+		//shell.input = input;
+	}
 	//check_input(argc, argv);
-	//init_shell(&shell, envp);
 	process_to_tokenize_input(input);
 	// call parser
 	// call exec
