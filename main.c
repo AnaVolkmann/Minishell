@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **original_env)
 	//}
 	input = readline("Prompt > ");
 	if (input == NULL)
-		return (printf("exiting Minishell\n"), 0);
+		return (printf("exit\n"), 0);
 	if (ft_strlen(input) > 0)
 	{
 		add_history(input);

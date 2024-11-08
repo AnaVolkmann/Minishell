@@ -73,4 +73,6 @@ int	ft_unset(char *path, char **envp)
 	}
 }*/
 
-//(TODO) Finish unset, get cd working with it, expand $$
+//(TODO) Finish unset, get cd working with it, expand cases, test tokenizer, check quotes {} ()
+// if inside quotes, dont expand, but run command if its exactly it. "ls" -l works "ls -l" no, neither "ls " -l or "ls"-l
+// write edge cases in linktxt

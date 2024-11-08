@@ -35,3 +35,9 @@ char	*expansion(char *path)
 		return (ft_strdup(env_value));
 	return (NULL);
 }
+
+//$?: Exit status of the last command
+//$$: Current process ID.
+//$!: PID of the last background job.
+// do i need to handle VAR="Hello" and echo ${VAR}world to "Hello world"?
+// also handle {}?
