@@ -12,14 +12,11 @@
 
 #include "minishell.h"
 
-void	init_shell(t_shell shell, char **env, char **original_env)
+void	init_shell(t_shell *shell, char **env, char **original_env)
 {
 	(void)env;
-	(void)original_env;
-	(void)shell;
-	shell.pid = getpid();
-	shell.path = NULL;
-	shell.envp = NULL;
-	shell.input = NULL;
+	shell->pid = getpid();
+	shell->path = NULL;
+	shell->envp = original_env;
+	shell->input = NULL;
 }
-

@@ -105,7 +105,7 @@ void	sighandler(int signal);
 
 /*********************Init***********************/
 
-void	init_shell(t_shell shell, char **env, char **original_env);
+void	init_shell(t_shell *shell, char **env, char **original_env);
 
 /********************Run Commands****************/
 

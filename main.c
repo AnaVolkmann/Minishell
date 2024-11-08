@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **original_env)
 	signal(SIGINT, sighandler);
 	signal(SIGQUIT, SIG_IGN);
 	//env = malloc(sizeof(env));
-	//if (argc == 1 && init_shell(shell, env, original_env))
+	//if (argc == 1 && init_shell(&shell, env, original_env))
 	//{
 	    //shell_execution_loop
 	    //cheanup and exit function

@@ -17,9 +17,46 @@ compile the program with -lreadline flag
 valgrind -s --track-origins=yes --leak-check=full --show-leak-kinds=all --suppressions=valgrind_readline.supp
 -q if want it to be "cleaner"
 
+// Como interpretar quais palavras da tokenizacao sao comandos ou apenas palavras
 
 edge cases:::
 
-env :
+cd : cd unset $HOME, cd - to old pwd, invalid or non existent. ie.: first time, no old pwd,
+        insuficient permissions ie.: cd /root, a very long path, set a PATH_MAX[4096], empty path or too many arguments
+        path containing EnvVars, like cd $HOME or cd ~
+unsure : Symbolic links?
 
-unset :
+echo : echo -n, echo -n -n (until a non flag argument is found, keep the first?), echo "-n", empty input, 
+        echo "-n" hello, echo hello -n world, ensure trailing spaces or tabs are preserved,
+        excessive arguments, echo -n arg1 arg2 arg3 arg4, echo -nhello,
+
+
+env : unset $(env | awk -F= '{print $1}')  # Unsets all variables, whats the order they appear?
+        special characters variables, export SPECIAL="hello\nworld",
+        check for unexpected argument, env VAR=value other_command, env --invalid-flag
+        memory check, variable names containing non alphanumeric chars, export "123VAR=value", prints without validating
+        check NULL pointers, if yes, segfault
+
+exit : no arguments, one valid argument, multiple arguments, nonnumeric argument (exits with 2), out of range values
+        ensure cleanup. exit 9223372036854775807 - exit status 255
+
+export : no arguments(prints all env, sorted), export VAR (add var with an empty value), export 123VAR=value (print error not a valid identifier)
+            export VAR=va=lue (handle var with value va=lue), export VAR already set(do nothing, preserve)
+            export VAR=va\nlue (handle special chars in value), export =value (not a valid identifier)
+            export VAR=value VAR2 update VAR and set VAR2 with an empty value
+            unsuport flags like -p, variable name collision with shell builtins export export=value, echo $export
+            overwrite an existing variable
+            if variable name is provided without = or a value, set its value to an empty string
+
+pwd : directory path too long, NULL, directory access issues, Symbolic links?, deleted working directory, mkdir tmp, cd tmp, rmdir ../tmp pwd
+        pwd: error retrieving current directory: getcwd: No such file or directory
+        Logical/physical path, 
+
+unset : non existent variable, multiple variables, readonly variables, unsetting shell builtin variables (HOME, PWD, PATH,...)
+            variable name validation, unset 123VAR, not a valid identifier, ensure it works for both local shell and exported
+            unset SHLVL, trying to unset shell level variable, undefined behavior
+            non variable arguments, unset --help, not a valid identifier
+
+$expand : unset variables/variables with no value, expant to an empty string, $$ and $?, $#, \$ do not expand?? variables in quotes, expand in double quotes
+            invalid variable names, do not expand, command substitution confusion (differentiate between $() and $VAR)
+unsure : arithmetic expansion? echo $((2 + 2)), nesting variables, echo $(`echo hello`) or echo $(ls)

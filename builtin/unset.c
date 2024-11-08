@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 // duplicate the envp variable so i can change it 
-// freely without screwin something else
+// freely without messing with something else
 // envp works as KEY=VALUE
 // look up for the value you want, if you find it, delete, if not, all good
 // the delete works as in a swap, you overwrite the one you want to "delete", 
@@ -73,6 +73,7 @@ int	ft_unset(char *path, char **envp)
 	}
 }*/
 
-//(TODO) Finish unset, get cd working with it, expand cases, test tokenizer, check quotes {} ()
-// if inside quotes, dont expand, but run command if its exactly it. "ls" -l works "ls -l" no, neither "ls " -l or "ls"-l
-// write edge cases in linktxt
+//(TODO) Finish unset, get cd working with it, expand cases, 
+//test tokenizer, check quotes {} ()
+// if inside quotes, dont expand, but run command if its exactly it.
+//"ls" -l works "ls -l" no, neither "ls " -l or "ls"-l
