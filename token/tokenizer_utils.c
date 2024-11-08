@@ -86,7 +86,7 @@ void	add_word_token(char **start, char **input, t_token **tokens)
 		if (word)
 		{
 			add_token_to_list(tokens, new_token(TOKEN_WORD, word));
-			//free(word);
+			free(word);
 		}
 		else
 			ft_putstr_fd("Error: Malloc failed in handle_word.\n", 2);

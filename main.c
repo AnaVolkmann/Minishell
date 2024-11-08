@@ -14,38 +14,37 @@
 
 int	main(int argc, char **argv, char **original_env)
 {
-	char *input;
-	(void)argv;
-	t_env	env;//estrutura para lidarcom env trimmed e inteira
+	char	*input;
+	//t_env	env;//estrutura para lidarcom env trimmed e inteira
 
-	signal(SIGINT, sighandler); // handles ctrl c
-	signal(SIGQUIT, SIG_IGN); //this is maybe useless, since ctrl \ should do nothing
-	env = malloc(sizeof(env));
-	if (argc == 1 && init_shell(env, original_env));
-	{
+	(void)argv;
+	(void)original_env;
+	if (argc != 1)
+		return (printf("Error: Too many Arguments, try \'./minishell\'\n"), 1);
+	rl_catch_signals = 0;
+	signal(SIGINT, sighandler);
+	signal(SIGQUIT, SIG_IGN);
+	//env = malloc(sizeof(env));
+	//if (argc == 1 && init_shell(env, original_env))
+	//{
 	    //shell_execution_loop
 	    //cheanup and exit function
-	}
-	return (0);
-	/*while (1)
-	{
-		input = readline("Prompt > ");
-		if (input == NULL) // handles ctrl d?
-			break ;
-		if (ft_strlen(input) > 0)
-			add_history(input);
-	}
-	check_input(argc, argv);
-	init_shell(&shell, envp);
+	//}
+	input = readline("Prompt > ");
+	if (input == NULL)
+		return (printf("exiting Minishell\n"), 0);
+	if (ft_strlen(input) > 0)
+		add_history(input);
+	//check_input(argc, argv);
+	//init_shell(&shell, envp);
 	process_to_tokenize_input(input);
-	 call parser
-	 call exec
-	free(input);
+	// call parser
+	// call exec
 	rl_clear_history();
-	return (0);*/
+	return (0);
 }
 
-int	run_command_builtin(char *cmd, char *path)
+/*int	run_command_builtin(char *cmd, char *path)
 {
 	if (ft_strcmp(cmd, "cd") == 0)
 		return (ft_cd(path), 0);
@@ -69,4 +68,4 @@ int	run_command_exec(char *cmd, char *argument, char **envp)
 		return (printf("execve: %s: %s\n", cmd, strerror(errno)), 1);
 	return (0);
 }
-// this needs testing
+*/

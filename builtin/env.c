@@ -14,31 +14,34 @@
 
 /** @brief searching for an environment  variable in the provided
  *  environment array and returning its value.
- * This function takes the name of an environment variable and an array of environment 
+ * This function takes the name of an environment 
+ variable and an array of environment 
  * variables, and returns the value of the variable if found.
  * @param var   The name of the environment variable to search for.
  * @param envp  The array of environment variables (e.g., `environ`).
  * 
  * @return A string containing the value of the environment variable,
  *  or NULL if the variable is not found.*/
-char *get_env(char *var, char **envp)
+char	*get_env(char *var, char **envp)
 {
-	int i;
-	int var_len;
-	int eq_pos;
+	int	i;
+	int	var_len;
+	int	eq_pos;
 
 	if (!var || !envp)
-		return NULL;
+		return (NULL);
 	var_len = ft_strlen(var);
 	i = 0;
-	while (envp[i]) 
+	while (envp[i])
 	{
 		eq_pos = ft_strchr_i(envp[i], '=');
-		if (eq_pos != -1 && !ft_strncmp(envp[i], var, var_len) && envp[i][var_len] == '=')
-			return ft_substr(envp[i], eq_pos + 1, ft_strlen(envp[i]) - eq_pos - 1);
+		if (eq_pos != -1 && !ft_strncmp(envp[i], var, var_len)
+			&& envp[i][var_len] == '=')
+			return (ft_substr(envp[i], eq_pos
+					+ 1, ft_strlen(envp[i]) - eq_pos - 1));
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
 
 /* int main()

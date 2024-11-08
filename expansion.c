@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*expansion(char *path)
+char	*expansion(char *path, char **envp)
 {
 	int		i;
 	int		j;
@@ -30,7 +30,7 @@ char	*expansion(char *path)
 		if (j == 0)
 			return (NULL);
 	}
-	env_value = get_env(var_name);
+	env_value = get_env(var_name, envp);
 	if (env_value != NULL)
 		return (ft_strdup(env_value));
 	return (NULL);

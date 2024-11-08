@@ -22,7 +22,7 @@
 	return (s1[i]-s2[i]);
 } */
 
-int echo(char **args, int argc, int fd)
+int	echo(char **args, int argc, int fd)
 {
 	int	i;
 

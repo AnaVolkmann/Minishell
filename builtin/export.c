@@ -12,40 +12,41 @@
 
 #include "../minishell.h"
 
-static int key_len(char *path)
+static int	key_len(char *path)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (path[i] && path[i] != '=')
-        i++;
-    return (i);
+	i = 0;
+	while (path[i] && path[i] != '=')
+		i++;
+	return (i);
 }
 
-int ft_export(char *path, char **envp)
+int	ft_export(char *path, char **envp)
 {
-    int     len;
-    int     i;
-    char    *exp;
+	int		len;
+	int		i;
+	char	*exp;
 
-    i = 0;
-    len = key_len(path);
-    if (path[len] != '=')
-        return (printf("Export: invalid format: use KEY=VALUE\n"), -1);
-    exp = ft_strdup(path);
-    if (exp == NULL)
-        return (printf("Error: memory allocation failed: %s.\n", strerror(errno)), -1);
-    while (envp[i] != NULL)
-    {
-        if (ft_strncmp(envp[i], path, len) == 0 && envp[i][len] == '=')
-        {
-            free(envp[i]);
-            envp[i] = exp;
-            return (0);
-        }
-        i++;
-    }
-    envp[i] = exp;
-    envp[i + 1] = NULL;
-    return (0);
+	i = 0;
+	len = key_len(path);
+	if (path[len] != '=')
+		return (printf("Export: invalid format: use KEY=VALUE\n"), -1);
+	exp = ft_strdup(path);
+	if (exp == NULL)
+		return (printf("Error: memory allocation failed: %s.\n",
+				strerror(errno)), -1);
+	while (envp[i] != NULL)
+	{
+		if (ft_strncmp(envp[i], path, len) == 0 && envp[i][len] == '=')
+		{
+			free(envp[i]);
+			envp[i] = exp;
+			return (0);
+		}
+		i++;
+	}
+	envp[i] = exp;
+	envp[i + 1] = NULL;
+	return (0);
 }

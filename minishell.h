@@ -28,19 +28,19 @@
 # include <unistd.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-#include "./libft/libft.h"
-#include <stdbool.h>
-#include <limits.h>
+# include "./libft/libft.h"
+# include <stdbool.h>
+# include <limits.h>
 
-typedef enum	e_token_type
+typedef enum e_token_type
 {
-	TOKEN_WORD,      // For comands and arguments
-	TOKEN_PIPE,      // For '|'
-	TOKEN_REDIR_IN,  // For '<'
-	TOKEN_REDIR_OUT, // For '>'
-	TOKEN_REDIR_APPEND, // For '>>'
-	TOKEN_REDIR_HEREDOC, // For '<<'
-	TOKEN_ENV_VAR, // For environment variables
+	TOKEN_WORD,// For comands and arguments
+	TOKEN_PIPE,// For '|'
+	TOKEN_REDIR_IN,// For '<'
+	TOKEN_REDIR_OUT,// For '>'
+	TOKEN_REDIR_APPEND,// For '>>'
+	TOKEN_REDIR_HEREDOC,// For '<<'
+	TOKEN_ENV_VAR,// For environment variables
 }				t_token_type;
 /* 	TOKEN_COMMAND,
 	TOKEN_RULE,
@@ -61,15 +61,11 @@ typedef struct s_shell
 	char	*input;
 }				t_shell;
 
-typedef	struct	s_env
+typedef struct s_env
 {
-	char **orinal_env;
-	char ***parsed_env;
-}
-				t_env;
-
-//t_token	**tokenizer(char *line);
-
+	char	**orinal_env;
+	char	***parsed_env;
+}		t_env;
 
 /******************input processing****************/
 
@@ -84,10 +80,25 @@ void	handle_word(char **input, t_token **tokens);
 void	handle_special_chars(char **input, t_token **tokens);
 void	add_token_to_list(t_token **tokens, t_token *new_token);
 
-/**********************syntax************************/
+/**********************syntax**********************/
 
 void	add_word_token(char **start, char **input, t_token **tokens);
 void	update_quote_status(char c, int *in_quote, char *quote_char);
+
+/**********************Builtins********************/
+
+int	bash_exit(char **args, int arg_count);
+int	ft_cd(char *path);
+int	ft_export(char *path, char **envp);
+int	ft_pwd(void);
+int	ft_unset(char *path, char **envp);
+int	echo(char **args, int argc, int fd);
+char	*get_env(char *var, char **envp);
+
+/********************Extras***********************/
+
+char	*expansion(char *path, char **envp);
+void	sighandler(int signal);
 
 
 #endif

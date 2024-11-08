@@ -59,7 +59,8 @@ static int	last_set(const char *s1, const char *set)
 	return (len);
 }
 
-/** @brief Description : Allocates (with malloc(3)) and returns a copy of ’s1’ with the 
+/** @brief Description : Allocates (with malloc(3)) 
+	and returns a copy of ’s1’ with the 
 	characters specified in ’set’ removed from the beginning and the end of 
 	the string.
 

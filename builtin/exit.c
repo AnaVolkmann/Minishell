@@ -12,15 +12,15 @@
 
 #include "../minishell.h"
 
-int exit_error(char *arg)
+static int	exit_error(char *arg)
 {
 	write(2, "bash: exit: ", 12);
 	write(2, arg, strlen(arg));
 	write(2, ": numeric argument required\n", 29);
-	return 2;
+	return (2);
 }
 
-int	str_is_digit(char *str)
+static int	str_is_digit(char *str)
 {
 	if (*str == '+' || *str == '-')
 		str++;
@@ -33,17 +33,17 @@ int	str_is_digit(char *str)
 	return (1);
 }
 
-int bash_exit(char **args, int arg_count)
+int	bash_exit(char **args, int arg_count)
 {
-	long int exit_value;
-	
+	long int	exit_value;
+
 	ft_putendl_fd("exit", 2);
 	if (arg_count == 0)
 		exit(0);
 	if (arg_count == 1)
 	{
-		if (!ft_is_numeric(args[0]))
-			return exit_error(args[0]);
+		if (!str_is_digit(args[0]))
+			return (exit_error(args[0]));
 		else
 		{
 			exit_value = strtol(args[0], NULL, 10);
@@ -56,9 +56,8 @@ int bash_exit(char **args, int arg_count)
 		}
 	}
 	write(2, "bash: exit: too many arguments\n", 30);
-	return 2;
+	return (2);
 }
-
 
 /** @brief I HAVE NO IDEA IF THIS IS HOW ITS SUPPOUSED TO BEEEEEEE */
 /* 
@@ -74,7 +73,8 @@ void exit_cmd(char **cmd_args, t_shell *shell)
     } 
     else {
         shell->exit_status = EXIT_SYNTAX;
-        ft_printf(STDERR_FILENO, "minishell: exit: %s: numeric argument required\n", cmd_args[1]);
+        ft_printf(STDERR_FILENO, "minishell: 
+        	exit: %s: numeric argument required\n", cmd_args[1]);
         free_and_exit(shell);
     }
 }
@@ -102,9 +102,11 @@ void exit_number(char **cmd_args, t_shell *shell)
     }
     while (cmd_args[1][i] != '\0')
 	{
-        if (!(cmd_args[1][i] >= '0' && cmd_args[1][i] <= '9') && !(i == 0 && (cmd_args[1][i] == '-' || cmd_args[1][i] == '+'))) {
+        if (!(cmd_args[1][i] >= '0' && cmd_args[1][i] <= '9')
+        	&& !(i == 0 && (cmd_args[1][i] == '-' || cmd_args[1][i] == '+'))) {
             shell->exit_status = EXIT_SYNTAX;
-            ft_printf(STDERR_FILENO, "minishell: exit: %s: numeric argument required\n", cmd_args[1]);
+            ft_printf(STDERR_FILENO, "minishell:
+            	exit: %s: numeric argument required\n", cmd_args[1]);
             return;
         }
         i++;
@@ -126,7 +128,8 @@ void exit_cmd(char **cmd_args, t_shell *shell)
     } 
     else {
         shell->exit_status = EXIT_SYNTAX;
-        ft_printf(STDERR_FILENO, "minishell: exit: %s: numeric argument required\n", cmd_args[1]);
+        ft_printf(STDERR_FILENO, "minishell: exit:
+        	%s: numeric argument required\n", cmd_args[1]);
         free_and_exit(shell);
     }
 }
@@ -154,9 +157,12 @@ void exit_number(char **cmd_args, t_shell *shell)
     }
     while (cmd_args[1][i] != '\0')
 	{
-        if (!(cmd_args[1][i] >= '0' && cmd_args[1][i] <= '9') && !(i == 0 && (cmd_args[1][i] == '-' || cmd_args[1][i] == '+'))) {
+        if (!(cmd_args[1][i] >= '0' && cmd_args[1][i] <= '9')
+        	&& !(i == 0 && (cmd_args[1][i] == '-'
+        		|| cmd_args[1][i] == '+'))) {
             shell->exit_status = EXIT_SYNTAX;
-            ft_printf(STDERR_FILENO, "minishell: exit: %s: numeric argument required\n", cmd_args[1]);
+            ft_printf(STDERR_FILENO, "minishell: exit:
+            	%s: numeric argument required\n", cmd_args[1]);
             return;
         }
         i++;

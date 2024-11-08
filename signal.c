@@ -12,13 +12,14 @@
 
 #include "minishell.h"
 
-void    sighandler(int signal)
+void	sighandler(int signal)
 {
-    if (signal == SIGINT) // ctrl + c
-    {
-        write (STDOUT_FILENO, "\nPrompt > ", 10); //either that
-        //rl_replace_line("", 0);// OR THAT
-        //rl_on_new_line();
-        //rl_redisplay();
-    }
+	if (signal == SIGINT)
+	{
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
+
+// write (STDOUT_FILENO, "\nPrompt > ", 10);

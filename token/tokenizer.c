@@ -1,192 +1,136 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   tokenizer2.0.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/01 13:15:44 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/06 16:25:37 by ana-lda-         ###   ########.fr       */
+/*   Created: 2024/11/06 15:18:14 by ana-lda-          #+#    #+#             */
+/*   Updated: 2024/11/07 14:27:37 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-static t_token	*append_token(t_token **token_list, t_token_type type, char *value)
+// (TODO)syntax_verification funtion
+// Trims whitespace from the input and then calls
+
+/**
+ * @brief Processes input string by trimming whitespace and tokenizing it.
+ * 
+ * This function trims leading and trailing whitespace characters from the
+ * input string and then tokenizes it into meaningful chunks (e.g., words, 
+ * special characters) by calling the `tokenize_input` function.
+ *
+ * @param input The input string to be processed and tokenized.
+ *
+ * @return A linked list of tokens representing the tokenized input, or NULL
+ *         if memory allocation fails or if the input is empty.*/
+t_token	*process_to_tokenize_input(char *input)
 {
-	t_token	*new_token;
-	t_token	*tmp;
-	
-	new_token = malloc(sizeof(t_token));
-	if (new_token == NULL)
+	char	*trimmed_input;
+	t_token	*tokens;
+
+	trimmed_input = ft_strtrim(input, " \t\n\v\f\r");
+	free(input);
+	if (!trimmed_input)
 		return (NULL);
-	new_token->type = type;
-	new_token->value = ft_strdup(value);
-	if (new_token->value == NULL)
-		return (free(new_token), NULL);
-	new_token->next = NULL;
-	if (*token_list == NULL)
-		*token_list = new_token;
-	else
+	//if (syntax error)
+	//	free(trimmed_input);
+	tokens = tokenize_input(trimmed_input);
+	free(trimmed_input);
+	return (tokens);
+}
+
+/**
+ * @brief Tokenizes an input string into individual tokens based on delimiters.
+ * 
+ * This function parses the input string and splits it into tokens. It handles
+ * special characters (`<`, `>`, `|`) and words. It calls the appropriate
+ * handler functions for different types of tokens.
+ *
+ * @param input The input string to be tokenized.
+ *
+ * @return A linked list of tokens representing the tokenized input.*/
+t_token	*tokenize_input(char *input)
+{
+	t_token	*token;
+
+	token = NULL;
+	while (*input)
 	{
-		tmp = *token_list;
-		while (tmp->next != NULL)
-			tmp = tmp->next;
-		tmp->next = new_token;
+		while (*input && ft_strchr(" \t\n", *input))
+			input++;
+		if (ft_strchr("><|", *input))
+			handle_special_chars(&input, &token);
+		else
+			handle_word(&input, &token);
 	}
-	return (new_token);
+	return (token);
 }
 
-static void	free_token_list(t_token **token_list)
+/**
+ * @brief Handles special characters in the input string and 
+ * adds tokens for them.
+ * 
+ * This function checks for special characters (`>`, `<`, `|`) and processes
+ * them accordingly. It creates tokens for redirect operators
+ *  (`>`, `>>`, `<`, `<<`)
+ * and pipes (`|`), then adds them to the token list.
+ *
+ * @param input A pointer to the current position in the input string.
+ * @param tokens A pointer to the token list where new tokens are added.*/
+void	handle_special_chars(char **input, t_token **tokens)
 {
-	t_token	*tmp;
-	t_token	*next;
-	
-	tmp = *token_list;
-	while (tmp != NULL)
+	if (**input == '>')
 	{
-		next = tmp->next;
-		free(tmp->value);
-		free(tmp);
-		tmp = next;
-	}
-	*token_list = NULL;
-}
-
-int	token_to_str(t_token_type type)
-{
-	if (type == TOKEN_WORD)
-		printf("TOKEN_WORD");
-	else if (type == TOKEN_PIPE)
-		printf("TOKEN_PIPE");
-	else if (type == TOKEN_REDIR_IN)
-		printf("TOKEN_REDIR_IN");
-	else if (type == TOKEN_REDIR_OUT)
-		printf("TOKEN_REDIR_OUT");
-	else if (type == TOKEN_REDIR_APPEND)
-		printf("TOKEN_REDIR_APPEND");
-	else if (type == TOKEN_REDIR_HEREDOC)
-		printf("TOKEN_REDIR_HEREDOC");
-	else if (type == TOKEN_ENV_VAR)
-		printf("TOKEN_ENV_VAR");
-	else if (type == TOKEN_COMMAND)
-		printf("TOKEN_COMAND");
-	else if (type == TOKEN_RULE)
-		printf("TOKEN_RULE");
-	else if (type == TOKEN_QUOTE)
-		printf("TOKEN_QUOTE");
-}
-
-/*t_token	**tokenizer(char *line)
-{
-	int		i;
-	char	*start;
-	char	*value;
-	t_token	**token_list;
-
-	token_list = malloc(sizeof(t_token *));
-	if (token_list == NULL)
-		return (printf("Error: Memory allocation for token list.\n"), NULL);
-	*token_list = NULL;
-	while (*line)
-	{
-		i = 0;
-		if (*line == ' ' || (*line <= 13 && *line >= 9))
-			line++;
-		if (*line >= 'a' && *line <= 'z')
+		if (*(*input + 1) == '>')
 		{
-			start = line;
-			while (*line >= 'a' && *line <= 'z')
-			{
-				line++;
-				i++;
-			}
-			value = malloc(sizeof(char) * (i + 1));
-			if (value == NULL)
-				return (printf("Error: Memory allocation CMD.\n"), free_token_list(token_list), NULL);
-			ft_strlcpy(value, start, i + 1);
-			if (!append_token(token_list, COMMAND, value))
-					return (printf("Error: Memory allocation CMD.\n"), free_token_list(token_list), NULL);
-			free (value);
-		}
-		if (*line == '-')
-		{
-			start = line;
-			line++;
-			i++;
-			if (*line >= 'a' && *line <= 'z')
-			{
-				while (*line >= 'a' && *line <= 'z')
-				{
-					line++;
-					i++;
-				}
-				value = malloc(sizeof(char) * (i + 1));
-				if (value == NULL)
-					return (printf("Error: Memory allocation RULE.\n"), free_token_list(token_list), NULL);
-				ft_strlcpy(value, start, i + 1);
-				if (!append_token(token_list, RULE, value))
-					return (printf("Error: Memory allocation RULE.\n"), free_token_list(token_list), NULL);
-				free (value);
-			}
-		}
-		if (*line == '$')
-		{
-			start = line;
-			line++;
-			i++;
-			while (*line && (ft_isalnum(*line) || *line == '_'))
-			{
-				line++;
-				i++;
-			}
-			value = malloc(sizeof(char) * (i + 1));
-			if (value == NULL)
-				return (printf("Error: Memory allocation ENV_VAR.\n"), free_token_list(token_list), NULL);
-			ft_strlcpy(value, start, i + 1);
-			if (!append_token(token_list, TOKEN_ENV_VAR, value))
-				return (printf("Error: Memory allocation ENV_VAR.\n"), free_token_list(token_list), NULL);
-			free (value);
-		}
-		if (*line == '|' || *line == '<' || *line == '>')
-		{	else if (type == TOKEN_PIPE)
-		printf("TOKEN_PIPE");
-			value = malloc(sizeof(char) * 2);
-			if (value == NULL)
-				return (printf("Error: Memory allocation OPERATOR.\n"), free_token_list(token_list), NULL);
-			ft_strlcpy(value, line, 2);
-			if (!append_token(token_list, OPERATOR, value))
-				return (printf("Error: Memory allocation OPERATOR.\n"), free_token_list(token_list), NULL);
-			free (value);
-		}
-		if (*line == 34 || *line == 39)
-		{
-			value = malloc(sizeof(char) * 2);
-			if (value == NULL)
-				return (printf("Error: Memory allocation QUOTE.\n"), free_token_list(token_list), NULL);
-			ft_strlcpy(value, line, 2);
-			if (!append_token(token_list, QUOTE, value))
-				return (printf("Error: Memory allocation QUOTE.\n"), free_token_list(token_list), NULL);
-			free (value);
-			line++;
-			// chamar recursiva? tokenizer(line);
+			add_token_to_list(tokens, new_token(TOKEN_REDIR_APPEND, ">>"));
+			(*input)++;
 		}
 		else
-		{
-			start = line;
-			line++;
-			i++;
-			while (*line && (*line != '$' && *line != 34 && *line != 39
-					&& *line != '|' && *line != '<' && *line != '>'))
-			value = malloc(sizeof(char) * (i + 1));
-			if (value == NULL)
-				return (printf("Error: Memory allocation WORD.\n"), free_token_list(token_list), NULL);
-			ft_strlcpy(value, line, i + 1);
-			if (!append_token(token_list, WORD, value))
-				return (printf("Error: Memory allocation WORD.\n"), free_token_list(token_list), NULL);
-			free (value);
-		}
-		line++;
+			add_token_to_list(tokens, new_token(TOKEN_REDIR_OUT, ">"));
 	}
-	return (token_list);
-}*/
+	else if (**input == '<')
+	{
+		if (*(*input + 1) == '<')
+		{
+			add_token_to_list(tokens, new_token(TOKEN_REDIR_HEREDOC, "<<"));
+			(*input)++;
+		}
+		else
+			add_token_to_list(tokens, new_token(TOKEN_REDIR_IN, "<"));
+	}
+	else if (**input == '|')
+		add_token_to_list(tokens, new_token(TOKEN_PIPE, "|"));
+	(*input)++;
+}
+
+/**
+ * @brief Processes a word in the input string and adds it as a token.
+ * 
+ * This function processes a word in the input string, which may be surrounded
+ * by quotes, and adds it as a token to the token list. It also handles
+ * quote characters (single or double quotes).
+ *
+ * @param input A pointer to the current position in the input string.
+ * @param tokens A pointer to the token list where the word token is added.*/
+void	handle_word(char **input, t_token **tokens)
+{
+	char	*start;
+	char	quote_char;
+	int		in_quotes;
+
+	start = *input;
+	in_quotes = 0;
+	quote_char = '\0';
+	while (**input)
+	{
+		update_quote_status(**input, &in_quotes, &quote_char);
+		if (!in_quotes && ft_strchr(" \t\n><", **input))
+			break ;
+		(*input)++;
+	}
+	add_word_token(&start, input, tokens);
+}

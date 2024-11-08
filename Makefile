@@ -7,7 +7,7 @@ LIBFT = libft/libft.a
 
 OBJ_DIR = obj/
 
-SRC = ../token/tokenizer2.0.c ../token/tokenizer_utils.c main.c
+SRC = ../token/tokenizer.c ../token/tokenizer_utils.c main.c ../builtin/cd.c ../builtin/echo.c ../builtin/env.c ../builtin/exit.c ../builtin/export.c ../builtin/pwd.c ../builtin/unset.c expansion.c init.c signal.c parser.c
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
