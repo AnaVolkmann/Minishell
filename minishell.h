@@ -104,4 +104,8 @@ void	sighandler(int signal);
 
 void	init_shell(t_shell shell, char **env, char **original_env);
 
+/********************Run*Commands****************/
+
+int	run_command_builtin(char *cmd, char *path);
+
 #endif
