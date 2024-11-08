@@ -47,7 +47,7 @@ int	main(int argc, char **argv, char **original_env)
 	return (0);
 }
 
-int	run_command_builtin(char *cmd, char *path)
+/*int	run_command_builtin(char *cmd, char *path)
 {
 	if (ft_strcmp(cmd, "cd") == 0)
 		return (ft_cd(path), 0);
@@ -64,8 +64,7 @@ int	run_command_builtin(char *cmd, char *path)
 	else if (ft_strcmp(cmd, "unset") == 0)
 		return (ft_unset(char *path, char **envp), 0);
 }
-
-/*int	run_command_exec(char *cmd, char *argument, char **envp)
+int	run_command_exec(char *cmd, char *argument, char **envp)
 {
 	if (execve(cmd, argument, envp) == -1)
 		return (printf("execve: %s: %s\n", cmd, strerror(errno)), 1);

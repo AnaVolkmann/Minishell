@@ -14,8 +14,8 @@
 
 int	ft_cd(char *path, char **envp)
 {
-	char	*old_pwd;
-	
+	//char	*old_pwd;
+	(void)envp;
 	if (path == NULL)
 	{
 		path = getenv("HOME");
@@ -28,7 +28,7 @@ int	ft_cd(char *path, char **envp)
 		if (path == NULL)
 			return (printf("Error: OLDPWD unset\n"), 1);
 	}
-	old_pwd = getenv("PWD");
+	//old_pwd = getenv("PWD");
 	if (chdir(path) != 0)
 		return (printf("cd: %s: %s\n", path, strerror(errno)), 1);
 	//if (old_pwd != NULL)

@@ -46,7 +46,7 @@ int	ft_unset(char *path, char **envp)
 	return (-1);
 }
 
-int	ft_setenv(char *name, char *value, char **envp, int overwrite)
+/*int	ft_setenv(char *name, char *value, char **envp, int overwrite)
 {
 	int		i;
 	int		len;
@@ -71,4 +71,6 @@ int	ft_setenv(char *name, char *value, char **envp, int overwrite)
 			}
 			return (free(new_var), 0);
 	}
-}
+}*/
+
+//(TODO) Finish unset, get cd working with it, expand $$

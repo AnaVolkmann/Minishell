@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*expansion(char *path, char **envp)
+char	*expansion(char *path)
 {
 	int		i;
 	int		j;
