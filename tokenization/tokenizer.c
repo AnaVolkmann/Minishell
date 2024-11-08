@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer2.0.c                                     :+:      :+:    :+:   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:18:14 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/07 14:27:37 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/08 14:38:25 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // (TODO)syntax_verification funtion
-// Trims whitespace from the input and then calls
 
 /**
  * @brief Processes input string by trimming whitespace and tokenizing it.
@@ -35,8 +34,11 @@ t_token	*process_to_tokenize_input(char *input)
 	free(input);
 	if (!trimmed_input)
 		return (NULL);
-	//if (syntax error)
-	//	free(trimmed_input);
+	if (syntax_error_checker(trimmed_input))
+	{
+		free(trimmed_input);
+		return (NULL);
+	}
 	tokens = tokenize_input(trimmed_input);
 	free(trimmed_input);
 	return (tokens);

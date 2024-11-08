@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/07 13:58:04 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/08 15:48:23 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	add_token_to_list(t_token **tokens, t_token *new_token);
 
 void	add_word_token(char **start, char **input, t_token **tokens);
 void	update_quote_status(char c, int *in_quote, char *quote_char);
+int		syntax_error_checker(const char *input);
+int		has_unclosed_quotes(const char *input);
 
 /**********************Builtins********************/
 
