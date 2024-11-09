@@ -46,32 +46,77 @@ int	ft_unset(char *path, char **envp)
 	return (-1);
 }
 
-/*int	ft_setenv(char *name, char *value, char **envp, int overwrite)
+static char	**realloc_envp(char **envp, int size)
+{
+	char	**new_envp;
+	int		i;
+
+	i = 0;
+	new_envp = (char **)malloc(sizeof(char *) * size);
+	if (!new_envp)
+		return (NULL);
+	while (envp[i])
+	{
+		new_envp[i] = envp[i];
+		i++;
+	}
+	new_envp[i] = NULL;
+	free (envp);
+	return (new_envp);
+}
+
+static char	*new_env_var(char *name, char *value)
+{
+	int		len;
+	char	*new_var;
+
+	if (name == NULL || value == NULL)
+		return (NULL);
+	len = ft_strlen(name) + ft_strlen(value) + 2;
+	new_var = (char *)malloc(sizeof(char) * len);
+	if (new_var == NULL)
+		return (NULL);
+	new_var[0] = '\0';
+	ft_strlcat(new_var, name, len);
+	ft_strlcat(new_var, "=", len);
+	ft_strlcat(new_var, value, len);
+	return (new_var);
+}
+
+int	ft_setenv(char *name, char *value, t_shell shell, int overwrite)
 {
 	int		i;
 	int		len;
 	char	*new_var;
 
-	if (name == NULL || value == NULL)
+	if (!name || !value || !shell || !shell->envp)
 		return (1);
 	i = 0;
-	len = ft_strlen(name) + ft_strlen(value) + 2;
-	new_var = (char *)malloc(sizeof(char) * len);
-	if (new_var == NULL)
-		return (1);
 	len = ft_strlen(name);
-	while (envp[i])
+	new_var = new_env_var(name, value);
+	if (!new_var)
+		return (1);
+	while (shell->envp[i])
 	{
-		if (strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
+		if (strncmp(shell->envp[i], name, len) == 0 && shell->envp[i][len] == '=')
+		{
 			if (overwrite == 1)
 			{
-				free(envp[i]);
-				envp[i] = new_var;
-				return (0);
+				free(shell->envp[i]);
+				shell->envp[i] = new_var;
 			}
-			return (free(new_var), 0);
+			else
+				free (new_var);
+			return (0);
+		}
+		i++;
 	}
-}*/
+	shell->envp = realloc_envp(shell->envp, i + 2);
+	if (!shell->envp)
+		return (free(new_var), 1);
+	shell->envp[i] = new_var;
+	return (0);
+}
 
 //(TODO) Finish unset, get cd working with it, expand cases, 
 //test tokenizer, check quotes {} ()
