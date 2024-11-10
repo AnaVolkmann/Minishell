@@ -12,15 +12,15 @@
 
 #include "../minishell.h"
 
-int	ft_unset(char *name, char **envp)
+int	ft_unset(char *name, t_shell *shell)
 {
 	int	index;
 
-	if (!name || !*name || !envp)
+	if (!name || !*name || !shell->envp)
 		return (1);
-	index = find_env(envp, name);
+	index = find_env(shell->envp, name);
 	if (index >= 0)
-		return (remove_env(envp, index), 0);
+		return (remove_env(shell->envp, index), 0);
 	return (1);
 }
 
@@ -60,7 +60,7 @@ int	ft_setenv(char *name, char *value, t_shell *shell, int overwrite)
 	return (0);
 }
 
-//(TODO) expand cases, test tokenizer, check quotes {} (), test builtins
-// GCC use on Makefile?
+//(TODO) expand cases, test tokenizer, check quotes {} (), test builtins and fix leaks
+// GCC use on Makefile? check functionality for GNL(missing gnl_utils) and ft_printf.
 //if inside quotes, dont expand, but run command if its exactly it.
 //"ls" -l works "ls -l" no, neither "ls " -l or "ls"-l

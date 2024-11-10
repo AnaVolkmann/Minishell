@@ -33,6 +33,8 @@ int	ft_cd(char *path, t_shell *shell)
 	if (chdir(path) != 0)
 		return (printf("cd: %s: %s\n", path, strerror(errno)), 1);
 	new_pwd = ft_pwd();
+	if (!new_pwd)
+		return (1);
 	if (old_pwd != NULL)
 		ft_setenv("OLDPWD", old_pwd, shell, 1);
 	ft_setenv("PWD", new_pwd, shell, 1);

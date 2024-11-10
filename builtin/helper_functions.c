@@ -48,7 +48,13 @@ char	**realloc_envp(char **envp, int size)
 		return (NULL);
 	while (envp && envp[i])
 	{
-		new_envp[i] = envp[i];
+		new_envp[i] = ft_strdup(envp[i]);
+		if (!new_envp[i])
+		{
+			while (--i >= 0)
+				free (new_envp[i]);
+			return (free(new_envp), NULL);
+		}
 		i++;
 	}
 	if (envp)

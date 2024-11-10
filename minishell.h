@@ -94,7 +94,7 @@ int		ft_cd(char *path, t_shell *shell);
 int		ft_export(char *path, t_shell *shell);
 char	*ft_pwd(void);
 int		ft_setenv(char *name, char *value, t_shell *shell, int overwrite);
-int		ft_unset(char *name, char **envp);
+int		ft_unset(char *name, t_shell *shell);
 int		echo(char **args, int argc, int fd);
 char	*get_env(char *var, char **envp);
 
@@ -110,7 +110,8 @@ void	remove_env(char **envp, int index);
 
 /*********************Init***********************/
 
-void	init_shell(t_shell *shell, char **env, char **original_env);
+t_shell	*init_shell(t_shell *shell, char **env, char **original_env);
+char	**init_dinam_env(char **original_env);
 
 /********************Run Commands****************/
 
