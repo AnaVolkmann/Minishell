@@ -15,6 +15,7 @@
 int	ft_cd(char *path, char **envp)
 {
 	char	*old_pwd;
+	char	*new_pwd;
 
 	if (path == NULL)
 	{
@@ -31,9 +32,9 @@ int	ft_cd(char *path, char **envp)
 	old_pwd = getenv("PWD");
 	if (chdir(path) != 0)
 		return (printf("cd: %s: %s\n", path, strerror(errno)), 1);
+	new_pwd = ft_pwd();
 	if (old_pwd != NULL)
 		ft_setenv("OLDPWD", old_pwd, envp, 1);
-	if (ft_pwd() != 0)
-		return (1);
-	return (printf("Changed Directory to: %s\n", path), 0);
+	ft_setenv("PWD", new_pwd, 1);
+	return (free (new_pwd), printf("Changed Directory to: %s\n", path), 0);
 }

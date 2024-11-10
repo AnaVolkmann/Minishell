@@ -21,32 +21,25 @@ static int	key_len(char *path)
 		i++;
 	return (i);
 }
-
-int	ft_export(char *path, char **envp)
+/** @brief separates the path as in KEY=value
+ * then sets the env*/
+int	ft_export(char *path, t_shell shell)
 {
-	int		len;
 	int		i;
-	char	*exp;
+	char	*value;
+	char	*key;
 
-	i = 0;
-	len = key_len(path);
-	if (path[len] != '=')
+	i = key_len(path);
+	if (path[i] != '=')
 		return (printf("Export: invalid format: use KEY=VALUE\n"), -1);
-	exp = ft_strdup(path);
-	if (exp == NULL)
-		return (printf("Error: memory allocation failed: %s.\n",
-				strerror(errno)), -1);
-	while (envp[i] != NULL)
+	key = ft_substr(path, 0, i);
+	value = ft_strdup(&path[i + 1]);
+	if (!key || !value)
 	{
-		if (ft_strncmp(envp[i], path, len) == 0 && envp[i][len] == '=')
-		{
-			free(envp[i]);
-			envp[i] = exp;
-			return (0);
-		}
-		i++;
+		printf("Error: memory allocation failed: %s.\n", strerror(errno));
+		return (free (key), free(value), -1);
 	}
-	envp[i] = exp;
-	envp[i + 1] = NULL;
-	return (0);
+	if (ft_setenv(key, value, shell, 1) != 0)
+		return (free (key), free (value), 1);
+	return (free(key), free(value), 0);
 }
