@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 11:03:21 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/07 12:05:21 by ana-lda-         ###   ########.fr       */
+/*   Created: 2024/05/04 20:01:05 by ana-lda-          #+#    #+#             */
+/*   Updated: 2024/05/09 18:43:43 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
+# include <stdarg.h>
+# include <string.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <fcntl.h>
-# include <stddef.h>
+# include <stdio.h>
+# include "libft.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
-
-size_t	ft_strlen(const char *s);
-char	*ft_sstrchr(const char *s, int c);
-char	*ft_strjoin(char *s1, const char *s2);
-char	*get_next_line(int fd);
+int	ft_printf(const char *str, ...);
+int	ft_putstr(char *str);
+int	ft_putchar(int c);
+int	ft_putnbr(int nbr, int u);
+int	ft_putpointer(unsigned long nbr);
+int	ft_puthexa(unsigned int nbr, const char c);
+int	ft_putpointerhexa(unsigned long nbr, const char c);
 
 #endif

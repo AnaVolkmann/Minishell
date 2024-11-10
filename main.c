@@ -69,5 +69,4 @@ int	run_command_exec(char *cmd, char *argument, char **envp)
 	if (execve(cmd, argument, envp) == -1)
 		return (printf("execve: %s: %s\n", cmd, strerror(errno)), 1);
 	return (0);
-}
-*/
+}*/

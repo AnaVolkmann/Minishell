@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 /** @brief searchs for the variable in envp, returns its index if found*/
 int	find_env(char **envp, char *name)
@@ -12,7 +12,7 @@ int	find_env(char **envp, char *name)
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == "=")
+		if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
 			return (i);
 		i++;
 	}

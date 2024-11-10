@@ -7,24 +7,24 @@ LIBFT = libft/libft.a
 
 OBJ_DIR = obj/
 
-SRC = ../tokenization/tokenizer.c\
-../tokenization/tokenizer_utils.c\
-main.c ../builtin/cd.c ../builtin/echo.c\
-../builtin/env.c ../builtin/exit.c\
-../builtin/export.c ../builtin/pwd.c\
-../builtin/unset.c expansion.c\
+SRC = tokenization/tokenizer.c\
+tokenization/tokenizer_utils.c\
+main.c builtin/cd.c builtin/echo.c\
+builtin/env.c builtin/exit.c\
+builtin/export.c builtin/pwd.c\
+builtin/unset.c expansion.c\
 init.c signal.c parser.c\
-../input_validation/syntax_checker.c\
-
+input_validation/syntax_checker.c\
+builtin/helper_functions.c\
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
 # Default target
 all: $(NAME)
 
-# Create object directory
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+# Create object directories
+$(OBJ_DIR)%/: 
+	mkdir -p $(dir $(OBJ_DIR)$@
 
 # Build libft
 $(LIBFT):
@@ -36,7 +36,7 @@ $(NAME): $(OBJ) $(LIBFT)
 	@printf "\r \e[1;32mMINISHELL\e[0m compiled successfully\n"
 
 # Compile source files into object files
-$(OBJ_DIR)%.o: %.c | $(OBJ_DIR)
+$(OBJ_DIR)%.o: %.c | $(OBJ_DIR)$(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Clean up object files

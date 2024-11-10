@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	ft_cd(char *path, char **envp)
+int	ft_cd(char *path, t_shell *shell)
 {
 	char	*old_pwd;
 	char	*new_pwd;
@@ -34,7 +34,7 @@ int	ft_cd(char *path, char **envp)
 		return (printf("cd: %s: %s\n", path, strerror(errno)), 1);
 	new_pwd = ft_pwd();
 	if (old_pwd != NULL)
-		ft_setenv("OLDPWD", old_pwd, envp, 1);
-	ft_setenv("PWD", new_pwd, 1);
+		ft_setenv("OLDPWD", old_pwd, shell, 1);
+	ft_setenv("PWD", new_pwd, shell, 1);
 	return (free (new_pwd), printf("Changed Directory to: %s\n", path), 0);
 }

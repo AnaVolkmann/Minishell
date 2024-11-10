@@ -14,9 +14,6 @@
 
 int	ft_arguments(char s, va_list ap)
 {
-	int	result;
-
-	result = 0;
 	if (!s)
 		return (0);
 	else if (s == 'c')

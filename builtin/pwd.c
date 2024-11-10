@@ -12,12 +12,12 @@
 
 #include "../minishell.h"
 
-int	ft_pwd(void)
+char	*ft_pwd(void)
 {
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)
-		return (printf("Error: getcwd() failed: %s\n", strerror(errno)), 1);
-	return (printf("%s\n", pwd), free(pwd), 0);
+		return (printf("Error: getcwd() failed: %s\n", strerror(errno)), NULL);
+	return (printf("%s\n", pwd), pwd);
 }

@@ -31,7 +31,7 @@ int	ft_unset(char *name, char **envp)
  * in case the memory alloc fails, we lose the envp ptr
  * so maybe try to alloc in another char** and if correct
  * frees the old one. LINE COUNT :(*/
-int	ft_setenv(char *name, char *value, t_shell shell, int overwrite)
+int	ft_setenv(char *name, char *value, t_shell *shell, int overwrite)
 {
 	int		index;
 	char	*new_var;
@@ -60,6 +60,7 @@ int	ft_setenv(char *name, char *value, t_shell shell, int overwrite)
 	return (0);
 }
 
-//(TODO) expand cases, test tokenizer, check quotes {} ()
-// if inside quotes, dont expand, but run command if its exactly it.
+//(TODO) expand cases, test tokenizer, check quotes {} (), test builtins
+// GCC use on Makefile?
+//if inside quotes, dont expand, but run command if its exactly it.
 //"ls" -l works "ls -l" no, neither "ls " -l or "ls"-l

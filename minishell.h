@@ -90,10 +90,10 @@ int		has_unclosed_quotes(const char *input);
 /**********************Builtins********************/
 
 int		bash_exit(char **args, int arg_count);
-int		ft_cd(char *path, char **envp);
-int		ft_export(char *path, t_shell shell);
-int		ft_pwd(void);
-int		ft_setenv(char *name, char *value, t_shell shell, int overwrite);
+int		ft_cd(char *path, t_shell *shell);
+int		ft_export(char *path, t_shell *shell);
+char	*ft_pwd(void);
+int		ft_setenv(char *name, char *value, t_shell *shell, int overwrite);
 int		ft_unset(char *name, char **envp);
 int		echo(char **args, int argc, int fd);
 char	*get_env(char *var, char **envp);
@@ -114,6 +114,6 @@ void	init_shell(t_shell *shell, char **env, char **original_env);
 
 /********************Run Commands****************/
 
-int		run_command_builtin(char *cmd, char *path);
+//int		run_command_builtin(char *cmd, char *path);
 
 #endif

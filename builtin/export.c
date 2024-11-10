@@ -23,7 +23,7 @@ static int	key_len(char *path)
 }
 /** @brief separates the path as in KEY=value
  * then sets the env*/
-int	ft_export(char *path, t_shell shell)
+int	ft_export(char *path, t_shell *shell)
 {
 	int		i;
 	char	*value;
