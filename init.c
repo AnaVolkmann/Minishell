@@ -12,9 +12,8 @@
 
 #include "minishell.h"
 
-t_shell	*init_shell(t_shell *shell, char **env, char **original_env)
+t_shell	*init_shell(t_shell *shell, char **original_env)
 {
-	(void)env;
 	shell->pid = getpid();
 	shell->path = NULL;
 	shell->envp = init_dinam_env(original_env);

@@ -110,7 +110,7 @@ void	remove_env(char **envp, int index);
 
 /*********************Init***********************/
 
-t_shell	*init_shell(t_shell *shell, char **env, char **original_env);
+t_shell	*init_shell(t_shell *shell, char **original_env);
 char	**init_dinam_env(char **original_env);
 
 /********************Run Commands****************/

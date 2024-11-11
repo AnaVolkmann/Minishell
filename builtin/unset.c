@@ -57,10 +57,27 @@ int	ft_setenv(char *name, char *value, t_shell *shell, int overwrite)
 	if (!shell->envp)
 		return (free(new_var), 1);
 	shell->envp[count_envp(shell->envp) - 1] = new_var;
-	return (0);
+	return (free(new_var), 0);
 }
 
 //(TODO) expand cases, test tokenizer, check quotes {} (), test builtins and fix leaks
 // GCC use on Makefile? check functionality for GNL(missing gnl_utils) and ft_printf.
 //if inside quotes, dont expand, but run command if its exactly it.
 //"ls" -l works "ls -l" no, neither "ls " -l or "ls"-l
+/* testes: cd tem leaks, um de 3k +, que acredito ser da setenv
+	export tem leaks (tbm acredito da set env) mas se for atribuido um valor, tem um leak a mais
+	pwd tá ok.
+	setenv, confirmado leak ser daqui, tem 3k cada valor atribuido, provavelmente por realloc da envp
+	unset: tem os mesmos 3k de leak
+	
+	int	main(int argc, char **argv, char **envp)
+{
+	(void)argc;
+	(void)argv;
+	t_shell shell;
+
+	shell.envp = init_dinam_env(envp);
+	ft_unset("LUCAS", &shell);
+	free(shell.envp);
+	return (0);
+}*/

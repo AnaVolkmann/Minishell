@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+// function returns pwd, so it doesnt free its content. If the caller dont free also, its
+// going to leak
 char	*ft_pwd(void)
 {
 	char	*pwd;
