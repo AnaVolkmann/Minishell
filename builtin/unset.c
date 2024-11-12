@@ -35,6 +35,7 @@ int	ft_setenv(char *name, char *value, t_shell *shell, int overwrite)
 {
 	int		index;
 	char	*new_var;
+	//char	**tmp_env;
 
 	if (!name || !value || !shell || !shell->envp)
 		return (1);
@@ -53,10 +54,15 @@ int	ft_setenv(char *name, char *value, t_shell *shell, int overwrite)
 			free (new_var);
 		return (0);
 	}
+	// tmp_env = realloc_envp(shell->envp, count_envp(shell->envp) + 2);
+	// if (!tmp_env)
+	// 	return (free(new_var), 1);
+	// shell->envp = tmp_env;
 	shell->envp = realloc_envp(shell->envp, count_envp(shell->envp) + 2);
 	if (!shell->envp)
 		return (free(new_var), 1);
 	shell->envp[count_envp(shell->envp) - 1] = new_var;
+	shell->envp[count_envp(shell->envp)] = NULL;
 	return (free(new_var), 0);
 }
 
@@ -70,14 +76,21 @@ int	ft_setenv(char *name, char *value, t_shell *shell, int overwrite)
 	setenv, confirmado leak ser daqui, tem 3k cada valor atribuido, provavelmente por realloc da envp
 	unset: tem os mesmos 3k de leak
 	
-	int	main(int argc, char **argv, char **envp)
-{
-	(void)argc;
-	(void)argv;
-	t_shell shell;
+int main(int argc, char **argv, char **envp) {
+    (void)argc;
+    (void)argv;
 
-	shell.envp = init_dinam_env(envp);
-	ft_unset("LUCAS", &shell);
-	free(shell.envp);
-	return (0);
+    t_shell shell;
+    char *old;
+
+    shell.envp = init_dinam_env(envp);
+	if (!shell.envp)
+		return (1);
+	old = ft_pwd();
+	ft_cd(expansion("$HOME"), &shell);
+	//ft_export("USER=lucassssss", &shell);
+	free_shell(&shell);
+	free(old);
+
+    return (0);
 }*/

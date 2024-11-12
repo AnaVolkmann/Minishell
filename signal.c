@@ -17,3 +17,9 @@ void	sighandler(int signal)
 	if (signal == SIGINT)
 		write (STDOUT_FILENO, "\nPrompt > ", 10);
 }
+
+void	ft_signal(void)
+{
+	signal(SIGINT, sighandler);
+	signal(SIGQUIT, SIG_IGN);
+}

@@ -106,12 +106,18 @@ char	**realloc_envp(char **envp, int size);
 int		find_env(char **envp, char *name);
 int 	count_envp(char **envp);
 void	sighandler(int signal);
+void	ft_signal(void);
 void	remove_env(char **envp, int index);
 
 /*********************Init***********************/
 
 t_shell	*init_shell(t_shell *shell, char **original_env);
 char	**init_dinam_env(char **original_env);
+
+/*********************Free***********************/
+
+void    free_envp(char **envp);
+void    free_shell(t_shell *shell);
 
 /********************Run Commands****************/
 

@@ -15,6 +15,7 @@
 int	main(int argc, char **argv, char **original_env)
 {
 	char	*input;
+	t_token	*tokens;
 	//t_shell	shell;
 	//t_env	env;//estrutura para lidarcom env trimmed e inteira
 
@@ -23,8 +24,7 @@ int	main(int argc, char **argv, char **original_env)
 	if (argc != 1)
 		return (printf("Error: Too many Arguments, try \'./minishell\'\n"), 1);
 	rl_catch_signals = 0;
-	signal(SIGINT, sighandler);
-	signal(SIGQUIT, SIG_IGN);
+	ft_signal();
 	//shell.envp = init_dinam_env(original_env);
 	//env = malloc(sizeof(env));
 	//if (argc == 1 && init_shell(&shell, env, original_env))
@@ -41,11 +41,12 @@ int	main(int argc, char **argv, char **original_env)
 		//shell.input = input;
 	}
 	//check_input(argc, argv);
-	process_to_tokenize_input(input);
+	tokens = process_to_tokenize_input(input);
 	// call parser
 	// call exec
 	rl_clear_history();
-	//free(shell.envp);
+	free_tokens(tokens);
+	//free_shell(&shell);
 	return (0);
 }
 

@@ -58,7 +58,7 @@ char	**realloc_envp(char **envp, int size)
 		i++;
 	}
 	if (envp)
-		free (envp);
+		free_envp (envp);
 	new_envp[i] = NULL;
 	return (new_envp);
 }
