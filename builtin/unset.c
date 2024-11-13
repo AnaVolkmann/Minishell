@@ -78,11 +78,9 @@ int main(int argc, char **argv, char **envp) {
 	shell.envp = init_dinam_env(envp);
 	if (!shell.envp)
 		return (1);
-	//ft_export("USER=lucassssss", &shell);
-	//ft_unset("USER", &shell); - no leak
 	//ft_setenv("LUCAS", "lucas", &shell, 1);
 	free_envp(shell.envp);
 	free(home);
 
-    return (0);
+	return (0);
 }*/
