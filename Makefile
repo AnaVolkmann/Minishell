@@ -15,8 +15,8 @@ builtin/export.c builtin/pwd.c\
 builtin/unset.c expansion.c\
 init.c signal.c parser.c\
 input_validation/syntax_checker.c\
-builtin/helper_functions.c\
-freefunctions.c\
+builtin/helper.c\
+free_me.c\
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 

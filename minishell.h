@@ -104,7 +104,7 @@ char	*expansion(char *path);
 char	*new_env_var(char *name, char *value);
 char	**realloc_envp(char **envp, int size);
 int		find_env(char **envp, char *name);
-int 	count_envp(char **envp);
+int		count_envp(char **envp);
 void	sighandler(int signal);
 void	ft_signal(void);
 void	remove_env(char **envp, int index);
@@ -116,8 +116,8 @@ char	**init_dinam_env(char **original_env);
 
 /*********************Free***********************/
 
-void    free_envp(char **envp);
-void    free_shell(t_shell *shell);
+void	free_envp(char **envp);
+void	free_shell(t_shell *shell);
 
 /********************Run Commands****************/
 

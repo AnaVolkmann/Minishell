@@ -1,25 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   free_me.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lufiguei <lufiguei@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/03 12:58:59 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/03 13:07:53 by lufiguei         ###   ########.fr       */
+/*   Created: 2024/11/13 13:21:06 by lufiguei          #+#    #+#             */
+/*   Updated: 2024/11/13 13:24:05 by lufiguei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-// function returns pwd, so it doesnt free its content. 
-// If the caller dont free also, its
-// going to leak
-char	*ft_pwd(void)
-{
-	char	*pwd;
+#include "minishell.h"
 
-	pwd = getcwd(NULL, 0);
-	if (pwd == NULL)
-		return (printf("Error: getcwd() failed: %s\n", strerror(errno)), NULL);
-	return (printf("%s\n", pwd), pwd);
+void	free_envp(char **envp)
+{
+	int	i;
+
+	if (!envp)
+		return ;
+	i = 0;
+	while (envp[i])
+	{
+		free(envp[i]);
+		i++;
+	}
+	free(envp);
+}
+
+void	free_shell(t_shell *shell)
+{
+	if (!shell)
+		return ;
+	if (shell->envp)
+		free_envp(shell->envp);
 }

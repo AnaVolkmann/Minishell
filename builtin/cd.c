@@ -12,7 +12,8 @@
 
 #include "../minishell.h"
 
-static char *get_env_ptr(char *var, char **envp);
+static char	*get_env_ptr(char *var, char **envp);
+
 int	ft_cd(char *path, t_shell *shell)
 {
 	char	*old_pwd;
@@ -31,6 +32,8 @@ int	ft_cd(char *path, t_shell *shell)
 			return (printf("Error: OLDPWD unset\n"), 1);
 	}
 	old_pwd = get_env_ptr("PWD", shell->envp);
+	//if (access(path, F_OK) != 0)
+	//	return (printf("cd: %s: No such file or directory\n", path), 1);
 	if (chdir(path) != 0)
 		return (printf("cd: %s: %s\n", path, strerror(errno)), 1);
 	new_pwd = ft_pwd();
@@ -42,12 +45,12 @@ int	ft_cd(char *path, t_shell *shell)
 	return (free (new_pwd), 0);
 }
 
-static char *get_env_ptr(char *var, char **envp)
+static char	*get_env_ptr(char *var, char **envp)
 {
 	int	index;
 
 	index = find_env(envp, var);
-    if (index == -1)
+	if (index == -1)
 		return (NULL);
 	return (envp[index] + ft_strlen(var) + 1);
 }

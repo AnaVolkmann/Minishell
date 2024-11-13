@@ -12,34 +12,33 @@
 
 #include "../minishell.h"
 
-static int	key_len(char *path)
-{
-	int	i;
-
-	i = 0;
-	while (path[i] && path[i] != '=')
-		i++;
-	return (i);
-}
 /** @brief separates the path as in KEY=value
  * then sets the env*/
 int	ft_export(char *path, t_shell *shell)
 {
 	int		i;
-	char	*value;
-	char	*key;
+	int		count;
+	char	*new_var;
 
-	i = key_len(path);
-	if (path[i] != '=')
-		return (printf("Export: invalid format: use KEY=VALUE\n"), -1);
-	key = ft_substr(path, 0, i);
-	value = ft_strdup(&path[i + 1]);
-	if (!key || !value)
+	if (!path || !shell || !shell->envp)
+		return (-1);
+	new_var = ft_strdup(path);
+	if (!new_var)
+		return (-1);
+	i = find_env(shell->envp, path);
+	if (i >= 0)
 	{
-		printf("Error: memory allocation failed: %s.\n", strerror(errno));
-		return (free (key), free(value), -1);
+		free(shell->envp[i]);
+		shell->envp[i] = new_var;
 	}
-	if (ft_setenv(key, value, shell, 1) != 0)
-		return (free (key), free (value), 1);
-	return (free(key), free(value), 0);
+	else
+	{
+		count = count_envp(shell->envp);
+		shell->envp = realloc_envp(shell->envp, count + 2);
+		if (!shell->envp)
+			return (-1);
+	}
+	shell->envp[count] = new_var;
+	shell->envp[count + 1] = NULL;
+	return (0);
 }

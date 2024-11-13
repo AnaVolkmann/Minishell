@@ -29,8 +29,8 @@ int	main(int argc, char **argv, char **original_env)
 	//env = malloc(sizeof(env));
 	//if (argc == 1 && init_shell(&shell, env, original_env))
 	//{
-	    //shell_execution_loop
-	    //cheanup and exit function
+		//shell_execution_loop
+		//cheanup and exit function
 	//}
 	input = readline("Prompt > ");
 	if (input == NULL)

@@ -29,7 +29,7 @@ char	**init_dinam_env(char **original_env)
 
 	i = 0;
 	j = 0;
-	while(original_env[j])
+	while (original_env[j])
 		j++;
 	new_envp = malloc(sizeof(char *) * (j + 1));
 	if (!new_envp)
@@ -38,11 +38,7 @@ char	**init_dinam_env(char **original_env)
 	{
 		new_envp[i] = ft_strdup(original_env[i]);
 		if (!new_envp[i])
-		{
-			while (--i >= 0)
-				free (new_envp[i]);
-			return (free(new_envp), NULL);
-		}
+			return (free_envp(new_envp), NULL);
 		i++;
 	}
 	new_envp[j] = NULL;

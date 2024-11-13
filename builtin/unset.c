@@ -35,7 +35,6 @@ int	ft_setenv(char *name, char *value, t_shell *shell, int overwrite)
 {
 	int		index;
 	char	*new_var;
-	//char	**tmp_env;
 
 	if (!name || !value || !shell || !shell->envp)
 		return (1);
@@ -47,50 +46,43 @@ int	ft_setenv(char *name, char *value, t_shell *shell, int overwrite)
 	{
 		if (overwrite == 1)
 		{
-			remove_env(shell->envp, index);
+			free(shell->envp[index]);
 			shell->envp[index] = new_var;
 		}
 		else
 			free (new_var);
 		return (0);
 	}
-	// tmp_env = realloc_envp(shell->envp, count_envp(shell->envp) + 2);
-	// if (!tmp_env)
-	// 	return (free(new_var), 1);
-	// shell->envp = tmp_env;
 	shell->envp = realloc_envp(shell->envp, count_envp(shell->envp) + 2);
 	if (!shell->envp)
 		return (free(new_var), 1);
 	shell->envp[count_envp(shell->envp) - 1] = new_var;
 	shell->envp[count_envp(shell->envp)] = NULL;
-	return (free(new_var), 0);
+	return (0);
 }
 
-//(TODO) expand cases, test tokenizer, check quotes {} (), test builtins and fix leaks
-// GCC use on Makefile? check functionality for GNL(missing gnl_utils) and ft_printf.
+//(TODO) expand cases, test tokenizer, 
+// check quotes {} (), test builtins
+// GCC use on Makefile?
 //if inside quotes, dont expand, but run command if its exactly it.
 //"ls" -l works "ls -l" no, neither "ls " -l or "ls"-l
-/* testes: cd tem leaks, um de 3k +, que acredito ser da setenv
-	export tem leaks (tbm acredito da set env) mas se for atribuido um valor, tem um leak a mais
-	pwd tá ok.
-	setenv, confirmado leak ser daqui, tem 3k cada valor atribuido, provavelmente por realloc da envp
-	unset: tem os mesmos 3k de leak
-	
+/* 	
 int main(int argc, char **argv, char **envp) {
-    (void)argc;
-    (void)argv;
+	(void)argc;
+	(void)argv;
 
-    t_shell shell;
-    char *old;
+	t_shell shell;
+	char	*home;
 
-    shell.envp = init_dinam_env(envp);
+	home = expansion("$HOME");
+	shell.envp = init_dinam_env(envp);
 	if (!shell.envp)
 		return (1);
-	old = ft_pwd();
-	ft_cd(expansion("$HOME"), &shell);
 	//ft_export("USER=lucassssss", &shell);
-	free_shell(&shell);
-	free(old);
+	//ft_unset("USER", &shell); - no leak
+	//ft_setenv("LUCAS", "lucas", &shell, 1);
+	free_envp(shell.envp);
+	free(home);
 
     return (0);
 }*/
