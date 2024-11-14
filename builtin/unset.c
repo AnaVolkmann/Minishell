@@ -57,8 +57,8 @@ int	ft_setenv(char *name, char *value, t_shell *shell, int overwrite)
 	return (0);
 }
 
-//(TODO) init file, free file, print error? shell exit status?
-// run command
+//(TODO) print error? shell exit status?
+// run commands
 // check quotes {} (), test builtins, test tokenizer
 
 // GCC use on Makefile?

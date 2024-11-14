@@ -19,17 +19,17 @@ int	ft_cd(char *path, t_shell *shell)
 
 	if (path == NULL)
 	{
-		path = get_env_ptr("HOME", shell->envp);
+		path = get_env("HOME", shell->envp);
 		if (path == NULL)
 			return (printf("Error: HOME unset\n"), 1);
 	}
 	else if (ft_strncmp(path, "-", 1) == 0)
 	{
-		path = get_env_ptr("OLDPWD", shell->envp);
+		path = get_env("OLDPWD", shell->envp);
 		if (path == NULL)
 			return (printf("Error: OLDPWD unset\n"), 1);
 	}
-	old_pwd = get_env_ptr("PWD", shell->envp);
+	old_pwd = get_env("PWD", shell->envp);
 	//if (access(path, F_OK) != 0)
 	//	return (printf("cd: %s: No such file or directory\n", path), 1);
 	if (chdir(path) != 0)
@@ -41,15 +41,4 @@ int	ft_cd(char *path, t_shell *shell)
 		ft_setenv("OLDPWD", old_pwd, shell, 1);
 	ft_setenv("PWD", new_pwd, shell, 1);
 	return (free (new_pwd), 0);
-}
-
-/** @brief searchs for the variable in envp, returns the pointer to its value*/
-char	*get_env_ptr(char *var, char **envp)
-{
-	int	index;
-
-	index = find_env(envp, var);
-	if (index == -1)
-		return (NULL);
-	return (envp[index] + ft_strlen(var) + 1);
 }

@@ -21,11 +21,11 @@ char	*expansion(char *path, t_shell *shell)
 
 	if (!path[0])
 		return (NULL);
-	if (ft_strcmp(path, '$') == 0)
+	if (ft_strcmp(path, "$") == 0)
 		return (ft_itoa(shell->pid));
-	/*if (ft_strcmp(path, '?') == 0)
+	/*if (ft_strcmp(path, "?") == 0)
 		return (ft_itoa(shell->exitstatus));
-	if (ft_strcmp(path, '!') == 0)
+	if (ft_strcmp(path, "!") == 0)
 		return (ft_itoa(last pid?));*/
 	/*while ((path[i + 1] == '_' || ft_isalnum(path[i + 1])) && path[i + 1])
 	{
@@ -35,7 +35,7 @@ char	*expansion(char *path, t_shell *shell)
 	var_name[i] = '\0';
 	if (i == 0)
 		return (NULL);*/
-	env_value = get_env_ptr(path, shell->envp);
+	env_value = get_env(path, shell->envp);
 	if (!env_value)
 		return (NULL);
 	return (ft_strdup(env_value));

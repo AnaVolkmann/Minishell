@@ -33,4 +33,6 @@ void	free_shell(t_shell *shell)
 		return ;
 	if (shell->envp)
 		free_envp(shell->envp);
+	//if (shell->input)
+	//	free(shell->input); if this frees, double free happens?
 }

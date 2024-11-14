@@ -108,7 +108,6 @@ int		count_envp(char **envp);
 void	sighandler(int signal);
 void	ft_signal(void);
 void	remove_env(char **envp, int index);
-char	*get_env_ptr(char *var, char **envp);
 
 /*********************Init***********************/
 
@@ -122,6 +121,7 @@ void	free_shell(t_shell *shell);
 
 /********************Run Commands****************/
 
-//int		run_command_builtin(char *cmd, char *path);
+//int		run_command_builtin(char *cmd, char *path, t_shell *shell);
+//int		run_command_exec(char *cmd, char *const *argument, char **envp);
 
 #endif
