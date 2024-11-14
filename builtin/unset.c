@@ -65,18 +65,18 @@ int	ft_setenv(char *name, char *value, t_shell *shell, int overwrite)
 //if inside quotes, dont expand, but run command if its exactly it.
 //"ls" -l works "ls -l" no, neither "ls " -l or "ls"-l
 
-/*
-int main(int argc, char **argv, char **envp) {
+/*int main(int argc, char **argv, char **envp) {
 	(void)argc;
 	(void)argv;
 
 	t_shell shell;
 	char	*home;
 
-	home = expansion("$HOME");
 	shell.envp = init_dinam_env(envp);
 	if (!shell.envp)
 		return (1);
+	home = expansion("HOME", &shell);
+	printf("%s\n", home);
 	free_envp(shell.envp);
 	free(home);
 
