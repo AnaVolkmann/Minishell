@@ -17,7 +17,7 @@ int	ft_cd(char *path, t_shell *shell)
 	char	*old_pwd;
 	char	*new_pwd;
 
-	if (path == NULL)
+	if (path == NULL || ft_strncmp(path, "~", 1) == 0)
 	{
 		path = get_env("HOME", shell->envp);
 		if (path == NULL)
@@ -30,6 +30,7 @@ int	ft_cd(char *path, t_shell *shell)
 			return (printf("Error: OLDPWD unset\n"), 1);
 	}
 	old_pwd = get_env("PWD", shell->envp);
+	// error if old pwd is unset?
 	//if (access(path, F_OK) != 0)
 	//	return (printf("cd: %s: No such file or directory\n", path), 1);
 	if (chdir(path) != 0)
