@@ -26,11 +26,7 @@ int	ft_unset(char *name, t_shell *shell)
 
 /** @brief sets or updates the environment variable
  * updates if variable exists and overwrite is 1
- * otherwise the variable is appended to the array
- * NEED TO PROTECT THE LAST REALLOC
- * in case the memory alloc fails, we lose the envp ptr
- * so maybe try to alloc in another char** and if correct
- * frees the old one. LINE COUNT :(*/
+ * otherwise the variable is appended to the array */
 int	ft_setenv(char *name, char *value, t_shell *shell, int overwrite)
 {
 	int		index;
@@ -61,12 +57,15 @@ int	ft_setenv(char *name, char *value, t_shell *shell, int overwrite)
 	return (0);
 }
 
-//(TODO) expand cases, test tokenizer, 
-// check quotes {} (), test builtins
+//(TODO) init file, free file, print error? shell exit status?
+// run command
+// check quotes {} (), test builtins, test tokenizer
+
 // GCC use on Makefile?
 //if inside quotes, dont expand, but run command if its exactly it.
 //"ls" -l works "ls -l" no, neither "ls " -l or "ls"-l
-/* 	
+
+/*
 int main(int argc, char **argv, char **envp) {
 	(void)argc;
 	(void)argv;
@@ -78,7 +77,6 @@ int main(int argc, char **argv, char **envp) {
 	shell.envp = init_dinam_env(envp);
 	if (!shell.envp)
 		return (1);
-	//ft_setenv("LUCAS", "lucas", &shell, 1);
 	free_envp(shell.envp);
 	free(home);
 

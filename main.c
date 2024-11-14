@@ -12,7 +12,25 @@
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **original_env)
+int main(int argc, char **argv, char **envp) {
+	(void)argc;
+	(void)argv;
+
+	t_shell shell;
+	char	*home;
+
+	shell.envp = init_dinam_env(envp);
+	if (!shell.envp)
+		return (1);
+	home = expansion("HOME", &shell);
+	printf("%s\n", home);
+	free_envp(shell.envp);
+	free(home);
+
+	return (0);
+}
+
+/*int	main(int argc, char **argv, char **original_env)
 {
 	char	*input;
 	t_token	*tokens;
@@ -48,7 +66,7 @@ int	main(int argc, char **argv, char **original_env)
 	free_tokens(tokens);
 	//free_shell(&shell);
 	return (0);
-}
+}*/
 
 /*int	run_command_builtin(char *cmd, char *path)
 {

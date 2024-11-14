@@ -12,8 +12,6 @@
 
 #include "../minishell.h"
 
-static char	*get_env_ptr(char *var, char **envp);
-
 int	ft_cd(char *path, t_shell *shell)
 {
 	char	*old_pwd;
@@ -45,7 +43,8 @@ int	ft_cd(char *path, t_shell *shell)
 	return (free (new_pwd), 0);
 }
 
-static char	*get_env_ptr(char *var, char **envp)
+/** @brief searchs for the variable in envp, returns the pointer to its value*/
+char	*get_env_ptr(char *var, char **envp)
 {
 	int	index;
 

@@ -100,7 +100,7 @@ char	*get_env(char *var, char **envp);
 
 /********************Extras***********************/
 
-char	*expansion(char *path);
+char	*expansion(char *path, t_shell *shell);
 char	*new_env_var(char *name, char *value);
 char	**realloc_envp(char **envp, int size);
 int		find_env(char **envp, char *name);
@@ -108,6 +108,7 @@ int		count_envp(char **envp);
 void	sighandler(int signal);
 void	ft_signal(void);
 void	remove_env(char **envp, int index);
+char	*get_env_ptr(char *var, char **envp);
 
 /*********************Init***********************/
 
