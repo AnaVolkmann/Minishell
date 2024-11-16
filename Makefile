@@ -17,6 +17,7 @@ init.c signal.c parser.c\
 input_validation/syntax_checker.c\
 builtin/helper.c\
 free_me.c\
+execute.c\
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 

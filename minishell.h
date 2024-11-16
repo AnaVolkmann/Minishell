@@ -56,6 +56,7 @@ typedef struct s_token
 typedef struct s_shell
 {
 	int		pid;
+	int		output_fd;
 	char	**path;
 	char	**envp;
 	char	*input;
@@ -121,7 +122,6 @@ void	free_shell(t_shell *shell);
 
 /********************Run Commands****************/
 
-//int		run_command_builtin(char *cmd, char *path, t_shell *shell);
-//int		run_command_exec(char *cmd, char *const *argument, char **envp);
+int	execute(char *cmd, char *const *argument, t_shell *shell);
 
 #endif
