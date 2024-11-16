@@ -42,7 +42,7 @@ typedef enum e_token_type
 	TOKEN_REDIR_HEREDOC,// For '<<'
 	TOKEN_ENV_VAR,// For environment variables
 }				t_token_type;
-/* 	TOKEN_COMMAND,
+/*	TOKEN_COMMAND,
 	TOKEN_RULE,
 	TOKEN_QUOTE, */ //comentei pq nao estou utilizando de momento!
 
@@ -122,6 +122,6 @@ void	free_shell(t_shell *shell);
 
 /********************Run Commands****************/
 
-int	execute(char *cmd, char *const *argument, t_shell *shell);
+int		execute(char *cmd, char *const *argument, t_shell *shell);
 
 #endif

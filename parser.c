@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
-//int parse(t_token *token, t_shell *shell)
-//{
-//}
+/*int parse(t_token *token, t_shell *shell)
+{
+    //consider token[0] as the cmd
+    //consider token[1+] as the argument until finding an operator
+    //after operator check if the operation is "doable"
+    //loop to the next block (right side of the operator)
+}*/
