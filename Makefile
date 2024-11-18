@@ -22,6 +22,7 @@ init.c\
 signal.c\
 parser.c\
 input_validation/syntax_checker.c\
+input_validation/syntax_checker_utils.c\
 builtin/helper.c\
 free_me.c\
 execute.c\
