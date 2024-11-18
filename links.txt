@@ -12,6 +12,11 @@ git branch (just shows what branch you are with *)
 git checkout <name of the branch>
 git commit -m "your message"
 git push 
+git branch -a | wc -l "quantas branches tem"
+git branch -m new-branch-name "rename a branch, the one you are currently on"
+git push origin --delete old-branch-name "delete branch"
+
+
 
 compile the program with -lreadline flag
 valgrind -s --track-origins=yes --leak-check=full --show-leak-kinds=all --suppressions=valgrind_readline.supp

@@ -9,11 +9,18 @@ OBJ_DIR = obj/
 
 SRC = tokenization/tokenizer.c\
 tokenization/tokenizer_utils.c\
-main.c builtin/cd.c builtin/echo.c\
-builtin/env.c builtin/exit.c\
-builtin/export.c builtin/pwd.c\
-builtin/unset.c expansion.c\
-init.c signal.c parser.c\
+main.c\
+builtin/cd.c\
+builtin/echo.c\
+builtin/env.c\
+builtin/exit.c\
+builtin/export.c\
+builtin/pwd.c\
+builtin/unset.c\
+expansion.c\
+init.c\
+signal.c\
+parser.c\
 input_validation/syntax_checker.c\
 builtin/helper.c\
 free_me.c\
@@ -24,9 +31,9 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 # Default target
 all: $(NAME)
 
-# Create object directories
-$(OBJ_DIR)%/: 
-	mkdir -p $(dir $(OBJ_DIR)$@
+# Create the necessary object directories
+$(OBJ_DIR)%/:
+	@mkdir -p $(dir $(OBJ_DIR)$@)
 
 # Build libft
 $(LIBFT):
