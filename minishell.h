@@ -104,7 +104,6 @@ int			bash_exit(char **args, int arg_count);
 int			ft_cd(char *path, t_shell *shell);
 int			ft_export(char *path, t_shell *shell);
 char		*ft_pwd(void);
-int			ft_setenv(char *name, char *value, t_shell *shell, int overwrite);
 int			ft_unset(char *name, t_shell *shell);
 int			echo(char **args, int argc, int fd);
 char		*get_env(char *var, char **envp);

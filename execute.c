@@ -40,6 +40,10 @@ static int	run_command_builtin(char *cmd, char **arguments, t_shell *shell)
 	return (-1);
 }
 
+/** @brief it splits the PATH variable ":" and tries to access the
+ * command to see if its inside this path. if not, frees and goes to
+ * the next. if it find it, returns the full path, otherwise
+ * it returns NULL */
 static char	*loop_path(char *cmd, char *path_env)
 {
 	char	**path;
@@ -67,6 +71,9 @@ static char	*loop_path(char *cmd, char *path_env)
 	return (NULL);
 }
 
+/** @brief checks if the command is already an absolute "/" 
+ * or an relative "." path if not, 
+ * it calls the loop_path to find the program */
 static char	*get_path(char *cmd, char **envp)
 {
 	char	*cmd_path;
@@ -81,6 +88,7 @@ static char	*get_path(char *cmd, char **envp)
 	return (free(cmd_path), full_path);
 }
 
+/** @brief it runs the execve commands */
 static int	run_command_exec(char *cmd, char *const *argument, t_shell *shell)
 {
 	char	*cmd_path;
@@ -94,6 +102,9 @@ static int	run_command_exec(char *cmd, char *const *argument, t_shell *shell)
 	return (free(cmd_path), 0); //how to free if proccess executes?
 }
 
+/** @brief it first tries to execute the builtin functions, 
+ * if its not inside that, it straight up goes to execve, 
+ * returns error if none found */
 int	execute(char *cmd, char *const *argument, t_shell *shell)
 {
 	if (run_command_builtin(cmd, (char **)argument, shell) == 0)
@@ -102,6 +113,5 @@ int	execute(char *cmd, char *const *argument, t_shell *shell)
 		return (0);
 	return (1);
 }
-
 // run both functions, tries builtin, if not, executes execve.
 // return values? any struct update like exit status?

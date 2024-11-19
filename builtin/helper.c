@@ -47,8 +47,7 @@ void	remove_env(char **envp, int index)
 }
 
 /** @brief reallocates memory for a new size envp. 
- * frees the old array and copies it to the new one;
- * It only frees the old one if it exists.*/
+ * frees the old array and copies it to the new one;*/
 char	**realloc_envp(char **envp, int size)
 {
 	char	**new_envp;

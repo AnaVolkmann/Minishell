@@ -17,15 +17,18 @@
 int	ft_export(char *path, t_shell *shell)
 {
 	int		i;
-	int		count;
+	char	**keysplit;
 	char	*new_var;
 
 	if (!path || !shell || !shell->envp)
 		return (-1);
+	keysplit = ft_split(path, '=');
+	if (!keysplit || !keysplit[0] || ft_strcmp(keysplit[0], path) == 0)
+		return (printf("export: %s : not a valid path.\n", path), -1);
 	new_var = ft_strdup(path);
 	if (!new_var)
-		return (-1);
-	i = find_env(shell->envp, path);
+		return (free_envp(keysplit), -1);
+	i = find_env(shell->envp, keysplit[0]);
 	if (i >= 0)
 	{
 		free(shell->envp[i]);
@@ -33,12 +36,12 @@ int	ft_export(char *path, t_shell *shell)
 	}
 	else
 	{
-		count = count_envp(shell->envp);
-		shell->envp = realloc_envp(shell->envp, count + 2);
+		i = count_envp(shell->envp);
+		shell->envp = realloc_envp(shell->envp, i + 2);
 		if (!shell->envp)
-			return (-1);
+			return (free_envp(keysplit), free(new_var), -1);
+		shell->envp[i] = new_var;
+		shell->envp[i + 1] = NULL;
 	}
-	shell->envp[count] = new_var;
-	shell->envp[count + 1] = NULL;
-	return (0);
+	return (free_envp(keysplit), 0);
 }
