@@ -42,9 +42,6 @@ typedef enum e_token_type
 	TOKEN_REDIR_HEREDOC,// For '<<'
 	TOKEN_ENV_VAR,// For environment variables
 }				t_token_type;
-/*	TOKEN_COMMAND,
-	TOKEN_RULE,
-	TOKEN_QUOTE, */ //comentei pq nao estou utilizando de momento!
 
 typedef struct s_token
 {
@@ -56,6 +53,8 @@ typedef struct s_token
 typedef struct s_shell
 {
 	int		pid;
+	int		last_pid;
+	int		exit_status;
 	int		output_fd;
 	char	**path;
 	char	**envp;

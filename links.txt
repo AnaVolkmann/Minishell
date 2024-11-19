@@ -34,6 +34,10 @@ unsure : Symbolic links?
 echo : echo -n, echo -n -n (until a non flag argument is found, keep the first?), echo "-n", empty input, 
         echo "-n" hello, echo hello -n world, ensure trailing spaces or tabs are preserved,
         excessive arguments, echo -n arg1 arg2 arg3 arg4, echo -nhello,
+        echo "-n -n"
+        echo "-n" -n-n
+        echo -n "-n"
+        echo -n" -n" -n a
 
 
 env : unset $(env | awk -F= '{print $1}')  # Unsets all variables, whats the order they appear?

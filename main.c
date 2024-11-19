@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **original_env)
 	//check_input(argc, argv);
 	tokens = process_to_tokenize_input(input);
 	// call parser
-	// call exec
+	// call execute;
 	rl_clear_history();
 	free_tokens(tokens);
 	free_shell(&shell);
