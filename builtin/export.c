@@ -20,11 +20,13 @@ int	ft_export(char *path, t_shell *shell)
 	char	**keysplit;
 	char	*new_var;
 
-	if (!path || !shell || !shell->envp)
+	if (!shell || !shell->envp)
 		return (-1);
+	/*if (!path)
+		print whole env while every variable is ordered*/
 	keysplit = ft_split(path, '=');
 	if (!keysplit || !keysplit[0] || ft_strcmp(keysplit[0], path) == 0)
-		return (printf("export: %s : not a valid path.\n", path), -1);
+		return (printf("export: %s : not a valid identifier.\n", path), -1);
 	new_var = ft_strdup(path);
 	if (!new_var)
 		return (free_envp(keysplit), -1);

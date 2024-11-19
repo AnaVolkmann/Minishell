@@ -59,7 +59,7 @@ export : no arguments(prints all env, sorted), export VAR (add var with an empty
 
 pwd : directory path too long, NULL, directory access issues, Symbolic links?, deleted working directory, mkdir tmp, cd tmp, rmdir ../tmp pwd
         pwd: error retrieving current directory: getcwd: No such file or directory
-        Logical/physical path, 
+        Logical/physical path
 
 unset : non existent variable, multiple variables, readonly variables, unsetting shell builtin variables (HOME, PWD, PATH,...)
             variable name validation, unset 123VAR, not a valid identifier, ensure it works for both local shell and exported
