@@ -27,14 +27,19 @@ builtin/helper.c\
 free_me.c\
 execute.c\
 
+# Generate the object files, each one placed inside obj/ based on its directory structure
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
 # Default target
 all: $(NAME)
 
-# Create the necessary object directories
+# Ensure the obj/ directory exists
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+
+# Create the necessary subdirectories under obj/
 $(OBJ_DIR)%/:
-	@mkdir -p $(dir $(OBJ_DIR)$@)
+	@mkdir -p $(OBJ_DIR)$*
 
 # Build libft
 $(LIBFT):
@@ -45,8 +50,9 @@ $(NAME): $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJ) -s -o $(NAME) $(LIBFT) -lreadline
 	@printf "\r \e[1;32mMINISHELL\e[0m compiled successfully\n"
 
-# Compile source files into object files
+# Compile source files into object files and place them inside the obj/ directory with subdirectories
 $(OBJ_DIR)%.o: %.c | $(OBJ_DIR)$(dir $@)
+	@mkdir -p $(dir $@)  # Create the directory for the object file
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Clean up object files
@@ -67,4 +73,4 @@ re: fclean all
 
 .PHONY: all clean fclean re
 
-.SILENT :
+.SILENT:

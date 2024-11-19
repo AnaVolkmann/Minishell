@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 14:39:19 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/18 17:29:48 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/19 14:49:59 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,7 @@ int	has_misplaced_operators(const char *input)
 /** @brief Checks for unsupported logical operators in the input string.
  * 
  * Detects logical operators (`&&`, `||`) in the input string
- * and returns 1 
- * if any are found, as these are not supported by the syntax.
+ * and returns 1 if any are found.
  * @param input The input string to check.
  * @return 1 if logical operators are found, 0 otherwise.*/
 int	has_logical_operators(const char *input)
