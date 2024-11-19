@@ -41,8 +41,8 @@ static int	set_pwd(char *path, t_shell *shell)
 	old_pwd = get_env("PWD", shell->envp);
 	if (chdir(path) != 0)
 		return (printf("cd: %s: %s\n", path, strerror(errno)), 1);
-	//if (access(path, F_OK) != 0)
-	//	return (printf("cd: %s: No such file or directory\n", path), 1);
+	if (access(path, F_OK) != 0)
+		return (printf("cd: %s: No such file or directory\n", path), 1);
 	if (old_pwd)
 	{
 		export = new_env_var("OLDPWD", old_pwd);
