@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 13:27:54 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/20 16:03:41 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:11:12 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ parse_redir(*tokens) - handles redir calls command nodes with the args
 
 */
 
-/* t_ast_node *parse_command(t_token **token)
+t_ast_node *parse_command(t_token **token)
 {
 	t_ast_node	*command_node;
 	int			arg_count;
@@ -52,7 +52,7 @@ parse_redir(*tokens) - handles redir calls command nodes with the args
 	}
 	command_node->args[arg_count] = NULL;
 	retun (command_node);
-} */
+}
 
 t_ast_node *parse_redirection(t_token **tokens)
 {
