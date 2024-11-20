@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:08:55 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/07 12:44:40 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:01:56 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main(int argc, char **argv, char **original_env)
 	char	*input;
 	t_token	*tokens;
 	t_shell	shell;
+    t_ast_node  *ast;
 	//t_env	env;//estrutura para lidarcom env trimmed e inteira
 
 	(void)argv;
@@ -41,7 +42,7 @@ int	main(int argc, char **argv, char **original_env)
 	}
 	//check_input(argc, argv);
 	tokens = process_to_tokenize_input(input);
-	// call parser
+	ast = parse_tokens(&tokens);
 	// call execute;
 	rl_clear_history();
 	free_tokens(tokens);
