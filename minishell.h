@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/18 16:28:25 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/20 13:48:43 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ typedef struct s_shell
 	char	*input;
 }				t_shell;
 
-typedef struct s_env
+/* typedef struct s_env
 {
 	char	**orinal_env;
 	char	***parsed_env;
-}		t_env;
+}		t_env; */
 
 /******************Input processing****************/
 

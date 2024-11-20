@@ -15,6 +15,8 @@ git push
 git branch -a | wc -l "quantas branches tem"
 git branch -m new-branch-name "rename a branch, the one you are currently on"
 git push origin --delete old-branch-name "delete branch"
+git rev-parse --abbrev-ref HEAD "wich branch im on"
+
 
 
 
@@ -69,3 +71,24 @@ unset : non existent variable, multiple variables, readonly variables, unsetting
 $expand : unset variables/variables with no value, expant to an empty string, $$ and $?, $#, \$ do not expand?? variables in quotes, expand in double quotes
             invalid variable names, do not expand, command substitution confusion (differentiate between $() and $VAR)
 unsure : arithmetic expansion? echo $((2 + 2)), nesting variables, echo $(`echo hello`) or echo $(ls)
+
+Abstract Syntax Tree (AST)
+For a command node: There’s usually only a left child, which represents the command itself and its arguments.
+For a redirection node: The left child might represent the command or the left side of the redirection, while the right child represents the file or destination for the redirection.
+For a pipeline node (|): The left and right children represent the commands on either side of the pipe. The left side will typically execute first (this is standard in shell pipelines).
+
+Left child first, then right child is the typical rule of thumb for AST execution order.
+In case of a pipeline (|), the left side runs first, followed by the right side.
+For redirections, the command runs first (left), and the redirection (right) is applied afterward.
+
+
+5. Common Exit Status Codes
+
+    0: Success.
+    1: General error (e.g., command not found or incorrect arguments).
+    2: Misuse of shell built-in (for example, invalid syntax).
+    126: Command found, but cannot be executed (permission issues).
+    127: Command not found (invalid command).
+    128: Invalid argument to exit (if you try to exit with an invalid status).
+    130: Command terminated by Ctrl+C (SIGINT).
+    255: Exit status range limit (indicating an error outside the 0–255 range).

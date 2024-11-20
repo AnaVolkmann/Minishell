@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unsett.c                                           :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.co      +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 17:07:08 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/06 17:07:17 by lufiguei         ###   ########.fr       */
+/*   Updated: 2024/11/20 12:22:47 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,3 +30,4 @@ int	ft_unset(char *name, t_shell *shell)
 // GCC use on Makefile?
 // if inside quotes, dont expand, but run command if its exactly it.
 // "ls" -l works "ls -l" no, neither "ls " -l or "ls"-l
+// pwd | $oi | cat > test
