@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:08:55 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/20 14:01:56 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:36:22 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	main(int argc, char **argv, char **original_env)
 	//check_input(argc, argv);
 	tokens = process_to_tokenize_input(input);
 	ast = parse_tokens(&tokens);
-	// call execute;
+	// call execute; command_exercuter(ast, env);
+    //free(ast);
 	rl_clear_history();
 	free_tokens(tokens);
 	free_shell(&shell);
