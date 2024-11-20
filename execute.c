@@ -23,16 +23,16 @@ static int	run_command_builtin(char *cmd, char **arguments, t_shell *shell)
 	if (ft_strcmp(cmd, "cd") == 0)
 		return (ft_cd(arguments[1], shell), 0);
 	else if (ft_strcmp(cmd, "echo") == 0)
-		return (echo(arguments, i, shell->output_fd), 0);
+		return (echo(arguments, i, shell->output_fd, shell), 0);
 	else if (ft_strcmp(cmd, "env") == 0)
-		return (get_env(arguments[1], shell->envp), 0);
+		return (ft_env(shell), 0);
 	else if (ft_strcmp(cmd, "exit") == 0)
-		return (bash_exit(arguments, i), 0);
+		return (bash_exit(arguments, i, shell), 0);
 	else if (ft_strcmp(cmd, "export") == 0)
 		return (ft_export(arguments[1], shell), 0);
 	else if (ft_strcmp(cmd, "pwd") == 0)
 	{
-		pwd = ft_pwd();
+		pwd = ft_pwd(shell);
 		return (free(pwd), 0);
 	}
 	else if (ft_strcmp(cmd, "unset") == 0)

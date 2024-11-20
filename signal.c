@@ -16,6 +16,7 @@ void	sighandler(int signal)
 {
 	if (signal == SIGINT)
 	{
+		//update_exit(130, shell);
 		write (STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);

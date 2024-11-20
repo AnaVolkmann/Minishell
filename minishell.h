@@ -99,24 +99,26 @@ int			has_unclosed_quotes(const char *input);
 
 /**********************Builtins********************/
 
-int			bash_exit(char **args, int arg_count);
+int			bash_exit(char **args, int arg_count, t_shell *shell);
 int			ft_cd(char *path, t_shell *shell);
 int			ft_export(char *path, t_shell *shell);
-char		*ft_pwd(void);
 int			ft_unset(char *name, t_shell *shell);
-int			echo(char **args, int argc, int fd);
-char		*get_env(char *var, char **envp);
+int			echo(char **args, int argc, int fd, t_shell *shell);
+int			ft_env(t_shell *shell);
+char		*ft_pwd(t_shell *shell);
 
 /********************Extras***********************/
 
 char		*expansion(char *path, t_shell *shell);
 char		*new_env_var(char *name, char *value);
+char		*get_env(char *var, char **envp);
 char		**realloc_envp(char **envp, int size);
 int			find_env(char **envp, char *name);
 int			count_envp(char **envp);
 void		sighandler(int signal);
 void		ft_signal(void);
 void		remove_env(char **envp, int index);
+void		update_exit(int i, t_shell *shell);
 
 /*********************Init***********************/
 

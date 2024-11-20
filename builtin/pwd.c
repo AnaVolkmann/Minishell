@@ -14,12 +14,21 @@
 // function returns pwd, so it doesnt free its content. 
 // If the caller dont free also, its
 // going to leak
-char	*ft_pwd(void)
+static void	pwd_error(void);
+
+char	*ft_pwd(t_shell *shell)
 {
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)
-		return (printf("Error: getcwd() failed: %s\n", strerror(errno)), NULL);
-	return (printf("%s\n", pwd), pwd);
+		return (update_exit(1, shell), pwd_error(), NULL);
+	return (update_exit(0, shell), printf("%s\n", pwd), pwd);
+}
+
+static void	pwd_error(void)
+{
+	ft_putstr_fd("Error: getcwd() failed: ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("\n", 2);
 }

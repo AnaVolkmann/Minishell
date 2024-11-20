@@ -14,9 +14,9 @@
 
 static int	exit_error(char *arg)
 {
-	write(2, "bash: exit: ", 12);
-	write(2, arg, strlen(arg));
-	write(2, ": numeric argument required\n", 29);
+	ft_putstr_fd("bash: exit: ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
 	return (2);
 }
 
@@ -33,30 +33,34 @@ static int	str_is_digit(char *str)
 	return (1);
 }
 
-int	bash_exit(char **args, int arg_count)
+int	bash_exit(char **args, int arg_count, t_shell *shell)
 {
 	long int	exit_value;
 
 	ft_putendl_fd("exit", 2);
 	if (arg_count == 0)
-		exit(0);
-	if (arg_count == 1)
+    	return (update_exit(0, shell), exit(0), 0);
+    if (arg_count == 1)
 	{
 		if (!str_is_digit(args[0]))
-			return (exit_error(args[0]));
+			return (update_exit (2, shell), exit_error(args[0]), 2);
 		else
 		{
 			exit_value = strtol(args[0], NULL, 10);
 			if (exit_value > INT_MAX || exit_value < INT_MIN)
 			{
-				write(2, "bash: exit: overflow or underflow\n", 34);
-				exit(2);
+				ft_putstr_fd("bash: exit: overflow or underflow\n", 2);
+				return (update_exit (2, shell), exit(2), 2);
 			}
 			exit((int)exit_value);
 		}
 	}
-	write(2, "bash: exit: too many arguments\n", 30);
-	return (2);
+	return (update_exit(2, shell), ft_putstr_fd("bash: exit: too many arguments\n", 2), 2);
+}
+
+void update_exit(int i, t_shell *shell)
+{
+    shell->exit_status = i;
 }
 
 /** @brief I HAVE NO IDEA IF THIS IS HOW ITS SUPPOUSED TO BEEEEEEE */

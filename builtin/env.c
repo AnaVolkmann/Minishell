@@ -44,47 +44,19 @@ char	*get_env(char *var, char **envp)
 	return (NULL);
 }
 
-/* int main()
+int ft_env(t_shell *shell)
 {
-    char *envp[] = 
-	{
-        "USER=alice",
-        "HOME=/home/alice",
-        "PATH=/usr/bin:/bin:/usr/sbin:/sbin",
-        "SHELL=/bin/bash",
-        NULL // NULL-terminated array of strings
-    };
-    char *result = get_env("USER", envp);
-    if (result)
-	{
-        printf("USER: %s\n", result);  // Expected output: "alice"
-        free(result);
+    int i;
+
+    i = 0;
+    if (!shell || !shell->envp)
+        return (update_exit(1, shell),
+                ft_putstr_fd("Error: environment is not set or missing\n", 2), 1);
+    while (shell->envp[i])
+    {
+        if (printf("%s\n", shell->envp[i]) < 0)
+            return (update_exit(1, shell), perror("write"), 1);
+        i++;
     }
-	else
-        printf("USER not found\n");
-    result = get_env("HOME", envp);
-    if (result)
-	{
-        printf("HOME: %s\n", result);  // Expected output: "/home/alice"
-        free(result);
-    }
-	else
-        printf("HOME not found\n");
-    result = get_env("SHELL", envp);
-    if (result)
-	{
-        printf("SHELL: %s\n", result);  // Expected output: "/bin/bash"
-        free(result);
-    }
-	else
-        printf("SHELL not found\n");
-    result = get_env("NOT_EXIST", envp);
-   	if (result)
-   {
-    printf("NOT_EXIST: %s\n", result);
-    free(result);
-	}
- else 
-    printf("NOT_EXIST not found\n");
-    return 0;
-} */
+    return (update_exit(0, shell), 0);
+}

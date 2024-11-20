@@ -12,29 +12,26 @@
 
 #include "../minishell.h"
 
-int	echo(char **args, int argc, int fd)
+int	echo(char **args, int argc, int fd, t_shell *shell)
 {
 	int	i;
 
 	i = 0;
+	if (fd < 0 || write(fd, "\n", 1) == -1)
+		return (update_exit(1, shell), perror("echo"), 1);
 	if (argc == 0)
-	{
-		write(fd, "\n", 1);
-		return (0);
-	}
+		return (write (fd, "\n", 1), update_exit(0, shell), 0);
 	while (args[i] && !ft_strcmp(args[i], "-n"))
 		i++;
 	while (i < argc - 1)
 	{
-		write(fd, args[i], strlen(args[i]));
+		write(fd, args[i], ft_strlen(args[i]));
 		write(fd, " ", 1);
 		i++;
 	}
 	if (i < argc)
-	{
-		write(fd, args[i], strlen(args[i]));
-	}
+		write(fd, args[i], ft_strlen(args[i]));
 	if (ft_strcmp(args[0], "-n") != 0)
 		write(fd, "\n", 1);
-	return (0);
+	return (update_exit(0, shell), 0);
 }
