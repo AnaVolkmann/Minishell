@@ -6,11 +6,11 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 13:27:54 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/20 16:11:12 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:37:30 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /*int parse(t_token *token, t_shell *shell)
 {
@@ -51,7 +51,7 @@ t_ast_node *parse_command(t_token **token)
 		i++;
 	}
 	command_node->args[arg_count] = NULL;
-	retun (command_node);
+	return (command_node);
 }
 
 t_ast_node *parse_redirection(t_token **tokens)

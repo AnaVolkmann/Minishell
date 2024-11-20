@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/20 15:57:13 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:56:05 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct		s_ast_node
 
 /* typedef struct s_env
 {
-	char	**orinal_env;
+	char	**original_env;
 	char	***parsed_env;
 }		t_env; */
 

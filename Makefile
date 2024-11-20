@@ -20,12 +20,13 @@ builtin/unset.c\
 expansion.c\
 init.c\
 signal.c\
-parser.c\
 input_validation/syntax_checker.c\
 input_validation/syntax_checker_utils.c\
 builtin/helper.c\
 free_me.c\
 execute.c\
+parsing/parser.c\
+parsing/parser_utils.c\
 
 # Generate the object files, each one placed inside obj/ based on its directory structure
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
@@ -57,9 +58,10 @@ $(OBJ_DIR)%.o: %.c | $(OBJ_DIR)$(dir $@)
 
 # Clean up object files
 clean:
-	@$(RM) $(OBJ)
+	@$(RM) $(OBJ_DIR)
 	@$(MAKE) -C libft clean > /dev/null 2>&1
 	@printf " \e[1;33mObjects Removed\n\e[0m"
+
 
 # Fully clean including the executable
 fclean: clean

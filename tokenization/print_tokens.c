@@ -6,13 +6,13 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:47:31 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/07 13:48:02 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:27:54 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* #include "minishell.h"
+#include "minishell.h"
 
-const char	*get_token_type_name(t_token_type type)
+/* const char	*get_token_type_name(t_token_type type)
 {
 	const char	*token_type_names[7];
 
