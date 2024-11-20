@@ -26,6 +26,9 @@ int	ft_unset(char *name, t_shell *shell)
 
 //(TODO) print error? shell exit status?
 // check quotes {} (), test builtins
+// check all builtins
+// check error messages
+// check exit status
 
 // GCC use on Makefile?
 // if inside quotes, dont expand, but run command if its exactly it.
