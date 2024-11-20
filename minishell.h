@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/20 13:48:43 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:57:13 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,15 @@ typedef struct s_shell
 	char	*input;
 }				t_shell;
 
+typedef struct		s_ast_node
+{
+	t_token_type	type;
+	char			**args;
+	struct			s_ast_node *left;
+	struct			s_ast_node *right;
+	int				file_type;//indicates the type of redirection(input, output, append), if no redirec, set to 0.
+}					t_ast_node;
+
 /* typedef struct s_env
 {
 	char	**orinal_env;
@@ -74,12 +83,6 @@ int			has_invalid_redirections(const char *input);
 int			has_misplaced_operators(const char *input);
 int			syntax_error_checker(const char *input);
 int			has_logical_operators(const char *input);
-
-/*******************Syntax_Utils************************/
-
-void		update_quote_counts(char c, int *s_q_count, int *d_q_count);
-const char	*skip_spaces(const char *input);
-int			is_invalid_operator(const char **input);
 
 /******************Token Manegement****************/
 
@@ -96,6 +99,30 @@ void		add_word_token(char **start, char **input, t_token **tokens);
 void		update_quote_status(char c, int *in_quote, char *quote_char);
 int			syntax_error_checker(const char *input);
 int			has_unclosed_quotes(const char *input);
+
+/*******************Syntax_Utils************************/
+
+void		update_quote_counts(char c, int *s_q_count, int *d_q_count);
+const char	*skip_spaces(const char *input);
+int			is_invalid_operator(const char **input);
+
+/*********************Init***********************/
+
+t_shell		*init_shell(t_shell *shell, char **original_env);
+char		**init_dinam_env(char **original_env);
+
+/*********************Parsing*********************/
+
+t_ast_node	*parse_tokens(t_token **tokens);
+t_ast_node	*parse_pipeline(t_token **tokens);
+t_ast_node	*parse_redirection(t_token **tokens);
+t_ast_node	*parse_command(t_token **token);
+
+/*********************Parsing Utils***************/
+
+t_ast_node	*create_new_ast_node(t_token_type type);
+t_ast_node	*create_file_node(t_token *token);
+int			count_command_args(t_token *current);
 
 /**********************Builtins********************/
 
@@ -117,11 +144,6 @@ int			count_envp(char **envp);
 void		sighandler(int signal);
 void		ft_signal(void);
 void		remove_env(char **envp, int index);
-
-/*********************Init***********************/
-
-t_shell		*init_shell(t_shell *shell, char **original_env);
-char		**init_dinam_env(char **original_env);
 
 /*********************Free***********************/
 
