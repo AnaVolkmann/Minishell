@@ -52,7 +52,7 @@ int	bash_exit(char **args, int arg_count, t_shell *shell)
 				ft_putstr_fd("bash: exit: overflow or underflow\n", 2);
 				return (update_exit (2, shell), exit(2), 2);
 			}
-			exit((int)exit_value);
+			exit((int)exit_value); // preciso fazer update aqui?
 		}
 	}
 	return (update_exit(2, shell), ft_putstr_fd("bash: exit: too many arguments\n", 2), 2);
