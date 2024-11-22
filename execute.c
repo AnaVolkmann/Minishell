@@ -114,4 +114,3 @@ int	execute(char *cmd, char *const *argument, t_shell *shell)
 	return (1);
 }
 // run both functions, tries builtin, if not, executes execve.
-// return values? any struct update like exit status?
