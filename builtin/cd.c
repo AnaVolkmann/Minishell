@@ -54,7 +54,7 @@ static int	set_pwd(char *path, t_shell *shell)
 		ft_export(export, shell);
 		free(export);
 	}
-	new_pwd = ft_pwd();
+	new_pwd = ft_pwd(shell);
 	if (!new_pwd)
 		return (ft_putstr_fd("Error: Unable to fetch current directory\n", 2),
 			1);

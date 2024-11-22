@@ -12,12 +12,14 @@
 
 #include "minishell.h"
 
-/*int	main(int argc, char **argv, char **original_env)
+int g_signal = 0;
+
+int	main(int argc, char **argv, char **original_env)
 {
 	char	*input;
 	t_token	*tokens;
 	t_shell	shell;
-    t_ast_node  *ast;
+    //t_ast_node  *ast;
 	//t_env	env;//estrutura para lidarcom env trimmed e inteira
 
 	(void)argv;
@@ -42,17 +44,17 @@
 	}
 	//check_input(argc, argv);
 	tokens = process_to_tokenize_input(input);
-	ast = parse_tokens(&tokens);
+	//ast = parse_tokens(&tokens);
 	// call execute; command_exercuter(ast, env);
     //free(ast);
 	rl_clear_history();
 	free_tokens(tokens);
 	free_shell(&shell);
 	return (0);
-}*/
+}
 
 
-const char	*get_token_type_name(t_token_type type)
+/*const char	*get_token_type_name(t_token_type type)
 {
 	const char	*token_type_names[7];
 
@@ -173,5 +175,5 @@ int main(int argc, char **argv, char **original_env)
     free_shell(&shell);   // Free the shell structure
 
     return 0;
-}
+}*/
 

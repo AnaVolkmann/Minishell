@@ -15,7 +15,7 @@
 static void	ordered_envp(char **copy);
 static char	**copy_envp(char **envp);
 static void	export_error(char *path);
-static void	ft_add(char	*new_var, t_shell *shell, char **keysplit);
+static int	ft_add(char	*new_var, t_shell *shell, char **keysplit);
 
 /** @brief separates the path as in KEY=value
  * then sets the env*/
@@ -34,11 +34,12 @@ int	ft_export(char *path, t_shell *shell)
 	new_var = ft_strdup(path);
 	if (!new_var)
 		return (update_exit(1, shell), free_envp(keysplit), -1);
-	ft_add(new_var, shell, keysplit);
+	if (ft_add(new_var, shell, keysplit) != 0)
+		return (1);
 	return (update_exit(0, shell), free_envp(keysplit), 0);
 }
 
-static void	ft_add(char	*new_var, t_shell *shell, char **keysplit)
+static int	ft_add(char	*new_var, t_shell *shell, char **keysplit)
 {
 	int	i;
 
@@ -53,11 +54,12 @@ static void	ft_add(char	*new_var, t_shell *shell, char **keysplit)
 		i = count_envp(shell->envp);
 		shell->envp = realloc_envp(shell->envp, i + 2);
 		if (!shell->envp)
-			return (update_exit(0, shell),
+			return (update_exit(1, shell),
 				free_envp(keysplit), free(new_var), -1);
 		shell->envp[i] = new_var;
 		shell->envp[i + 1] = NULL;
 	}
+	return (0);
 }
 
 static char	**copy_envp(char **envp)

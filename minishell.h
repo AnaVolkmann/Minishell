@@ -32,7 +32,7 @@
 # include <stdbool.h>
 # include <limits.h>
 
-int	g_signal;
+extern int g_signal;
 
 typedef enum e_token_type
 {

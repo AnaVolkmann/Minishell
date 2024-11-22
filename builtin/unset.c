@@ -40,13 +40,12 @@ static void	unset_error(char *name, t_shell *shell, int i)
 	}
 }
 
-//(TODO) print error? shell exit status? falta exit e export
-// check quotes {} (), test builtins
-// check all builtins
+//(TODO) check quotes {} (), test builtins
 // check error messages
 // check exit status
 
 // GCC use on Makefile?
+
 // if inside quotes, dont expand, but run command if its exactly it.
 // "ls" -l works "ls -l" no, neither "ls " -l or "ls"-l
 // pwd | $oi | cat > test
