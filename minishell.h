@@ -32,6 +32,8 @@
 # include <stdbool.h>
 # include <limits.h>
 
+int	g_signal;
+
 typedef enum e_token_type
 {
 	TOKEN_WORD,// For comands and arguments
@@ -61,14 +63,14 @@ typedef struct s_shell
 	char	*input;
 }				t_shell;
 
-typedef struct		s_ast_node
+typedef struct s_ast_node
 {
-	t_token_type	type;
-	char			**args;
-	struct			s_ast_node *left;
-	struct			s_ast_node *right;
-	int				file_type;//indicates the type of redirection(input, output, append), if no redirec, set to 0.
-}					t_ast_node;
+	t_token_type		type;
+	char				**args;
+	struct s_ast_node	*left;
+	struct s_ast_node	*right;
+	int					file_type;//indicates the type of redirection(input, output, append), if no redirec, set to 0.
+}						t_ast_node;
 
 /* typedef struct s_env
 {

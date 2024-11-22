@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static void swap(char **s1, char **s2);
+static void	swap(char **s1, char **s2);
 static void	ordered_envp(char **copy);
 static char	**copy_envp(char **envp);
 static void	export_error(char *path);
@@ -46,7 +46,8 @@ int	ft_export(char *path, t_shell *shell)
 		i = count_envp(shell->envp);
 		shell->envp = realloc_envp(shell->envp, i + 2);
 		if (!shell->envp)
-			return (update_exit(0, shell), free_envp(keysplit), free(new_var), -1);
+			return (update_exit(0, shell),
+				free_envp(keysplit), free(new_var), -1);
 		shell->envp[i] = new_var;
 		shell->envp[i + 1] = NULL;
 	}
@@ -96,7 +97,7 @@ static void	ordered_envp(char **copy)
 	free_envp(copy);
 }
 
-static void swap(char **s1, char **s2)
+static void	swap(char **s1, char **s2)
 {
 	char	*tmp;
 

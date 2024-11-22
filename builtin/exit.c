@@ -39,8 +39,8 @@ int	bash_exit(char **args, int arg_count, t_shell *shell)
 
 	ft_putendl_fd("exit", 2);
 	if (arg_count == 0)
-    	return (update_exit(0, shell), exit(0), 0);
-    if (arg_count == 1)
+		return (update_exit(0, shell), exit(0), 0);
+	if (arg_count == 1)
 	{
 		if (!str_is_digit(args[0]))
 			return (update_exit (2, shell), exit_error(args[0]), 2);
@@ -55,12 +55,13 @@ int	bash_exit(char **args, int arg_count, t_shell *shell)
 			exit((int)exit_value); // preciso fazer update aqui?
 		}
 	}
-	return (update_exit(2, shell), ft_putstr_fd("bash: exit: too many arguments\n", 2), 2);
+	return (update_exit(2, shell),
+		ft_putstr_fd("bash: exit: too many arguments\n", 2), 2);
 }
 
-void update_exit(int i, t_shell *shell)
+void	update_exit(int i, t_shell *shell)
 {
-    shell->exit_status = i;
+	shell->exit_status = i;
 }
 
 /** @brief I HAVE NO IDEA IF THIS IS HOW ITS SUPPOUSED TO BEEEEEEE */

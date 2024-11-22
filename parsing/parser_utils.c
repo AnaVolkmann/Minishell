@@ -14,10 +14,10 @@
 
 int	count_command_args(t_token *current)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(current && current->type == TOKEN_WORD)
+	while (current && current->type == TOKEN_WORD)
 	{
 		i++;
 		current = current->next;
@@ -27,7 +27,7 @@ int	count_command_args(t_token *current)
 
 t_ast_node	*create_new_ast_node(t_token_type type)
 {
-	t_ast_node *new_node;
+	t_ast_node	*new_node;
 
 	new_node = malloc(sizeof(t_ast_node));
 	if (!new_node)

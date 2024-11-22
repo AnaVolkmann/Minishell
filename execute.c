@@ -99,7 +99,7 @@ static int	run_command_exec(char *cmd, char *const *argument, t_shell *shell)
 	if (execve(cmd_path, argument, shell->envp) == -1)
 		return (free(cmd_path), printf("execve: %s: %s\n",
 				cmd, strerror(errno)), 1);
-	return (free(cmd_path), 0); //how to free if proccess executes?
+	return (free(cmd_path), 0);
 }
 
 /** @brief it first tries to execute the builtin functions, 

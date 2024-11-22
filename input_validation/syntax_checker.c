@@ -48,22 +48,25 @@ int	syntax_error_checker(const char *input)
 
 /** @brief Checks if the input string contains unclosed quotes.
  * 
- * This function scans the input string to detect whether there are unclosed single
- * or double quotes. It toggles the state each time it encounters a quote character
- * (' or "), and if it finds an unmatched quote at the end of the string, it returns 1
- * (indicating an error). If all quotes are properly closed, it returns 0.
+ * This function scans the input string to detect whether 
+ * there are unclosed single or double quotes. 
+ * It toggles the state each time it encounters a quote character
+ * (' or "), and if it finds an unmatched quote at the end of the string,
+ * it returns 1 (indicating an error). 
+ * If all quotes are properly closed, it returns 0.
  * 
  * @param input The input string to check for unclosed quotes.
  * @return 1 if there are unclosed quotes, 0 if all quotes are properly closed.
- * @note This function does not handle escape sequences (e.g., `\'` or `\"`) within the string.*/
+ * @note This function does not handle escape sequences 
+ * (e.g., `\'` or `\"`) within the string.*/
 int	has_unclosed_quotes(const char *input)
 {
-	char quote_type;
+	char	quote_type;
 
 	quote_type = 0;
 	if (!input)
 		return (0);
-	while(*input)
+	while (*input)
 	{
 		if (*input == '\'' || *input == '\"')
 		{

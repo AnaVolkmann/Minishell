@@ -44,19 +44,19 @@ char	*get_env(char *var, char **envp)
 	return (NULL);
 }
 
-int ft_env(t_shell *shell)
+int	ft_env(t_shell *shell)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (!shell || !shell->envp)
-        return (update_exit(1, shell),
-                ft_putstr_fd("Error: environment is not set or missing\n", 2), 1);
-    while (shell->envp[i])
-    {
-        if (printf("%s\n", shell->envp[i]) < 0)
-            return (update_exit(1, shell), perror("write"), 1);
-        i++;
-    }
-    return (update_exit(0, shell), 0);
+	i = 0;
+	if (!shell || !shell->envp)
+		return (update_exit(1, shell),
+			ft_putstr_fd("Error: environment is not set or missing\n", 2), 1);
+	while (shell->envp[i])
+	{
+		if (printf("%s\n", shell->envp[i]) < 0)
+			return (update_exit(1, shell), perror("write"), 1);
+		i++;
+	}
+	return (update_exit(0, shell), 0);
 }

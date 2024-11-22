@@ -29,7 +29,7 @@
 	//env = malloc(sizeof(env));
 	//if (argc == 1 && init_shell(&shell, env, original_env))
 	//{
-		//shell_execution_loop
+		//shell_execution_loop // if signal == 2, update exit 130;
 		//cheanup and exit function
 	//}
 	input = readline("Prompt > ");

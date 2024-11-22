@@ -28,7 +28,7 @@ parse_redir(*tokens) - handles redir calls command nodes with the args
 
 */
 
-t_ast_node *parse_command(t_token **token)
+t_ast_node	*parse_command(t_token **token)
 {
 	t_ast_node	*command_node;
 	int			arg_count;
@@ -41,7 +41,7 @@ t_ast_node *parse_command(t_token **token)
 	if (!command_node->args)
 		return (NULL);
 	i = 0;
-	while(i < arg_count)
+	while (i < arg_count)
 	{
 		command_node->args[i] = ft_strdup((*token)->value);
 		temp = *token;
@@ -54,7 +54,7 @@ t_ast_node *parse_command(t_token **token)
 	return (command_node);
 }
 
-t_ast_node *parse_redirection(t_token **tokens)
+t_ast_node	*parse_redirection(t_token **tokens)
 {
 	t_token		*temp;
 	t_token		*next_token;
@@ -66,7 +66,7 @@ t_ast_node *parse_redirection(t_token **tokens)
 	if ((*tokens)->type >= TOKEN_REDIR_IN && (*tokens)->type <= TOKEN_REDIR_HEREDOC)
 		//return (create_redirection());
 		// handle the redirection if it's the first token
-	while(*tokens && (*tokens)->next)
+	while (*tokens && (*tokens)->next)
 	{
 		next_token = (*tokens)->next;
 		if ((*tokens)->next->type >= TOKEN_REDIR_IN && (*tokens)->next->type <= TOKEN_REDIR_HEREDOC)
@@ -82,14 +82,14 @@ t_ast_node *parse_redirection(t_token **tokens)
 	return (parse_command(&temp));
 }
 
-t_ast_node *parse_pipeline(t_token **tokens)
+t_ast_node	*parse_pipeline(t_token **tokens)
 {
 	t_token		*temp;
 	t_token		*next_token;
 	t_ast_node	*pipe_node;
 
 	temp = *tokens;
-	while(*tokens && (*tokens)->next)
+	while (*tokens && (*tokens)->next)
 	{
 		next_token = (*tokens)->next;
 		if ((*tokens)->next->type == TOKEN_PIPE)
@@ -98,7 +98,7 @@ t_ast_node *parse_pipeline(t_token **tokens)
 			(*tokens)->next = NULL;
 			pipe_node->left = parse_redirection(&temp);
 			pipe_node->right = parse_pipeline(&(next_token->next));
-			free(next_token->value);;
+			free(next_token->value);
 			free(next_token);
 			return (pipe_node);
 		}

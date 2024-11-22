@@ -21,13 +21,15 @@ int	ft_cd(char *path, t_shell *shell)
 	{
 		path = get_env("HOME", shell->envp);
 		if (path == NULL)
-			return (update_exit(1, shell), ft_putstr_fd("Error: HOME unset\n", 2), 1);
+			return (update_exit(1, shell),
+				ft_putstr_fd("Error: HOME unset\n", 2), 1);
 	}
 	else if (ft_strncmp(path, "-", 2) == 0)
 	{
 		path = get_env("OLDPWD", shell->envp);
 		if (path == NULL)
-			return (update_exit(1, shell), ft_putstr_fd("Error: OLDPWD unset\n", 2), 1);
+			return (update_exit(1, shell),
+				ft_putstr_fd("Error: OLDPWD unset\n", 2), 1);
 		printf("%s\n", path);
 	}
 	if (set_pwd(path, shell) != 0)
@@ -54,7 +56,8 @@ static int	set_pwd(char *path, t_shell *shell)
 	}
 	new_pwd = ft_pwd();
 	if (!new_pwd)
-		return (ft_putstr_fd("Error: Unable to fetch current directory\n", 2), 1);
+		return (ft_putstr_fd("Error: Unable to fetch current directory\n", 2),
+			1);
 	export = new_env_var("PWD", new_pwd);
 	if (!export)
 		return (free (new_pwd), 1);
