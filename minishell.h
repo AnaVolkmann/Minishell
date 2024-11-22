@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/20 16:56:05 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/22 15:22:16 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ t_ast_node	*parse_command(t_token **token);
 t_ast_node	*create_new_ast_node(t_token_type type);
 t_ast_node	*create_file_node(t_token *token);
 int			count_command_args(t_token *current);
+t_ast_node	*create_and_link_redirection(t_token **tokens, t_token *tmp);
 
 /**********************Builtins********************/
 

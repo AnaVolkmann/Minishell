@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 13:27:54 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/20 16:37:30 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/22 15:18:31 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,7 @@ t_ast_node	*parse_redirection(t_token **tokens)
 		return (NULL);
 	temp = *tokens;
 	if ((*tokens)->type >= TOKEN_REDIR_IN && (*tokens)->type <= TOKEN_REDIR_HEREDOC)
-		//return (create_redirection());
-		// handle the redirection if it's the first token
+		return (build_redirection_node(tokens, temp));
 	while (*tokens && (*tokens)->next)
 	{
 		next_token = (*tokens)->next;
