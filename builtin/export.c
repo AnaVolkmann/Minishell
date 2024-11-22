@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.co      +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 17:07:44 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/06 17:07:48 by lufiguei         ###   ########.fr       */
+/*   Updated: 2024/11/22 15:54:26 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_export(char *path, t_shell *shell)
 		return (update_exit(0, shell), ordered_envp(copy_envp(shell->envp)), 0);
 	keysplit = ft_split(path, '='); // need to test something with multiple = , like key=value=whatever
 	if (!keysplit || !keysplit[0] || ft_strcmp(keysplit[0], path) == 0)
-		return (update_exit(2, shell), export_error(path), -1); //exit status 2?
+		return (update_exit(2, shell), export_error(path), -1);
 	new_var = ft_strdup(path);
 	if (!new_var)
 		return (update_exit(1, shell), free_envp(keysplit), -1);

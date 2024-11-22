@@ -6,28 +6,20 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 13:27:54 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/22 15:18:31 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:18:23 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*int parse(t_token *token, t_shell *shell)
-{
-    //consider token[0] as the cmd
-    //consider token[1+] as the argument until finding an operator
-    //after operator check if the operation is "doable"
-    //loop to the next block (right side of the operator)
-}*/
-/*
-parse_tokens(*token)
-parse_pipeline(*token) - handles pipes, calls redir for each side of the pipe
-parse_redir(*tokens) - handles redir calls command nodes with the args
-!!!each node represets either a command, a redir, our a pipeline
-!!node_type!!!!
-
-*/
-
+/** @brief Parses a command and creates a corresponding AST node.
+ *
+ * processes the tokens representing a command and creates an AST node to represent
+ * the command, including its arguments. It dynamically allocates memory for the arguments and 
+ * populates them from the tokens. The tokens are consumed in the process.
+ *
+ * @param token A pointer to the token list to be parsed.
+ * @return A pointer to the created AST node, or NULL if memory allocation fails.*/
 t_ast_node	*parse_command(t_token **token)
 {
 	t_ast_node	*command_node;
@@ -54,6 +46,14 @@ t_ast_node	*parse_command(t_token **token)
 	return (command_node);
 }
 
+/** @brief Parses redirection tokens and creates a redirection AST node.
+ *
+ * This function processes redirection tokens, builds an AST node to represent the redirection,
+ * and links the corresponding left and right child nodes. The redirection can be one of several
+ * types (e.g., input, output, or heredoc). It also consumes tokens in the process.
+ *
+ * @param tokens A pointer to the token list to be parsed.
+ * @return A pointer to the created redirection AST node, or NULL if no redirection is found.*/
 t_ast_node	*parse_redirection(t_token **tokens)
 {
 	t_token		*temp;
@@ -81,6 +81,14 @@ t_ast_node	*parse_redirection(t_token **tokens)
 	return (parse_command(&temp));
 }
 
+/** @brief Parses redirection tokens and creates a redirection AST node.
+ *
+ * This function processes redirection tokens, builds an AST node to represent the redirection,
+ * and links the corresponding left and right child nodes. The redirection can be one of several
+ * types (e.g., input, output, or heredoc). It also consumes tokens in the process.
+ *
+ * @param tokens A pointer to the token list to be parsed.
+ * @return A pointer to the created redirection AST node, or NULL if no redirection is found.*/
 t_ast_node	*parse_pipeline(t_token **tokens)
 {
 	t_token		*temp;
@@ -106,6 +114,13 @@ t_ast_node	*parse_pipeline(t_token **tokens)
 	return (parse_redirection(&temp));
 }
 
+/** @brief Parses a list of tokens and creates the root AST node.
+ *
+ * This function is responsible for initiating the parsing process by calling the appropriate 
+ * parsing functions (pipeline, redirection, command) and building the AST from the provided tokens.
+ *
+ * @param tokens A pointer to the token list to be parsed.
+ * @return A pointer to the root of the AST, or NULL if the token list is empty or invalid.*/
 t_ast_node	*parse_tokens(t_token **tokens)
 {
 	if (!tokens || !*tokens)
