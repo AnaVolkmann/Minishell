@@ -111,6 +111,7 @@ int			is_invalid_operator(const char **input);
 /*********************Init***********************/
 
 t_shell		*init_shell(t_shell *shell, char **original_env);
+t_ast_node	*init_ast(t_ast_node *ast);
 char		**init_dinam_env(char **original_env);
 
 /*********************Parsing*********************/
@@ -154,6 +155,7 @@ void		update_exit(int i, t_shell *shell);
 
 void		free_envp(char **envp);
 void		free_shell(t_shell *shell);
+void		free_ast(t_ast_node **ast);
 
 /********************Run Commands****************/
 

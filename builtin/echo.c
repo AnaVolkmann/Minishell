@@ -17,17 +17,17 @@ static int	check_flag(char *str);
 int	echo(char **args, int argc, int fd, t_shell *shell)
 {
 	int	i;
-	int	newline;
+	int	n;
 
 	i = 0;
-	newline = 1;
+	n = 1;
 	if (fd < 0 || write(fd, "\n", 1) == -1)
 		return (update_exit(1, shell), perror("echo"), 1);
 	if (!args || argc == 0)
 		return (write (fd, "\n", 1), update_exit(0, shell), 0);
 	while (i < argc && check_flag(args[i]))
 	{
-		newline = 0;
+		n = 0;
 		i++;
 	}
 	while (i < argc - 1)
@@ -38,7 +38,7 @@ int	echo(char **args, int argc, int fd, t_shell *shell)
 	}
 	if (i < argc)
 		write(fd, args[i], ft_strlen(args[i]));
-	if (newline != 0)
+	if (n != 0)
 		write(fd, "\n", 1);
 	return (update_exit(0, shell), 0);
 }
@@ -51,9 +51,7 @@ static int	check_flag(char *str)
 	if (!str || str[0] != '-' || str[1] != 'n')
 		return (0);
 	while (str[++i])
-	{
 		if (str[i] != 'n')
 				return (0);
-		}
 	return (1);
 }

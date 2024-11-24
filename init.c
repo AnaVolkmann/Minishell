@@ -21,6 +21,14 @@ t_shell	*init_shell(t_shell *shell, char **original_env)
 	return (shell);
 }
 
+t_ast_node	*init_ast(t_ast_node *ast)
+{
+	ast->args = NULL;
+	ast->left = NULL;
+	ast->right = NULL;
+	return (ast);
+}
+
 char	**init_dinam_env(char **original_env)
 {
 	int		i;

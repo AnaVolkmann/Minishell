@@ -36,3 +36,17 @@ void	free_shell(t_shell *shell)
 	//if (shell->input)
 	//	free(shell->input); //if this frees, double free happens?
 }
+
+void	free_ast(t_ast_node **ast)
+{
+	t_ast_node *tmp;
+
+	if (!ast || !*ast)
+		return ;
+	tmp = *ast;
+	free_ast(&tmp->left);
+	free_ast(&tmp->right);
+	if (tmp->args)
+		free_envp(tmp->args);
+	*ast = NULL;
+}

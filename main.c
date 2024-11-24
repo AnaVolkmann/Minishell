@@ -12,15 +12,14 @@
 
 #include "minishell.h"
 
+static int minishell(t_shell *shell, t_ast_node **ast);
+
 int g_signal = 0;
 
 int	main(int argc, char **argv, char **original_env)
 {
-	char	*input;
-	t_token	*tokens;
-	t_shell	shell;
-    //t_ast_node  *ast;
-	//t_env	env;//estrutura para lidarcom env trimmed e inteira
+	t_shell	    shell;
+    t_ast_node  *ast;
 
 	(void)argv;
 	if (argc != 1)
@@ -28,32 +27,45 @@ int	main(int argc, char **argv, char **original_env)
 	rl_catch_signals = 0;
 	ft_signal();
 	init_shell(&shell, original_env);
-	//env = malloc(sizeof(env));
-	//if (argc == 1 && init_shell(&shell, env, original_env))
-	//{
-		//shell_execution_loop // if signal == 2, update exit 130;
-		//cheanup and exit function
-	//}
-	input = readline("Prompt > ");
-	if (input == NULL)
-		return (free_shell(&shell), printf("exit\n"), 0);
-	if (ft_strlen(input) > 0)
-	{
-		add_history(input);
-		shell.input = input;
-	}
-	//check_input(argc, argv);
-	tokens = process_to_tokenize_input(input);
-	//ast = parse_tokens(&tokens);
-	// call execute; command_exercuter(ast, env);
-    //free(ast);
-	rl_clear_history();
-	free_tokens(tokens);
-	free_shell(&shell);
-	return (0);
+    init_ast(ast);
+    while (1)
+    {
+        if (!minishell(&shell, &ast))
+            break ;
+        if (g_signal == 2)
+        {
+            g_signal = 0;
+            update_exit(130, &shell);
+            continue;
+        }
+    }
+	return (rl_clear_history(), free_shell(&shell), free_ast(&ast), 0);
 }
 
+static int minishell(t_shell *shell, t_ast_node **ast)
+{
+    t_token	    *tokens;
+    char        *input;
 
+    input = readline("Minishell: ");
+    if (input == NULL)
+   		return (printf("exit\n"), 0);
+  	if (ft_strlen(input) > 0)
+  	{
+  		add_history(input);
+   		shell->input = input;
+   	}
+    if (syntax_error_checker(input) == 1)
+       return (free(input)); // sair do programa ou devolver o prompt?
+    tokens = process_to_tokenize_input(input);
+    if (tokens != NULL)
+    {
+        *ast = parse_tokens(&tokens);
+        free(tokens);
+    }
+    // execute ast
+    return (0);
+}
 /*const char	*get_token_type_name(t_token_type type)
 {
 	const char	*token_type_names[7];
