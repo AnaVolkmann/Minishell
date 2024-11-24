@@ -27,6 +27,7 @@ char	*expansion(char *path, t_shell *shell)
 		return (ft_itoa(shell->exit_status));
 	if (ft_strcmp(path, "!") == 0)
 		return (ft_itoa(shell->last_pid));
+	//if (!in_double_quote)
 	env_value = get_env(path, shell->envp);
 	if (!env_value)
 		return (NULL);
