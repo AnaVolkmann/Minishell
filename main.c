@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-static int minishell(t_shell *shell, t_ast_node **ast);
+static int	minishell(t_shell *shell, t_ast_node **ast);
 
-int g_signal = 0;
+int	g_signal = 0;
 
 int	main(int argc, char **argv, char **original_env)
 {
-	t_shell	    shell;
-    t_ast_node  *ast;
+	t_shell		shell;
+	t_ast_node	*ast;
 
 	(void)argv;
 	if (argc != 1)
@@ -27,45 +27,43 @@ int	main(int argc, char **argv, char **original_env)
 	rl_catch_signals = 0;
 	ft_signal();
 	init_shell(&shell, original_env);
-    init_ast(ast);
-    while (1)
-    {
-        if (!minishell(&shell, &ast))
-            break ;
-        if (g_signal == 2)
-        {
-            g_signal = 0;
-            update_exit(130, &shell);
-            continue;
-        }
-    }
+	init_ast(ast);
+	while (1)
+	{
+		if (!minishell(&shell, &ast))
+			break ;
+		if (g_signal == 2)
+		{
+			g_signal = 0;
+			update_exit(130, &shell);
+			continue ;
+		}
+	}
 	return (rl_clear_history(), free_shell(&shell), free_ast(&ast), 0);
 }
 
-static int minishell(t_shell *shell, t_ast_node **ast)
+static int	minishell(t_shell *shell, t_ast_node **ast)
 {
-    t_token	    *tokens;
-    char        *input;
+	t_token	*tokens;
+	char	*input;
 
-    input = readline("Minishell: ");
-    if (input == NULL)
-   		return (printf("exit\n"), 0);
-  	if (ft_strlen(input) > 0)
-  	{
-  		add_history(input);
-   		shell->input = input;
-   	}
-    if (syntax_error_checker(input) == 1)
-       return (free(input)); // sair do programa ou devolver o prompt?
-    tokens = process_to_tokenize_input(input);
-    if (tokens != NULL)
-    {
-        *ast = parse_tokens(&tokens);
-        free(tokens);
-    }
-    // execute ast
-    return (0);
+	input = readline("Minishell: ");
+	if (input == NULL)
+		return (printf("exit\n"), 0);
+	if (ft_strlen(input) > 0)
+		add_history(input);
+	if (syntax_error_checker(input) == 1)
+		return (free(input), update_exit(2, shell), 2); // sair do programa ou devolver o prompt?
+	tokens = process_to_tokenize_input(input);
+	if (tokens != NULL)
+	{
+		*ast = parse_tokens(&tokens);
+		free(tokens);
+	}
+	// execute ast
+	return (0);
 }
+
 /*const char	*get_token_type_name(t_token_type type)
 {
 	const char	*token_type_names[7];
@@ -188,4 +186,3 @@ int main(int argc, char **argv, char **original_env)
 
     return 0;
 }*/
-

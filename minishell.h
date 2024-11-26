@@ -32,7 +32,7 @@
 # include <stdbool.h>
 # include <limits.h>
 
-extern int g_signal;
+extern int	g_signal;
 
 typedef enum e_token_type
 {
@@ -60,7 +60,7 @@ typedef struct s_shell
 	int		output_fd;
 	char	**path;
 	char	**envp;
-	char	*input;
+	//char	*input;
 }				t_shell;
 
 typedef struct s_ast_node

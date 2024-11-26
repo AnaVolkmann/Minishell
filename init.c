@@ -17,7 +17,7 @@ t_shell	*init_shell(t_shell *shell, char **original_env)
 	shell->pid = getpid();
 	shell->path = NULL;
 	shell->envp = init_dinam_env(original_env);
-	shell->input = NULL;
+	//shell->input = NULL;
 	return (shell);
 }
 

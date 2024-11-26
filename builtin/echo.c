@@ -52,6 +52,6 @@ static int	check_flag(char *str)
 		return (0);
 	while (str[++i])
 		if (str[i] != 'n')
-				return (0);
+			return (0);
 	return (1);
 }
