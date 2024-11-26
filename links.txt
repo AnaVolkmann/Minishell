@@ -24,8 +24,6 @@ compile the program with -lreadline flag
 valgrind -s --track-origins=yes --leak-check=full --show-leak-kinds=all --suppressions=valgrind_readline.supp
 -q if want it to be "cleaner"
 
-// Como interpretar quais palavras da tokenizacao sao comandos ou apenas palavras
-
 edge cases:::
 
 cd : cd unset $HOME, cd - to old pwd, invalid or non existent. ie.: first time, no old pwd,

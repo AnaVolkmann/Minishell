@@ -11,19 +11,21 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-// function returns pwd, so it doesnt free its content. 
-// If the caller dont free also, its
-// going to leak
+
+/** @brief allocates memory with getcwd, the caller must free its return value
+ * 	it has a flag that makes it print or not ( for cd use ) */
 static void	pwd_error(void);
 
-char	*ft_pwd(t_shell *shell)
+char	*ft_pwd(t_shell *shell, int	flag)
 {
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)
 		return (update_exit(1, shell), pwd_error(), NULL);
-	return (update_exit(0, shell), printf("%s\n", pwd), pwd);
+	if (flag == 1)
+		return (update_exit(0, shell), printf("%s\n", pwd), pwd);
+	return (update_exit(0, shell), pwd);
 }
 
 static void	pwd_error(void)

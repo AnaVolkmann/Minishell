@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **original_env)
 	init_ast(ast);
 	while (1)
 	{
-		if (!minishell(&shell, &ast))
+		if (minishell(&shell, &ast) != 0)
 			break ;
 		if (g_signal == 2)
 		{

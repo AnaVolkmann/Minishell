@@ -44,6 +44,7 @@ char	*get_env(char *var, char **envp)
 	return (NULL);
 }
 
+/** @brief function prints the whole envp */
 int	ft_env(t_shell *shell)
 {
 	int	i;

@@ -15,6 +15,8 @@
 static int	set_pwd(char *path, t_shell *shell);
 static int	cd_error(char *path);
 
+/** @brief handles the edge cases and calls the set pwd function to update env
+*/
 int	ft_cd(char *path, t_shell *shell)
 {
 	if (path == NULL || ft_strncmp(path, "~", 2) == 0)
@@ -37,13 +39,17 @@ int	ft_cd(char *path, t_shell *shell)
 	return (update_exit(0, shell), 0);
 }
 
+/** @brief updates OLD PWD and PWD. first it saves the pwd to char *old pwd
+ * then tries to change dir (it fails if no permission)
+ * then updates old pwd 
+ * it then gets the new pwd value and updates the env */
 static int	set_pwd(char *path, t_shell *shell)
 {
 	char	*old_pwd;
 	char	*new_pwd;
 	char	*export;
 
-	old_pwd = get_env("PWD", shell->envp);
+	old_pwd = get_env("PWD", shell->envp); // what if pwd is unset?
 	if (chdir(path) != 0)
 		return (cd_error(path), 1);
 	if (old_pwd)
@@ -54,7 +60,7 @@ static int	set_pwd(char *path, t_shell *shell)
 		ft_export(export, shell);
 		free(export);
 	}
-	new_pwd = ft_pwd(shell);
+	new_pwd = ft_pwd(shell, 0);
 	if (!new_pwd)
 		return (ft_putstr_fd("Error: Unable to fetch current directory\n", 2),
 			1);

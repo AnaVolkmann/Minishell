@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-/** @brief searchs for the variable in envp, returns its index if found*/
+/** @brief searches for the variable in envp, returns its index if found*/
 int	find_env(char **envp, char *name)
 {
 	int	len;

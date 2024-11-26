@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/** @brief it compares the command with all 7 builtins
+ * if any match is found, it runs the command with its argument, otherwise
+ * it returns -1 to signalize that it didnt ran */
 static int	run_command_builtin(char *cmd, char **arguments, t_shell *shell)
 {
 	int		i;
@@ -32,7 +34,7 @@ static int	run_command_builtin(char *cmd, char **arguments, t_shell *shell)
 		return (ft_export(arguments[1], shell), 0);
 	else if (ft_strcmp(cmd, "pwd") == 0)
 	{
-		pwd = ft_pwd(shell);
+		pwd = ft_pwd(shell, 1);
 		return (free(pwd), 0);
 	}
 	else if (ft_strcmp(cmd, "unset") == 0)
@@ -113,4 +115,3 @@ int	execute(char *cmd, char *const *argument, t_shell *shell)
 		return (0);
 	return (1);
 }
-// run both functions, tries builtin, if not, executes execve.

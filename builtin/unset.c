@@ -14,6 +14,8 @@
 
 static void	unset_error(char *name, t_shell *shell, int i);
 
+/** @brief looks for the target inside the shell->envp, if it finds, calls
+ * the remove function, returns error otherwise */
 int	ft_unset(char *name, t_shell *shell)
 {
 	int	index;
@@ -50,8 +52,6 @@ static void	unset_error(char *name, t_shell *shell, int i)
 
 // Handle " (double quote) which should prevent the shell from interpreting
 // the meta-characters in the quoted sequence except for $ (dollar sign).
-
-// whats a working history?
 
 // GCC use on Makefile?
 

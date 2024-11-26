@@ -52,7 +52,8 @@ int	bash_exit(char **args, int arg_count, t_shell *shell)
 				ft_putstr_fd("bash: exit: overflow or underflow\n", 2);
 				return (update_exit (2, shell), exit(2), 2);
 			}
-			exit((int)exit_value); // preciso fazer update aqui?
+			return (update_exit((int)exit_value, shell),
+				exit((int)exit_value), 0);
 		}
 	}
 	return (update_exit(2, shell),

@@ -14,6 +14,10 @@
 
 static int	check_flag(char *str);
 
+/** @brief it checks for the flag -n, starts the function assuming its "off"
+ * while it has arguments, prints them on the FD, in the end checks
+ * for the -n flag
+*/
 int	echo(char **args, int argc, int fd, t_shell *shell)
 {
 	int	i;
@@ -33,7 +37,7 @@ int	echo(char **args, int argc, int fd, t_shell *shell)
 	while (i < argc - 1)
 	{
 		write(fd, args[i], ft_strlen(args[i]));
-		write(fd, " ", 1);
+		write(fd, " ", 1); // does this print in the last argument as well?
 		i++;
 	}
 	if (i < argc)

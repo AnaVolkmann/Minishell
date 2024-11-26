@@ -12,28 +12,30 @@
 
 #include "minishell.h"
 
-/** @brief it needs to get the pointer right after to the $ in caller 
- *  the commented loop is usefull if we want to pass the whole word, like $HOME
- * instead of just HOME */
+/** @brief handles edge cases and searches the env var inside the shell's envp
+ * if it not finds it, returns an error
+ * the function caller needs to free is return value */
 char	*expansion(char *path, t_shell *shell)
 {
 	char	*env_value;
 
-	if (!path[0])
-		return (NULL);
-	if (ft_strcmp(path, "$") == 0)
-		return (ft_itoa(shell->pid));
-	if (ft_strcmp(path, "?") == 0)
-		return (ft_itoa(shell->exit_status));
-	if (ft_strcmp(path, "!") == 0)
-		return (ft_itoa(shell->last_pid));
-	//if (!in_double_quote)
+	if (!path || !path[0])
+		return (update_exit(1, shell), NULL);
+	if (ft_strcmp(path[0], "\'") == 0)
+		return (update_exit(0, shell), path);
+	if (ft_strcmp(path, "$$") == 0 && ft_strcmp(path[1], "$") == 0)
+		return (update_exit(0, shell), ft_itoa(shell->pid));
+	if (ft_strcmp(path, "$?") == 0)
+		return (update_exit(0, shell), ft_itoa(shell->exit_status));
+	if (ft_strcmp(path, "$!") == 0)
+		return (update_exit(0, shell), ft_itoa(shell->last_pid));
 	env_value = get_env(path, shell->envp);
 	if (!env_value)
-		return (NULL);
-	return (ft_strdup(env_value));
+		return (update_exit(1, shell), NULL);
+	return (update_exit(0, shell), ft_strdup(env_value));
 }
 
+// do i assume it will always be formatted? or i assume i can have """""$USER"""""
 //$?: Exit status of the last command
 //$$: Current process ID.
 //$!: PID of the last background job.

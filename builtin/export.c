@@ -18,19 +18,26 @@ static void	export_error(char *path);
 static int	ft_add(char	*new_var, t_shell *shell, char **keysplit);
 
 /** @brief separates the path as in KEY=value
- * then sets the env*/
+ * then sets the env
+ * if no arguments, prints the ordered envp */
 int	ft_export(char *path, t_shell *shell)
 {
 	char	**keysplit;
 	char	*new_var;
+	int		i;
 
+	i = 0;
 	if (!shell || !shell->envp)
 		return (update_exit(2, shell), -1);
 	if (!path)
 		return (update_exit(0, shell), ordered_envp(copy_envp(shell->envp)), 0);
-	keysplit = ft_split(path, '='); // need to test something with multiple = , like key=value=whatever
-	if (!keysplit || !keysplit[0] || ft_strcmp(keysplit[0], path) == 0)
+	keysplit = ft_split(path, '=');
+	if (!keysplit || !keysplit[0])
 		return (update_exit(2, shell), export_error(path), -1);
+	while (keysplit[i])
+		i++;
+	if (i != 2)
+		return (update_exit(2, shell), 1);
 	new_var = ft_strdup(path);
 	if (!new_var)
 		return (update_exit(1, shell), free_envp(keysplit), -1);
@@ -39,6 +46,9 @@ int	ft_export(char *path, t_shell *shell)
 	return (update_exit(0, shell), free_envp(keysplit), 0);
 }
 
+/** @brief looks for the variable inside envp
+ * if it finds it, just replaces it with the new value one
+ * otherwise it reallocates the whole envp to fit the new variable */
 static int	ft_add(char	*new_var, t_shell *shell, char **keysplit)
 {
 	int	i;
@@ -62,6 +72,7 @@ static int	ft_add(char	*new_var, t_shell *shell, char **keysplit)
 	return (0);
 }
 
+/** @brief does a copy of the envp, that we can use to alter (or order maybe)*/
 static char	**copy_envp(char **envp)
 {
 	char	**copy;
@@ -85,6 +96,8 @@ static char	**copy_envp(char **envp)
 	return (copy);
 }
 
+/** @brief does a pseudo bubble sort algorithm to order the envp
+ * at the end prints it whole */
 static void	ordered_envp(char **copy)
 {
 	int		i;

@@ -60,7 +60,6 @@ typedef struct s_shell
 	int		output_fd;
 	char	**path;
 	char	**envp;
-	//char	*input;
 }				t_shell;
 
 typedef struct s_ast_node
@@ -136,7 +135,7 @@ int			ft_export(char *path, t_shell *shell);
 int			ft_unset(char *name, t_shell *shell);
 int			echo(char **args, int argc, int fd, t_shell *shell);
 int			ft_env(t_shell *shell);
-char		*ft_pwd(t_shell *shell);
+char		*ft_pwd(t_shell *shell, int flag);
 
 /********************Extras***********************/
 
