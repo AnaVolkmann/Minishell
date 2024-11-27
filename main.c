@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:08:55 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/20 16:45:10 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/27 11:45:26 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	minishell(t_shell *shell, t_ast_node **ast)
 		*ast = parse_tokens(&tokens);
 		free(tokens);
 	}
-	// execute ast
+	// command_executer();
 	return (0);
 }
 

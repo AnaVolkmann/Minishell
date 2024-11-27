@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:19:58 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/22 16:19:27 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/27 11:57:41 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ t_ast_node	*create_file_node(t_token *token)
  * @param tokens A pointer to the token list to be parsed.
  * @param tmp A temporary token used to link the redirection file.
  * @return A pointer to the newly created redirection AST node.*/
-t_ast_node *create_and_link_redirection(t_token **tokens, t_token *tmp)
+t_ast_node *build_redirection_node(t_token **tokens, t_token *tmp)
 {
 	t_ast_node	*redirect_node;
 
-	redirect_node = new_ast_node((*tokens)->type);
+	redirect_node = create_new_ast_node((*tokens)->type);
 	*tokens = (*tokens)->next->next;
 	redirect_node->left = parse_redirection(tokens);
 	redirect_node->right = create_file_node(tmp->next);

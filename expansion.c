@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.co      +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 13:44:25 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/03 13:56:58 by lufiguei         ###   ########.fr       */
+/*   Updated: 2024/11/27 11:48:19 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ char	*expansion(char *path, t_shell *shell)
 
 	if (!path || !path[0])
 		return (update_exit(1, shell), NULL);
-	if (ft_strcmp(path[0], "\'") == 0)
+	if (ft_strcmp(&path[0], "'") == 0)
 		return (update_exit(0, shell), path);
-	if (ft_strcmp(path, "$$") == 0 && ft_strcmp(path[1], "$") == 0)
+	if (ft_strcmp(path, "$$") == 0 && ft_strcmp(&path[1], "$") == 0)
 		return (update_exit(0, shell), ft_itoa(shell->pid));
 	if (ft_strcmp(path, "$?") == 0)
 		return (update_exit(0, shell), ft_itoa(shell->exit_status));
