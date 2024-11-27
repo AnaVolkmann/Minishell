@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:21:20 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/27 17:34:06 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:46:37 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,25 @@ void	init_or_reset_pipe_state(t_pipe_state *pipe_state, int f)
 	else if (pipe_state->pipes_count)
 		pipe_state->executed_pipes_index += 1;
 	pipe_state->second_heredoc_status = 1;
+}
+
+int	wait_for_children(int status, t_pipe_state *piped)
+{
+	if (status != 2 && status != 127
+		&& status != 126 && piped->children_count
+		&& piped->second_heredoc_status)
+	{
+		while (piped->children_count)
+		{
+			wait(&status);
+			piped->children_count -= 1;
+		}
+		signal(SIGINT, handle_ctrl_c);
+		signal(SIGQUIT, SIG_IGN);
+		if (!g_signal)
+			return (WEXITSTATUS(status));
+		else
+			return (g_signal);
+	}
+	return (status);
 }

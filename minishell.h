@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/27 18:40:43 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:46:37 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,12 +214,13 @@ void		count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state);
 void		init_or_reset_pipe_state(t_pipe_state *pipe_state, int f);
 int			handle_input_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *env);
 int			handle_output_redirection(t_ast_node *head, t_pipe_state *pipe_state);
+int			wait_for_children(int status, t_pipe_state *piped);
 
 /*******************HANDLE_HEREDOC******************/
 
 void		quite_heredoc(int n);
 int			have_quotes(char *s);
-int	exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env);
-void	read_and_write(t_pipe_state *pipe_state, char *limiter, t_env *env, int is_expandable);
+int			exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env);
+void		read_and_write(t_pipe_state *pipe_state, char *limiter, t_env *env, int is_expandable);
 
 #endif

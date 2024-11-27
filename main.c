@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:08:55 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/27 17:23:27 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:47:54 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	main(int argc, char **argv, char **original_env)
 	if (argc != 1)
 		return (printf("Error: Too many Arguments, try \'./minishell\'\n"), 1);
 	rl_catch_signals = 0;
-	ft_signal();
+	//ft_signal();
+	setup_signal_handlers();
 	init_shell(&shell, original_env);
 	init_ast(ast);
 	while (1)

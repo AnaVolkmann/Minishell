@@ -6,15 +6,48 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/27 18:41:10 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:54:48 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // TODO - prepare_and_execute_cmd()
-// wait_children
 // expand_vars_in_ast
+/*
+pseudo code
+Function prepare_and_execute_command(command, fd, piped, env):
+    Declare cmd_args and f_args as arrays
+    Declare status as an integer
+
+    # Prepare command arguments
+    f_args = prepare_cmd_arguments(command[0], env.original_env, 0)  # Extract arguments from the first command
+    cmd_args = merge_command_args(f_args, command)                  # Merge with the rest of the command arguments
+
+    # Check if the command is a built-in command
+    If check_if_command_is_builtin(cmd_args[0]) is True:
+        # Execute the built-in command
+        status = manage_builtin_execution(cmd_args, fd, env, piped)
+    Else:
+        # Increment the number of executed commands
+        piped->children_count += 1
+
+        # Check if redirection is enabled
+        If piped->is_redirection_or_pipe is False:
+            # Execute command without redirection
+            status = execute_command_basic(cmd_args, fd, env.original_env, piped)
+            Free memory allocated for cmd_args
+        Else:
+            # Execute command with redirection
+            status = execute_command_with_redirection(cmd_args, fd, env.original_env, piped)
+
+    # Decrement the pipe count if greater than 1
+    if piped->xecuted_pipes_index > 1:
+        piped->executed_pipes_index -= 1
+
+    Return status
+
+*/
 
 int open_file_for_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *env, int status)
 {
@@ -119,7 +152,7 @@ int	execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env)
 	}
 	if (head->file_type == EXECUTE_FILE)
 		status = prepare_and_execute_cmd(head->args, fd, piped_state, env);
-	status = wait_children(status, piped_state);
+	status = wait_for_children(status, piped_state);
 	if (piped_state->has_input_file)
 		close(piped_state->current_input_fd);
 	if (piped_state->has_output_file)
