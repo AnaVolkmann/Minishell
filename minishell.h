@@ -6,12 +6,21 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/27 11:56:46 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/27 17:54:21 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# define READ_FILE 10
+# define READ_FROM_APPEND 20
+# define WRITE_FILE 30
+# define WRITE_FILE_APPEND 40
+# define EXECUTE_FILE 50
+# define FILE_READY 60
+
+/*******************INCLUDES****************/
 
 # include <dirent.h>
 # include <errno.h>
@@ -32,7 +41,11 @@
 # include <stdbool.h>
 # include <limits.h>
 
+/*****************GLOBAL VARIABLE*****************/
+
 extern int	g_signal;
+
+/********************TOKEN TYPE*******************/
 
 typedef enum e_token_type
 {
@@ -45,37 +58,64 @@ typedef enum e_token_type
 	TOKEN_ENV_VAR,// For environment variables
 }				t_token_type;
 
+/************************RULES*********************/
+
+typedef struct	s_pipe_state
+{
+	int					executed_pipes_index;
+	int					input_files_count;
+	int					output_files_count;
+	int					pipes_count;
+	int					current_input_fd;
+	int					current_output_fd;
+	int					has_input_file;
+	int					has_output_file;
+	int					is_redirection_or_pipe;
+	int					heredoc_status;
+	int					children_count;
+	int					second_heredoc_status;
+}				t_pipe_state;
+
+/**************************envp*********************/
+
+typedef struct	s_env
+{
+	char				**original_env;
+	char				***parsed_env;
+}				t_env;
+
+/***********************TOKEN STRUCT*****************/
+
 typedef struct s_token
 {
-	t_token_type	type;
-	char			*value;
-	struct s_token	*next;
+	t_token_type		type;
+	char				*value;
+	struct s_token		*next;
 }			t_token;
+
+/*************************SHELL STRUCT******************/
 
 typedef struct s_shell
 {
-	int		pid;
-	int		last_pid;
-	int		exit_status;
-	int		output_fd;
-	char	**path;
-	char	**envp;
+	int					pid;
+	int					last_pid;
+	int					exit_status;
+	int					output_fd;
+	int					input_fd;
+	char				**path;
+	char				**envp;
 }				t_shell;
 
 typedef struct s_ast_node
 {
 	t_token_type		type;
+	struct s_shell		*shell;
 	char				**args;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
 	int					file_type;//indicates the type of redirection(input, output, append), if no redirec, set to 0.
 }						t_ast_node;
 
-typedef struct s_env
-{
-	char	**original_env;
-	char	***parsed_env;
-}		t_env;
 
 /******************Input processing****************/
 
@@ -125,7 +165,7 @@ t_ast_node	*parse_command(t_token **token);
 t_ast_node	*create_new_ast_node(t_token_type type);
 t_ast_node	*create_file_node(t_token *token);
 int			count_command_args(t_token *current);
-t_ast_node *build_redirection_node(t_token **tokens, t_token *tmp);
+t_ast_node	*build_redirection_node(t_token **tokens, t_token *tmp);
 
 /**********************Builtins********************/
 
@@ -145,8 +185,11 @@ char		*get_env(char *var, char **envp);
 char		**realloc_envp(char **envp, int size);
 int			find_env(char **envp, char *name);
 int			count_envp(char **envp);
-void		sighandler(int signal);
-void		ft_signal(void);
+//void		sighandler(int signal);
+//void		ft_signal(void);
+void		handle_ctrl_c(int a);
+void		child_ctrl_c(int sig_num);
+void		setup_signal_handlers(void);
 void		remove_env(char **envp, int index);
 void		update_exit(int i, t_shell *shell);
 
@@ -158,6 +201,18 @@ void		free_ast(t_ast_node **ast);
 
 /********************Run Commands****************/
 
-int			execute(char *cmd, char *const *argument, t_shell *shell);
+void		command_executer(t_ast_node *head, t_env *env, int *status);
+int			execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env);
+int			handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state, t_env *env, int *fd);
+int			handle_piped_cmd_exec(t_ast_node *head, t_pipe_state *piped_state, t_env *env, int fd);
+
+/********************RUN UTILS******************/
+
+void		adjust_ast_node_for_execution(t_ast_node *head);
+int			check_file_permissions(t_ast_node *head, char **env);
+void		count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state);
+void		init_or_reset_pipe_state(t_pipe_state *pipe_state, int f);
+int			handle_input_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *env);
+int			handle_output_redirection(t_ast_node *head, t_pipe_state *pipe_state);
 
 #endif

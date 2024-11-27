@@ -24,7 +24,9 @@ input_validation/syntax_checker.c\
 input_validation/syntax_checker_utils.c\
 builtin/helper.c\
 free_me.c\
-execution/execute.c\
+execution/execution_manager.c\
+execution/execution_utils.c\
+execution/init_environment.c\
 parsing/parser.c\
 parsing/parser_utils.c\
 

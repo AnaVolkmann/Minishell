@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:08:55 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/27 11:45:26 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/27 17:23:27 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ static int	minishell(t_shell *shell, t_ast_node **ast)
 {
 	t_token	*tokens;
 	char	*input;
+	//int		status;
 
+	//status = 0;
 	input = readline("Minishell: ");
 	if (input == NULL)
 		return (printf("exit\n"), 0);
@@ -60,7 +62,9 @@ static int	minishell(t_shell *shell, t_ast_node **ast)
 		*ast = parse_tokens(&tokens);
 		free(tokens);
 	}
-	// command_executer();
+	//funcai qye vai correr a arvere
+	//vai receber ast
+	//command_executer(ast, env, &status);
 	return (0);
 }
 
@@ -186,3 +190,60 @@ int main(int argc, char **argv, char **original_env)
 
     return 0;
 }*/
+
+
+
+/* 
+funcao_que_corre_a_arvore_para_ver_o_tipo_do_node_e_depois_executar(ast)
+{
+	ver o tipo do node
+
+	se ast->tipo == redirect
+		//chamar funcao de redirect_geral(ast)
+	se ast->tipo == exec
+		//chamar funcao de execucao_cmd(ast)
+	se ast->tipo == PIPE
+		//chamar funcao de pipe
+}
+
+funcao_redirect_geral
+		// se for (< RED_IN)
+			//funcao de redir in
+		// se for (> RED_OUT)
+			//funcao de redir out
+		// se for (>> HEREDOC)
+			//funcao de exec HEREDOC
+		// se for (>> RED_APPE)
+			//funcao de redirect append
+
+		// se nao ast->proximo = ast->next = NULL;
+		//se o proximo appontar para algo
+			//funcao_exec(ast->proximo)
+}
+
+
+funcao de pipe(exec)
+{
+	//forkar 2 vezes
+	//um fork vai ser para a execucao do lado esquerdo
+		//funcao_que_corre_a_arvore_para_ver_o_tipo_do_node_e_depois_executar(ast->erquerdo)
+		//exit(flag_pra_recuperar_a_saida)
+	//um fork vai ser para a execucao do lado direito
+		//funcao_que_corre_a_arvore_para_ver_o_tipo_do_node_e_depois_executar(ast->direito)
+		//exit(flag_pra_recuperar_a_saida)
+
+	//recuperar saida do ultimo comando executado e guardar na estrutura
+	//fim.
+}
+
+
+
+execucao_cmd(ast)
+{
+	//coisas da execucao
+	//achar caminho
+	//execve
+	//bla bla bla
+	//msg de erro
+}
+ */
