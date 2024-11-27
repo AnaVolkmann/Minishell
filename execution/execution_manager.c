@@ -6,14 +6,13 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/27 17:54:21 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:41:10 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// TODO - prepare_and_execute_command()
-// opne_file_for_redirec();
+// TODO - prepare_and_execute_cmd()
 // wait_children
 // expand_vars_in_ast
 
@@ -63,7 +62,7 @@ int handle_piped_cmd_exec(t_ast_node *head, t_pipe_state *piped_state, t_env *en
 	if (head->file_type == EXECUTE_FILE)
 	{
 		piped_state->is_redirection_or_pipe = 0;
-		status = prepare_and_execute_command(head->args, fd, piped_state, env);
+		status = prepare_and_execute_cmd(head->args, fd, piped_state, env);
 	}
 	if (head->type == TOKEN_REDIR_IN || head->type == TOKEN_REDIR_OUT
 		|| head->type == TOKEN_REDIR_APPEND || head->type == TOKEN_REDIR_HEREDOC)
@@ -90,7 +89,7 @@ int handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state, t_env *e
 		&& piped_state->second_heredoc_status && !status)
 	{
 		piped_state->is_redirection_or_pipe = 1;
-		status = prepare_and_execute_command(head->left->args, fd, piped_state, env);
+		status = prepare_and_execute_cmd(head->left->args, fd, piped_state, env);
 	}
 	if (head->left && head->left->type == TOKEN_PIPE
 		&& piped_state->second_heredoc_status)
@@ -119,7 +118,7 @@ int	execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env)
 			status = handle_redirection_cmd(head, piped_state, env, fd);
 	}
 	if (head->file_type == EXECUTE_FILE)
-		status = prepare_and_exec_cmd(head->args, fd, piped_state, env);
+		status = prepare_and_execute_cmd(head->args, fd, piped_state, env);
 	status = wait_children(status, piped_state);
 	if (piped_state->has_input_file)
 		close(piped_state->current_input_fd);

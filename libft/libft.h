@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 21:05:47 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/07 11:48:58 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:31:09 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int		ft_strcmp(char *s1, char *s2);
 int		ft_strchr_i(const char *s, int c);
 char	*ft_strndup(const char *src, size_t n);
 size_t	ft_strnlen(const char *s, size_t maxlen);
+int 	str_compare(char *s_1, char *s_2, int max);
 
 /*.....................MEMORY.....................*/
 

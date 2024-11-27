@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/27 17:54:21 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:40:43 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ void		free_ast(t_ast_node **ast);
 void		command_executer(t_ast_node *head, t_env *env, int *status);
 int			execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env);
 int			handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state, t_env *env, int *fd);
-int			handle_piped_cmd_exec(t_ast_node *head, t_pipe_state *piped_state, t_env *env, int fd);
+int			handle_piped_cmd_exec(t_ast_node *head, t_pipe_state *piped_state, t_env *env, int *fd);
 
 /********************RUN UTILS******************/
 
@@ -214,5 +214,12 @@ void		count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state);
 void		init_or_reset_pipe_state(t_pipe_state *pipe_state, int f);
 int			handle_input_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *env);
 int			handle_output_redirection(t_ast_node *head, t_pipe_state *pipe_state);
+
+/*******************HANDLE_HEREDOC******************/
+
+void		quite_heredoc(int n);
+int			have_quotes(char *s);
+int	exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env);
+void	read_and_write(t_pipe_state *pipe_state, char *limiter, t_env *env, int is_expandable);
 
 #endif

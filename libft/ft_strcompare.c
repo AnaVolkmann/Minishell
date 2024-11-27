@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_strcompare.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 17:27:07 by ana-lda-          #+#    #+#             */
+/*   Created: 2024/11/27 18:29:47 by ana-lda-          #+#    #+#             */
 /*   Updated: 2024/11/27 18:31:57 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strcmp(char *s1, char *s2)
+int	str_compare(char *s_1, char *s_2, int max)
 {
-	int	i;
+	int	a;
 
-	i = 0;
-	while ((s1[i] == s2[i]) && s1[i] && s2[i])
-		i++;
-	return (s1[i] - s2[i]);
+	a = 0;
+	while (a < max && *s_1 && *s_2 && s_1[a] == s_2[a])
+		a++;
+	if (sizeof_str(s_1, '\0') == a && a == max)
+		return (1);
+	return (0);
 }
