@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/27 18:54:48 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/28 11:31:13 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 // TODO - prepare_and_execute_cmd()
 // expand_vars_in_ast
+// FINISH FUNCTION chech_file_permission
 /*
 pseudo code
 Function prepare_and_execute_command(command, fd, piped, env):

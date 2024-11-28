@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:27:45 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/27 17:19:18 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/28 11:31:13 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ int	check_file_permissions(t_ast_node *head, char **env)
 	status = 0;
 	if (head->args && !check_if_cmd_is_builtin(head->args[0]) && head->file_type == READ_FILE)
 	{
-		path = get_path(head->args[0], env, "PWD", R_OK);
+		//path = get_path(head->args[0], env, "PWD", R_OK);
 		if (!path)
 			status = 0;
 		else
 		{
-			//suspicious path (is_susp_dir(path, head->args[0], &status);
+			//suspicious path (is_susp_dir(path, head->args[0], &status); mudar status
 			free(path);
 		}
 		if (status == 1)
@@ -65,7 +65,7 @@ int	check_file_permissions(t_ast_node *head, char **env)
 			ft_putendl_fd(strerror(errno), 2);
 			update_exit(get_shell_exit_status(errno), head->shell);
 		}
-		else if (status)
+		else if (!status)
 		{
 			ft_putstr_fd("   minishell(\'", 2);
 			ft_putstr_fd(head->args[0], 2);
