@@ -6,13 +6,62 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:08:55 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/27 18:47:54 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/29 15:08:23 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	minishell(t_shell *shell, t_ast_node **ast);
+//The isatty() function shall test whether fildes,
+//an open file descriptor, is associated with a terminal device
+
+int	main(int argc, char **argv, char **original_env)
+{
+	t_env	*env;
+
+	(void)argv;
+	setup_signal_handlers();
+	env = malloc(sizeof(t_env));
+	if (!isatty(1) || !isatty(0))
+		return (free(env), 0);
+	if(argc == 1 && init_environment(env, original_env))
+	{
+		run_minishell(env);
+		cleanup_and_exit_shell(env, 0);
+	}
+	return (0);
+}
+
+void	run_minishell(t_env *env)
+{
+	char		*input;
+	int			status;
+	t_token		*tokens;
+	t_ast_node	*ast;
+
+	while (1)
+	{
+		status = 0;
+		input = readline("> ");
+		if (!input)
+			break;
+		if (check_line(&input))
+			continue;
+		add_history(input);
+		tokens = process_to_tokenize_input(input);
+		if (!tokens)
+			//status = exit_status
+		if (!status)
+		{
+			ast = parse_tokens(&tokens);
+			command_executer(ast, env, &status);
+			free(ast);
+		}
+		//update_env_status
+	}
+}
+
+/* static int	minishell(t_shell *shell, t_ast_node **ast);
 
 int	g_signal = 0;
 
@@ -67,14 +116,15 @@ static int	minishell(t_shell *shell, t_ast_node **ast)
 	//vai receber ast
 	//command_executer(ast, env, &status);
 	return (0);
-}
+} */
 
 /*const char	*get_token_type_name(t_token_type type)
 {
 	const char	*token_type_names[7];
 
  	token_type_names[0] = "WORD";
-	token_type_names[1] = "PIPE";
+	toke	return (free(input), update_exit(2, shell), 2); // sair do programa ou devolver o prompt?
+	tokens = process_to_tokenize_input(input);n_type_names[1] = "PIPE";
 	token_type_names[2] = "REDIRECT_IN";
 	token_type_names[3] = "REDIRECT_OUT";
 	token_type_names[4] = "REDIRECT_APPEND";

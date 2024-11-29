@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/28 11:19:54 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/29 15:06:49 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,16 @@ int			is_invalid_operator(const char **input);
 
 /*********************Init***********************/
 
-t_shell		*init_shell(t_shell *shell, char **original_env);
-t_ast_node	*init_ast(t_ast_node *ast);
-char		**init_dinam_env(char **original_env);
+int			init_parse_env(t_env *env, char **original_env);
+void		init_default_variables(t_env *env);
+void		add_missing_default_variables(t_env *env,
+				int shell_found, int pwd_found, char *cwd);
+char		**duplicate_env_variables(char **env);
+int			init_environment(t_env *env, char **original_env);
+void		add_pwd_variable(t_env *env, int *count, char *cwd);
+void		add_shell_variable(t_env *env, int *count);
+int			count_parsed_env(char ***parsed_env);
+int			parse_env_entry(t_env *env, char *entry, int index);
 
 /*********************Parsing*********************/
 
@@ -195,12 +202,14 @@ void		update_exit(int i, t_shell *shell);
 
 /*********************Free***********************/
 
-void		free_envp(char **envp);
+void		free_envp(void **envp);
 void		free_shell(t_shell *shell);
 void		free_ast(t_ast_node **ast);
+void		cleanup_and_exit_shell(t_env *env, int status);
 
 /********************Run Commands****************/
 
+void		run_minishell(t_env *env);
 void		command_executer(t_ast_node *head, t_env *env, int *status);
 int			execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env);
 int			handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state, t_env *env, int *fd);
