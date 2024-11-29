@@ -7,7 +7,7 @@ ft_strjoin.c ft_strtrim.c ft_striteri.c ft_itoa.c ft_split.c ft_isspace.c\
 ft_atol.c ft_factorial.c ft_fibonacci.c ft_is_prime.c ft_putnbr.c\
 ft_putstr.c ft_strcmp.c ft_strchr_i.c ft_strndup.c ft_strnlen.c ft_putpointer.c\
 ft_puthexa.c ft_putchar.c ft_putpointerhexa.c get_next_line.c ft_printf.c\
-ft_strcompare.c\
+ft_strcompare.c is_space.c\
 
 BONUS =  ft_lstnew.c ft_lstadd_front.c ft_lstlast.c ft_lstadd_back.c\
 ft_lstdelone.c ft_lstsize.c ft_lstclear.c ft_lstiter.c ft_lstmap.c\

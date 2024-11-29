@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 12:41:56 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/29 15:02:27 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/29 16:28:21 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,9 +206,13 @@ int	init_environment(t_env *env, char **original_env)
 
 /* t_shell	*init_shell(t_shell *shell, char **original_env)
 {
-	shell->pid = getpid();
-	shell->path = NULL;
-	shell->envp = init_dinam_env(original_env);
+	shell.pid = getpid();
+	shell.last_pid = 0;
+	shell.exit_status = 0;
+	shell.output_fd = STDOUT_FILENO;
+	shell.input_fd = STDIN_FILENO;
+	shell.path = env->parsed_env;s
+	shell.envp = env->original_env;
 	return (shell);
 }
 

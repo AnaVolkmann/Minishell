@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/29 15:06:49 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/11/29 16:22:36 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,24 +78,24 @@ typedef struct	s_pipe_state
 
 /**************************envp*********************/
 
-typedef struct	s_env
+typedef struct		s_env
 {
 	char				**original_env;
 	char				***parsed_env;
-}				t_env;
+}					t_env;
 
 /***********************TOKEN STRUCT*****************/
 
-typedef struct s_token
+typedef struct		s_token
 {
 	t_token_type		type;
 	char				*value;
 	struct s_token		*next;
-}			t_token;
+}					t_token;
 
 /*************************SHELL STRUCT******************/
 
-typedef struct s_shell
+typedef struct		s_shell
 {
 	int					pid;
 	int					last_pid;
@@ -104,9 +104,9 @@ typedef struct s_shell
 	int					input_fd;
 	char				**path;
 	char				**envp;
-}				t_shell;
+}					t_shell;
 
-typedef struct s_ast_node
+typedef struct		s_ast_node
 {
 	t_token_type		type;
 	struct s_shell		*shell;
@@ -114,7 +114,7 @@ typedef struct s_ast_node
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
 	int					file_type;//indicates the type of redirection(input, output, append), if no redirec, set to 0.
-}						t_ast_node;
+}					t_ast_node;
 
 
 /******************Input processing****************/
@@ -199,6 +199,8 @@ void		child_ctrl_c(int sig_num);
 void		setup_signal_handlers(void);
 void		remove_env(char **envp, int index);
 void		update_exit(int i, t_shell *shell);
+int			str_cmp(char *s_1, char *s_2, char *s_3);
+int			check_line(char **input);
 
 /*********************Free***********************/
 
