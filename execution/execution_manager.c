@@ -6,49 +6,47 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/28 11:31:13 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 12:11:38 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// TODO - prepare_and_execute_cmd()
+// TODO - prepare_cmd_args
+// merge_cmd;
+// builtin_execution;
+// execute_basic_cmd;
+// comand_is_builtin
+// execute_with_redirect;
 // expand_vars_in_ast
 // FINISH FUNCTION chech_file_permission
-/*
-pseudo code
-Function prepare_and_execute_command(command, fd, piped, env):
-    Declare cmd_args and f_args as arrays
-    Declare status as an integer
 
-    # Prepare command arguments
-    f_args = prepare_cmd_arguments(command[0], env.original_env, 0)  # Extract arguments from the first command
-    cmd_args = merge_command_args(f_args, command)                  # Merge with the rest of the command arguments
+int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped, t_env *env)
+{
+	char	**cmd_args;
+	char	**f_args;
+	int		status;
 
-    # Check if the command is a built-in command
-    If check_if_command_is_builtin(cmd_args[0]) is True:
-        # Execute the built-in command
-        status = manage_builtin_execution(cmd_args, fd, env, piped)
-    Else:
-        # Increment the number of executed commands
-        piped->children_count += 1
+	//f_args = prepare_cmd_args(cmd[0], env->original_env, 0);
+	//cmd_args = merge_cmd(f_args, cmd);
+	if (command_is_builtin(cmd_args[0]))
+		//status = builtin_execution;
+	else
+	{
+		piped->children_count += 1;
+		if (!piped->is_redirection_or_pipe)
+		{
+			//status = execute_basic_cmd();
+			//free_array();
+		}
+		else
+			//status = execute_cmd_with_redirect;
+	if (piped->executed_pipes_index > 1)
+		piped->executed_pipes_index -= 1;
+	return (status);
+	}
 
-        # Check if redirection is enabled
-        If piped->is_redirection_or_pipe is False:
-            # Execute command without redirection
-            status = execute_command_basic(cmd_args, fd, env.original_env, piped)
-            Free memory allocated for cmd_args
-        Else:
-            # Execute command with redirection
-            status = execute_command_with_redirection(cmd_args, fd, env.original_env, piped)
-
-    # Decrement the pipe count if greater than 1
-    if piped->xecuted_pipes_index > 1:
-        piped->executed_pipes_index -= 1
-
-    Return status
-
-*/
+}
 
 int open_file_for_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *env, int status)
 {
