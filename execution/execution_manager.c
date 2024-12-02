@@ -6,17 +6,15 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 14:10:18 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:50:32 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// TODO - prepare_cmd_args
-// merge_cmd;
+// TODO
 // builtin_execution;
 // execute_basic_cmd;
-// comand_is_builtin
 // execute_with_redirect;
 // expand_vars_in_ast
 // FINISH FUNCTION chech_file_permission
@@ -35,25 +33,24 @@ int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped, t_env *env
 	char	**f_args;
 	int		status;
 
-	//f_args = prepare_cmd_args(cmd[0], env->original_env, 0);
-	//cmd_args = merge_cmd(f_args, cmd);
+	f_args = prepare_cmd_args(cmd[0], env->original_env, 0);
+	cmd_args = merge_cmd_args(f_args, cmd);
 	if (command_is_builtin(cmd_args[0]))
-		//status = builtin_execution;
+		//status = run_command_builtin(cmd_args, env->shell);
 	else
 	{
 		piped->children_count += 1;
 		if (!piped->is_redirection_or_pipe)
 		{
-			//status = execute_basic_cmd();
-			//free_array();
+			status = execute_basic_cmd();
+			free_envp(cmd_args);
 		}
 		else
 			//status = execute_cmd_with_redirect;
+	}
 	if (piped->executed_pipes_index > 1)
 		piped->executed_pipes_index -= 1;
 	return (status);
-	}
-
 }
 
 /** @brief Opens files for input/output redirection based on file type.
@@ -86,13 +83,13 @@ int handle_input_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *
 	{
 		pipe_state->current_input_fd = open(head->args[0], O_RDONLY);
 		pipe_state->has_input_file = (pipe_state->current_input_fd >= 0);
-		return pipe_state->has_input_file ? 0 : -1; // Return success or error
+		//return pipe_state->has_input_file ? 0 : -1;
 	}
-	else if (head->file_type == READ_FROM_APPEND) // Heredoc
+	else if (head->file_type == READ_FROM_APPEND)
 	{
 		pipe_state->heredoc_status = exec_here_doc(head->args[0], pipe_state, env);
 		signal(SIGINT, handle_ctrl_c);
-		return 0; // Assume heredoc is processed successfully
+		return 0;
 	}
 	return 0;
 }
@@ -110,7 +107,7 @@ int handle_output_redirection(t_ast_node *head, t_pipe_state *pipe_state)
 		mode = O_APPEND;
 	pipe_state->current_output_fd = open(head->args[0], O_WRONLY | O_CREAT | mode, 0666);
 	pipe_state->has_output_file = (pipe_state->current_output_fd >= 0);
-	return pipe_state->has_output_file ? 0 : -1; // Return success or error
+	//return pipe_state->has_output_file ? 0 : -1;
 }
 
 /** @brief Executes piped commands by recursively processing AST nodes.

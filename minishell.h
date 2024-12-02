@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/29 16:22:36 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:28:22 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct		s_env
 {
 	char				**original_env;
 	char				***parsed_env;
+	t_shell				*shell;
 }					t_env;
 
 /***********************TOKEN STRUCT*****************/

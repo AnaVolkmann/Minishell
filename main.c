@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:08:55 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/29 16:29:58 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:28:07 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	run_minishell(t_env *env)
 	int			status;
 	t_token		*tokens;
 	t_ast_node	*ast;
-	t_shell		*shell;
 
 	/* shell.pid = getpid();  // Inicializa o PID do shell
     shell.last_pid = 0;    // Inicializa o PID do último comando

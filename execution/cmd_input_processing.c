@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_environment.c                                 :+:      :+:    :+:   */
+/*   cmd_input_processing.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:21:20 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 14:18:02 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:08:40 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,32 @@ int	wait_for_children(int status, t_pipe_state *piped)
 			return (g_signal);
 	}
 	return (status);
+}
+
+char	**merge_cmd_args(char **f_args, char **cmd)
+{
+	int		i;
+	char	**new_args;
+
+	if (!f_args)
+		return (NULL);
+	i = 1;
+	while (cmd[0] && cmd[i])
+		i++;
+	new_args = malloc(sizeof(char *) * (i + 1));
+	if (!new_args)
+		return (NULL);
+	i = 0;
+	if (f_args[i])
+		new_args[i] = ft_strcopy(f_args[i]);
+	else
+		new_args[i] = ft_strcopy("");
+	if (cmd && cmd[0])
+	{
+		while (cmd[++i])
+			new_args[i] = ft_strcopy(cmd[i]);
+	}
+	new_args[i] = 0;
+	free_envp(f_args);
+	return (new_args);
 }
