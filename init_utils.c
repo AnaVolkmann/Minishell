@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_utiles.c                                      :+:      :+:    :+:   */
+/*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:54:22 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/29 14:57:53 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:20:41 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	count_parsed_env(char ***parsed_env)
 	int	count;
 
 	count = 0;
-	while (parsed_env[count])
+	while ((*parsed_env)[count])
 		count++;
 	eturn (count);
 }

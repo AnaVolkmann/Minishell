@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 12:41:56 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 18:01:24 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:21:48 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	init_parsed_env(t_env *env, char **original_env)
 	{
 		if (!parse_env_entry(env, original_env[i], i))
 		{
-			free_envp(env->parsed_env);
+			free_parsed_env(env);
 			return (0);
 		}
 		i++;
@@ -113,7 +113,7 @@ void	add_missing_default_variables(t_env *env,
 	char	***new_parsed_env;
 
 	i = 0;
-	count = count_parsed_env(env);
+	count = count_parsed_env(env->parsed_env);
 	new_parsed_env = malloc(sizeof(char **) * (count + 3)); // Space for 2 new vars and NULL terminator
 	if (!new_parsed_env)
 		return ;

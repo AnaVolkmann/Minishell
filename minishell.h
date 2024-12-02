@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/02 18:01:24 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:20:41 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,10 +205,11 @@ int			check_line(char **input);
 
 /*********************Free***********************/
 
-void		free_envp(void **envp);
+void        free_envp(char **envp);
 void		free_shell(t_shell *shell);
 void		free_ast(t_ast_node **ast);
 void		cleanup_and_exit_shell(t_env *env, int status);
+void		free_parsed_env(t_env *env);
 
 /********************Run Commands****************/
 
