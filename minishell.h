@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/02 15:28:22 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:19:15 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct		s_env
 {
 	char				**original_env;
 	char				***parsed_env;
-	t_shell				*shell;
+	struct t_shell				*shell;
 }					t_env;
 
 /***********************TOKEN STRUCT*****************/
@@ -217,6 +217,18 @@ void		command_executer(t_ast_node *head, t_env *env, int *status);
 int			execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env);
 int			handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state, t_env *env, int *fd);
 int			handle_piped_cmd_exec(t_ast_node *head, t_pipe_state *piped_state, t_env *env, int *fd);
+int			prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped, t_env *env);
+int			open_file_for_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *env, int status);
+char		**merge_cmd_args(char **f_args, char **cmd);
+int			execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped);
+void		close_pipe_ends(int read_fd, int write_fd);
+int			command_is_builtin(char *cmd);
+char		*verify_path_without_env(char *file, int mode);
+int			is_path_accessible(char *path, int mode);
+char		get_file_path(char *file, char **envp, char *env_var, int mode);
+char		**prepare_cmd_args(char *cmd, char **envp, int c);
+char		*find_next_substring(char *str, char del, int *index);
+int			sizeof_str(char *str, char end);
 
 /********************RUN UTILS******************/
 

@@ -6,18 +6,29 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 12:17:54 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 14:49:29 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:48:18 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/** @brief Checks if a path is accessible with the specified mode.
+ * 
+ * @param path Path to the file or directory.
+ * @param mode Accessibility check mode (e.g., `R_OK`, `W_OK`, `X_OK`).
+ * @return Returns `1` if the path is accessible; otherwise, returns `0`.*/
 int	is_path_accessible(char *path, int mode)
 {
 	if (access(path, mode) < 0)
 		return (0);
 	return (1);
 }
+
+/** @brief Verifies the path of a file without referencing environment variables.
+ * 
+ * @param file The file name or path to verify.
+ * @param mode Accessibility check mode (e.g., `R_OK`, `W_OK`, `X_OK`).
+ * @return Allocated string containing the verified path if accessible; `NULL` otherwise.*/
 char	*verify_path_without_env(char *file, int mode)
 {
 	char	*temp_path;
@@ -35,6 +46,13 @@ char	*verify_path_without_env(char *file, int mode)
 }
 
 // locate the executable file's absolute path by:
+/** @brief Finds the absolute path of an executable using environment variables.
+ * 
+ * @param file The file name to locate.
+ * @param envp Array of environment variables.
+ * @param env_var The specific environment variable (e.g., `"PATH"`) to search within.
+ * @param mode Accessibility check mode (e.g., `R_OK`, `W_OK`, `X_OK`).
+ * @return Allocated string containing the absolute path if found and accessible; `NULL` otherwise.*/
 char	get_file_path(char *file, char **envp, char *env_var, int mode)
 {
 	char	*temp_path;
@@ -65,6 +83,11 @@ char	get_file_path(char *file, char **envp, char *env_var, int mode)
 	return NULL;
 }
 
+/** @brief Calculates the length of a string up to the specified end character.
+ * 
+ * @param str Input string.
+ * @param end Character where the count should stop.
+ * @return Number of characters up to `end` or the end of the string.*/
 int	sizeof_str(char *str, char end)
 {
 	int	i;
@@ -75,6 +98,12 @@ int	sizeof_str(char *str, char end)
 	return (i);
 }
 
+/** @brief Extracts the next substring from a string using a delimiter, skipping quotes.
+ * 
+ * @param str Input string to parse.
+ * @param del Delimiter separating substrings.
+ * @param index Pointer to the current parsing index.
+ * @return Allocated string containing the next substring.*/
 char	*find_next_substring(char *str, char del, int *index)
 {
 	char	*sub;
@@ -97,7 +126,13 @@ char	*find_next_substring(char *str, char del, int *index)
 	index[0]++;
 	return(sub);
 }
-/** Parse a command string (cmd) into individual arguments. */
+
+/** @brief Parses a command string into arguments and resolves the command's executable path.
+ * 
+ * @param cmd The command string to parse (e.g., `"ls -la"`).
+ * @param envp Array of environment variables.
+ * @param c Counter for parsed arguments.
+ * @return Array of strings representing the parsed command and arguments.*/
 char **prepare_cmd_args(char *cmd, char **envp, int c)
 {
 	char	**parsed_cmd;

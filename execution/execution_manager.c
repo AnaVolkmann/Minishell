@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 15:58:05 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:23:47 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped, t_env *env
 	f_args = prepare_cmd_args(cmd[0], env->original_env, 0);
 	cmd_args = merge_cmd_args(f_args, cmd);
 	if (command_is_builtin(cmd_args[0]))
-		//status = run_command_builtin(cmd_args, env->shell);
+		status = run_command_builtin(cmd_args, env->shell);
 	else
 	{
 		piped->children_count += 1;
 		if (!piped->is_redirection_or_pipe)
 		{
 			status = execute_basic_cmd(cmd_args, fd, env->original_env, piped);
-			free_envp(cmd_args);
+			free_envp(cmd_args); // testar leacks
 		}
 		else
-			//status = execute_cmd_with_redirect;
+			status = execute_cmd_with_redirect(cmd_args, fd, env->original_env, piped);
 	}
 	if (piped->executed_pipes_index > 1)
 		piped->executed_pipes_index -= 1;

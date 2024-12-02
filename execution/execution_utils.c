@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:27:45 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 14:12:18 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:12:38 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	check_file_permissions(t_ast_node *head, char **env)
 	status = 0;
 	if (head->args && !check_if_cmd_is_builtin(head->args[0]) && head->file_type == READ_FILE)
 	{
-		//path = get_path(head->args[0], env, "PWD", R_OK);
+		//path = fetch_path? get_path(head->args[0], env, "PWD", R_OK);
 		if (!path)
 			status = 0;
 		else
