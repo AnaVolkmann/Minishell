@@ -110,7 +110,7 @@ static int	run_command_exec(char *cmd, char *const *argument, t_shell *shell)
  * returns error if none found */
 int	execute(char *cmd, char *const *argument, t_shell *shell)
 {
-	if (run_command_builtin(cmd, (char **)argument, shell) == 0)
+	if (run_command_builtin((char **)argument, shell) == 0)
 		return (0);
 	else if (run_command_exec(cmd, argument, shell) == 0)
 		return (0);
