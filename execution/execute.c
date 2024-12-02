@@ -15,7 +15,7 @@
 /** @brief it compares the command with all 7 builtins
  * if any match is found, it runs the command with its argument, otherwise
  * it returns -1 to signalize that it didnt ran */
-static int	run_command_builtin(char *cmd, char **arguments, t_shell *shell)
+static int	run_command_builtin(char **arguments, t_shell *shell)
 {
 	int		i;
 	char	*pwd;
@@ -23,22 +23,22 @@ static int	run_command_builtin(char *cmd, char **arguments, t_shell *shell)
 	i = 0;
 	while (arguments[i])
 		i++;
-	if (ft_strcmp(cmd, "cd") == 0)
+	if (ft_strcmp(arguments[0], "cd") == 0)
 		return (ft_cd(arguments[1], shell), 0);
-	else if (ft_strcmp(cmd, "echo") == 0)
-		return (echo(arguments, i, shell->output_fd, shell), 0);
-	else if (ft_strcmp(cmd, "env") == 0)
+	else if (ft_strcmp(arguments[0], "echo") == 0)
+		return (echo(arguments + 1, i, shell->output_fd, shell), 0);
+	else if (ft_strcmp(arguments[0], "env") == 0)
 		return (ft_env(shell), 0);
-	else if (ft_strcmp(cmd, "exit") == 0)
-		return (bash_exit(arguments, i, shell), 0);
-	else if (ft_strcmp(cmd, "export") == 0)
+	else if (ft_strcmp(arguments[0], "exit") == 0)
+		return (bash_exit(arguments + 1, i, shell), 0);
+	else if (ft_strcmp(arguments[0], "export") == 0)
 		return (ft_export(arguments[1], shell), 0);
-	else if (ft_strcmp(cmd, "pwd") == 0)
+	else if (ft_strcmp(arguments[0], "pwd") == 0)
 	{
 		pwd = ft_pwd(shell, 1);
 		return (free(pwd), 0);
 	}
-	else if (ft_strcmp(cmd, "unset") == 0)
+	else if (ft_strcmp(arguments[0], "unset") == 0)
 		return (ft_unset(arguments[1], shell), 0);
 	return (-1);
 }
