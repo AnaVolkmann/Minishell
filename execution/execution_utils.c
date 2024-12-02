@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:27:45 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 18:07:32 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:47:42 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,35 @@ void	adjust_ast_node_for_execution(t_ast_node *head)
 	}
 }
 
+char *get_file_path(char *file, char **envp, char *env_var, int mode)
+{
+	char *tmp_path;
+	int env_var_len;
+	int env_var_index;
+    
+	env_var_index = find_substr_index(envp, env_var, env_var_len);
+	env_var_len = sizeof_str(env_var, '\0');
+	if (env_var_index < 0 || (file[0] == '.' && file[1] == '/'))
+		return verify_path_without_env(file, mode);
+	int env_value_len = sizeof_str(envp[env_var_index], '\0');
+	if (sizeof_str(file, ' ') != sizeof_str(file, '\0') && !is_path_accessible(file, mode))
+		return NULL;
+	int flag = 0;
+	while (envp[env_var_index][env_var_len])
+	{
+		tmp_path = create_subpath_from_var(envp[env_var_index], file, env_var_len, &flag);
+		if (!tmp_path)
+			return NULL;
+		if (is_path_accessible(tmp_path, mode))
+			return tmp_path;
+		free(tmp_path);
+		if (!flag)
+			flag = 1;
+	}
+	return NULL;
+}
+
+
 /** @brief Checks file permissions for commands and redirection files.
  * Validates access rights for executable commands or files used in input/output redirection.
  * Reports errors and updates the shell's exit status if permission issues are detected.
@@ -61,9 +90,9 @@ int	check_file_permissions(t_ast_node *head, char **env)
 	char	*path;
 
 	status = 0;
-	if (head->args && !check_if_cmd_is_builtin(head->args[0]) && head->file_type == READ_FILE)
+	if (head->args && !command_is_builtin(head->args[0]) && head->file_type == READ_FILE)
 	{
-		//path = fetch_path? get_path(head->args[0], env, "PWD", R_OK);
+		path = get_file_path(head->args[0], env, "PWD", R_OK);
 		if (!path)
 			status = 0;
 		else
@@ -77,7 +106,7 @@ int	check_file_permissions(t_ast_node *head, char **env)
 			ft_putstr_fd(head->args[0], 2);
 			ft_putstr_fd("\' ", 2);
 			ft_putendl_fd(strerror(errno), 2);
-			update_exit(get_shell_exit_status(errno), head->shell);
+		//	update_exit(get_shell_exit_status(errno), head->shell);
 		}
 		else if (!status)
 		{
@@ -90,7 +119,7 @@ int	check_file_permissions(t_ast_node *head, char **env)
 	if (!status && head->left)
 		status = check_file_permissions(head->left, env);
 	if (!status && head->right)
-		status = check_file_permissions(head->right, status);
+		status = check_file_permissions(head->right, env);
 	return (status);
 }
 

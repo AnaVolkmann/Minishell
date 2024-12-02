@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 17:23:47 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:33:20 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped, t_env *env
 	f_args = prepare_cmd_args(cmd[0], env->original_env, 0);
 	cmd_args = merge_cmd_args(f_args, cmd);
 	if (command_is_builtin(cmd_args[0]))
-		status = run_command_builtin(cmd_args, env->shell);
+		status = run_command_builtin(cmd_args, (t_shell *)env->shell);
 	else
 	{
 		piped->children_count += 1;
@@ -83,7 +83,7 @@ int handle_input_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *
 	{
 		pipe_state->current_input_fd = open(head->args[0], O_RDONLY);
 		pipe_state->has_input_file = (pipe_state->current_input_fd >= 0);
-		//return pipe_state->has_input_file ? 0 : -1;
+		return pipe_state->has_input_file ? 0 : -1;
 	}
 	else if (head->file_type == READ_FROM_APPEND)
 	{
@@ -107,7 +107,7 @@ int handle_output_redirection(t_ast_node *head, t_pipe_state *pipe_state)
 		mode = O_APPEND;
 	pipe_state->current_output_fd = open(head->args[0], O_WRONLY | O_CREAT | mode, 0666);
 	pipe_state->has_output_file = (pipe_state->current_output_fd >= 0);
-	//return pipe_state->has_output_file ? 0 : -1;
+	return pipe_state->has_output_file ? 0 : -1;
 }
 
 /** @brief Executes piped commands by recursively processing AST nodes.
@@ -189,7 +189,7 @@ int	execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env)
 	fd[1] = -1;
 	if (head->type != TOKEN_WORD)
 	{
-		if (head->file_type = FILE_READY)
+		if (head->file_type == FILE_READY)
 			status = handle_piped_cmd_exec(head, piped_state, env, fd);
 		if (head->type == TOKEN_REDIR_IN || head->type == TOKEN_REDIR_OUT
 		|| head->type == TOKEN_REDIR_APPEND || head->type == TOKEN_REDIR_HEREDOC)

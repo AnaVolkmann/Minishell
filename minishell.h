@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/02 18:20:41 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:47:18 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,11 +205,12 @@ int			check_line(char **input);
 
 /*********************Free***********************/
 
-void        free_envp(char **envp);
+void		free_envp(char **envp);
 void		free_shell(t_shell *shell);
 void		free_ast(t_ast_node **ast);
 void		cleanup_and_exit_shell(t_env *env, int status);
 void		free_parsed_env(t_env *env);
+void		free_environment_variables(char ***array);
 
 /********************Run Commands****************/
 
@@ -226,10 +227,12 @@ void		close_pipe_ends(int read_fd, int write_fd);
 int			command_is_builtin(char *cmd);
 char		*verify_path_without_env(char *file, int mode);
 int			is_path_accessible(char *path, int mode);
-char		get_file_path(char *file, char **envp, char *env_var, int mode);
 char		**prepare_cmd_args(char *cmd, char **envp, int c);
 char		*find_next_substring(char *str, char del, int *index);
 int			sizeof_str(char *str, char end);
+int			run_command_builtin(char **arguments, t_shell *shell);
+int			execute_cmd_with_redirect(char **cmd, int *fd, char **env, t_pipe_state *piped);
+char		*get_file_path(char *file, char **envp, char *env_var, int mode);
 
 /********************RUN UTILS******************/
 

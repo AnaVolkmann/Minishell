@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 12:41:56 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 18:21:48 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:24:34 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	init_parsed_env(t_env *env, char **original_env)
 {
 	int		count;
 	int		i;
-	char	*equal_sign;
+//	char	*equal_sign;
 
 	i = 0;
 	count = 0;

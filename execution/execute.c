@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:18:13 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/27 16:28:49 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:28:29 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /** @brief it compares the command with all 7 builtins
  * if any match is found, it runs the command with its argument, otherwise
  * it returns -1 to signalize that it didnt ran */
-static int	run_command_builtin(char **arguments, t_shell *shell)
+int	run_command_builtin(char **arguments, t_shell *shell)
 {
 	int		i;
 	char	*pwd;
