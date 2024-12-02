@@ -6,11 +6,13 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:27:45 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 17:12:38 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:07:32 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+//TODO ------- SUS_PATH, GET PATH
 
 /** @brief Adjusts the file type of AST nodes for execution.
  * Assigns appropriate file types based on token type (e.g., redirections, pipes).
@@ -45,8 +47,6 @@ void	adjust_ast_node_for_execution(t_ast_node *head)
 			adjust_ast_node_for_execution(head->right);
 	}
 }
-
-//TODO ------- SUS_PATH, GET PATH
 
 /** @brief Checks file permissions for commands and redirection files.
  * Validates access rights for executable commands or files used in input/output redirection.

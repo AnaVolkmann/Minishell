@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/02 17:19:15 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:01:24 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int			is_invalid_operator(const char **input);
 
 /*********************Init***********************/
 
-int			init_parse_env(t_env *env, char **original_env);
+int			init_parsed_env(t_env *env, char **original_env);
 void		init_default_variables(t_env *env);
 void		add_missing_default_variables(t_env *env,
 				int shell_found, int pwd_found, char *cwd);

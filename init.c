@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 12:41:56 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 14:06:52 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:01:24 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
  * @param original_env The original environment variables passed
  * to the program.
  * @return 1 on success, 0 on failure.*/
-int	init_parse_env(t_env *env, char **original_env)
+int	init_parsed_env(t_env *env, char **original_env)
 {
 	int		count;
 	int		i;
@@ -116,7 +116,7 @@ void	add_missing_default_variables(t_env *env,
 	count = count_parsed_env(env);
 	new_parsed_env = malloc(sizeof(char **) * (count + 3)); // Space for 2 new vars and NULL terminator
 	if (!new_parsed_env)
-		return (NULL);
+		return ;
 	while (i < count)
 	{
 		new_parsed_env[i] = env->parsed_env[i];
