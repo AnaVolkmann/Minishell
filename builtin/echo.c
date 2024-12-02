@@ -37,7 +37,7 @@ int	echo(char **args, int argc, int fd, t_shell *shell)
 	while (i < argc - 1)
 	{
 		write(fd, args[i], ft_strlen(args[i]));
-		write(fd, " ", 1); // does this print in the last argument as well?
+		write(fd, " ", 1);
 		i++;
 	}
 	if (i < argc)

@@ -19,25 +19,47 @@ char	*expansion(char *path, t_shell *shell)
 {
 	char	*env_value;
 
+	env_value = NULL;
 	if (!path || !path[0])
 		return (update_exit(1, shell), NULL);
-	if (ft_strcmp(&path[0], "'") == 0)
-		return (update_exit(0, shell), path);
-	if (ft_strcmp(path, "$$") == 0 && ft_strcmp(&path[1], "$") == 0)
+	if (path[0] == '"')
+	{
+		env_value = expand_utils(path, shell, env_value);
+		if (!env_value)
+			return (update_exit(1, shell), NULL);
+	}
+	if (path[0] == '\'')
+		return (update_exit(0, shell), ft_strdup(path));
+	if (ft_strcmp(path, "$$") == 0)
 		return (update_exit(0, shell), ft_itoa(shell->pid));
 	if (ft_strcmp(path, "$?") == 0)
 		return (update_exit(0, shell), ft_itoa(shell->exit_status));
 	if (ft_strcmp(path, "$!") == 0)
 		return (update_exit(0, shell), ft_itoa(shell->last_pid));
+	if (env_value)
+		return (update_exit(0, shell), ft_strdup(env_value));
 	env_value = get_env(path, shell->envp);
 	if (!env_value)
 		return (update_exit(1, shell), NULL);
 	return (update_exit(0, shell), ft_strdup(env_value));
 }
 
-// do i assume it will always be formatted? or i assume i can have """""$USER"""""
-//$?: Exit status of the last command
-//$$: Current process ID.
-//$!: PID of the last background job.
-// do i need to handle VAR="Hello" and echo ${VAR}world to "Hello world"?
-// also handle {}?
+static char	*expand_utils(char *path, t_shell *shell, char *env_value)
+{
+	char	**split;
+	int		i;
+
+	i = -1;
+	while (path[0] == '"')
+		ft_strtrim(path, '"');
+	split = ft_split(path, ' ');
+	if (!split)
+		return (NULL);
+	while (split[++i])
+	{
+		env_value = ft_strjoin(env_value, expansion(split[i], shell));
+		if (!env_value)
+			return (free_envp(split), update_exit(1, shell), NULL);
+	}
+	return (env_value);
+}
