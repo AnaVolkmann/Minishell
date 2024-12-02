@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 15:50:32 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:58:05 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped, t_env *env
 		piped->children_count += 1;
 		if (!piped->is_redirection_or_pipe)
 		{
-			status = execute_basic_cmd();
+			status = execute_basic_cmd(cmd_args, fd, env->original_env, piped);
 			free_envp(cmd_args);
 		}
 		else
