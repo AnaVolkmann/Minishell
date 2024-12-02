@@ -6,12 +6,17 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:27:45 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 12:02:59 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:12:18 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/** @brief Adjusts the file type of AST nodes for execution.
+ * Assigns appropriate file types based on token type (e.g., redirections, pipes).
+ * Recursively processes left and right child nodes in the AST.
+ *
+ * @param head AST node representing a command, redirection, or pipe.*/
 void	adjust_ast_node_for_execution(t_ast_node *head)
 {
 	if (head->type != TOKEN_WORD)
@@ -40,7 +45,16 @@ void	adjust_ast_node_for_execution(t_ast_node *head)
 			adjust_ast_node_for_execution(head->right);
 	}
 }
+
 //TODO ------- SUS_PATH, GET PATH
+
+/** @brief Checks file permissions for commands and redirection files.
+ * Validates access rights for executable commands or files used in input/output redirection.
+ * Reports errors and updates the shell's exit status if permission issues are detected.
+ *
+ * @param head AST node containing the command or file to check.
+ * @param env Environment variables, used to resolve paths.
+ * @return 1 if an error is detected, 0 otherwise.*/
 int	check_file_permissions(t_ast_node *head, char **env)
 {
 	int		status;
@@ -80,6 +94,12 @@ int	check_file_permissions(t_ast_node *head, char **env)
 	return (status);
 }
 
+/** @brief Counts the number of redirections and pipes in the AST.
+ * Updates the `t_pipe_state` structure with counts of input/output files and pipe segments.
+ * Processes the AST recursively to include all child nodes.
+ *
+ * @param head AST node representing the command structure.
+ * @param piped_state Structure to store counts of pipes and redirections.*/
 void	count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state)
 {
 	head->file_type = 0;

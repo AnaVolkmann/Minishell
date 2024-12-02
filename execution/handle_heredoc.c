@@ -6,12 +6,16 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:24:12 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/27 18:40:01 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:15:40 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/** @brief Handles a signal interrupt during heredoc processing.
+ * Outputs a newline and exits the child process.
+ *
+ * @param n Signal number (ignored in this implementation).*/
 void	quite_heredoc(int n)
 {
 	(void)n;
@@ -19,6 +23,11 @@ void	quite_heredoc(int n)
 	exit(0);
 }
 
+/** @brief Checks if a string contains quotes.
+ * Determines whether a string has double (`"`) or single (`'`) quotes.
+ *
+ * @param s The string to check.
+ * @return 0 if the string contains quotes, 1 otherwise.*/
 int	have_quotes(char *s)
 {
 	int	i;
@@ -33,6 +42,13 @@ int	have_quotes(char *s)
 	return (1);
 }
 
+/** @brief Reads input and writes to a file descriptor until a limiter is encountered.
+ * Processes heredoc input, optionally expanding environment variables if the limiter has no quotes.
+ *
+ * @param pipe_state Pipe state containing the current output file descriptor.
+ * @param limiter The string that terminates heredoc input.
+ * @param env Environment variables for variable expansion.
+ * @param is_expandable Flag indicating whether variable expansion is enabled.*/
 void	read_and_write(t_pipe_state *pipe_state, char *limiter, t_env *env, int is_expandable)
 {
 	char *buf;
@@ -62,6 +78,14 @@ void	read_and_write(t_pipe_state *pipe_state, char *limiter, t_env *env, int is_
 	free(limiter);
 }
 
+/** @brief Executes a heredoc operation.
+ * Creates a subprocess to read heredoc input until the limiter is encountered.
+ * Handles variable expansion, writes input to a pipe, and sets pipe state for further execution.
+ *
+ * @param limiter The delimiter string that terminates heredoc input.
+ * @param pipe_state Pipe state to manage heredoc input and output descriptors.
+ * @param env Environment variables for variable expansion.
+ * @return 0 if heredoc was processed successfully, non-zero on error.*/
 int	exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env)
 {
 	pid_t	pid;

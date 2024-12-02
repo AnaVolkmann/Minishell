@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 12:11:38 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:10:18 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@
 // expand_vars_in_ast
 // FINISH FUNCTION chech_file_permission
 
+/** @brief Parses command arguments, handles built-in commands, and executes external commands.
+ * Also manages redirection or pipe states during execution.
+ *
+ * @param cmd Command arguments as a string array.
+ * @param fd File descriptors for input/output redirection.
+ * @param piped Pipe state structure containing redirection and piping info.
+ * @param env Environment variables and shell state.
+ * @return Execution status code.*/
 int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped, t_env *env)
 {
 	char	**cmd_args;
@@ -48,6 +56,14 @@ int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped, t_env *env
 
 }
 
+/** @brief Opens files for input/output redirection based on file type.
+ * Handles both input redirection (e.g., `<`) and output redirection (e.g., `>` or `>>`).
+ *
+ * @param head Abstract Syntax Tree (AST) node containing file information.
+ * @param pipe_state Structure managing pipe and redirection state.
+ * @param env Environment variables and shell state.
+ * @param status Current execution status.
+ * @return Updated status after handling file operations.*/
 int open_file_for_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *env, int status)
 {
 	if (head->file_type == READ_FILE || head->file_type == READ_FROM_APPEND)
@@ -58,6 +74,12 @@ int open_file_for_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env 
 	return status;
 }
 
+/** @brief Handles input redirection by opening input files or processing heredocs.
+ *
+ * @param head AST node containing file type and arguments.
+ * @param pipe_state Pipe state structure for managing redirection state.
+ * @param env Environment variables and shell state.
+ * @return 0 on success, -1 on failure (e.g., file not found).*/
 int handle_input_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *env)
 {
 	if (head->file_type == READ_FILE) // Input redirection
@@ -75,6 +97,11 @@ int handle_input_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *
 	return 0;
 }
 
+/** @brief Handles output redirection by opening files for writing or appending.
+ *
+ * @param head AST node containing file type and arguments.
+ * @param pipe_state Pipe state structure for managing redirection state.
+ * @return 0 on success, -1 on failure (e.g., permission denied).*/
 int handle_output_redirection(t_ast_node *head, t_pipe_state *pipe_state)
 {
 	int mode = O_TRUNC;
@@ -86,7 +113,14 @@ int handle_output_redirection(t_ast_node *head, t_pipe_state *pipe_state)
 	return pipe_state->has_output_file ? 0 : -1; // Return success or error
 }
 
-
+/** @brief Executes piped commands by recursively processing AST nodes.
+ * Manages pipes, redirections, and commands in a pipeline.
+ *
+ * @param head AST node representing the current command or redirection.
+ * @param piped_state Structure tracking pipe and redirection state.
+ * @param env Environment variables and shell state.
+ * @param fd File descriptors for piping.
+ * @return Execution status of the pipeline.*/
 int handle_piped_cmd_exec(t_ast_node *head, t_pipe_state *piped_state, t_env *env, int *fd)
 {
 	int	status;
@@ -106,6 +140,14 @@ int handle_piped_cmd_exec(t_ast_node *head, t_pipe_state *piped_state, t_env *en
 	return status;
 }
 
+/** @brief Handles redirection commands, updating pipe and file descriptors.
+ * Manages redirection types (input, output, append, heredoc) and executes commands if needed.
+ *
+ * @param head AST node representing the redirection.
+ * @param piped_state Pipe state structure containing redirection information.
+ * @param env Environment variables and shell state.
+ * @param fd File descriptors for redirection.
+ * @return Status after processing redirection. */
 int handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state, t_env *env, int *fd)
 {
 	int status;
@@ -134,6 +176,13 @@ int handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state, t_env *e
 	return status;
 }
 
+/** @brief Executes an AST node by determining its type and processing commands or redirections.
+ * Manages pipe and file descriptor cleanup after execution.
+ *
+ * @param head AST node representing the current command or operation.
+ * @param piped_state Pipe state structure containing execution state.
+ * @param env Environment variables and shell state.
+ * @return Final status after execution.*/
 int	execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env)
 {
 	int	status;
@@ -161,6 +210,12 @@ int	execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env)
 	return (g_signal = 0, status);
 }
 
+/** @brief Main entry point for executing commands in the AST.
+ * Initializes pipe state, processes variables, checks permissions, and executes commands.
+ *
+ * @param head AST node representing the root of the command structure.
+ * @param env Environment variables and shell state.
+ * @param status Pointer to store the final execution status.*/
 void	command_executer(t_ast_node *head, t_env *env, int *status)
 {
 	t_pipe_state	piped_state;
@@ -170,7 +225,7 @@ void	command_executer(t_ast_node *head, t_env *env, int *status)
 	count_redirect_and_pipes(head, &piped_state);
 	init_or_reset_pipe_state(&piped_state, 0);
 	adjust_ast_node_for_execution(head);
-	expand_vars_in_ast(head, env);
+	//expand_vars_in_ast(head, env);
 	_status = check_file_permissions(head, env->original_env);
 	if (!_status)
 		*status = execute_ast_node(head, &piped_state, env);

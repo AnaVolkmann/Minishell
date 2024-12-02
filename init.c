@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 12:41:56 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/29 16:28:21 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:06:52 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ void	init_default_variables(t_env *env)
 	int		pwd_found;
 	int		i;
 
-	i = 0;
+	i = -1;
 	pwd_found = 0;
 	shell_found = 0;
 	getcwd(cwd, sizeof(cwd));
-	while (env->parsed_env[i])
+	while (env->parsed_env[++i])
 	{
 		if (ft_strcmp(env->parsed_env[i][0], "SHELL") == 0)
 		{
@@ -86,7 +86,6 @@ void	init_default_variables(t_env *env)
 			env->parsed_env[i][1] = ft_strdup(cwd);
 			pwd_found = 1;
 		}
-		i++;
 	}
 	add_missing_default_variables(env, shell_found, pwd_found, cwd);
 }
