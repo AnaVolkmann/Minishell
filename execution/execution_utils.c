@@ -97,7 +97,7 @@ int	check_file_permissions(t_ast_node *head, char **env)
 			status = 0;
 		else
 		{
-			//suspicious path (is_susp_dir(path, head->args[0], &status); mudar status
+			//suspicious path (is_susp_dir(path, head->args[0], head->shell->exit_status); mudar status
 			free(path);
 		}
 		if (status == 1)
@@ -106,7 +106,7 @@ int	check_file_permissions(t_ast_node *head, char **env)
 			ft_putstr_fd(head->args[0], 2);
 			ft_putstr_fd("\' ", 2);
 			ft_putendl_fd(strerror(errno), 2);
-		//	update_exit(get_shell_exit_status(errno), head->shell);
+		//	update_exit(get_shell_exit_status(errno), head->shell->exit_status);
 		}
 		else if (!status)
 		{
@@ -143,4 +143,31 @@ void	count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state)
 		count_redirect_and_pipes(head->left, piped_state);
 	if (head->right)
 		count_redirect_and_pipes(head->right, piped_state);
+}
+
+int	is_sus_dir(t_ast_node head, char *path)
+{
+	char	*copy;
+
+	if (!path || !head.args[0])
+		return (errno);
+	while (*path)
+	{
+		if (path[0] == '.' && path[1] == '.' && (path[2] == '/' || path[2] == '\0'))
+		{
+			path += 2;
+			if (*path == '/')
+				path += 1;
+		}
+		else if (path[0] == '.' && (path[1] == '/' || path[1] == '\0'))
+		{
+			path += 1;
+			if (*path == '/')
+				path += 1;
+		}
+		else
+			*copy++ = *path++;
+	}
+	*copy = '\0';
+	return (0);
 }

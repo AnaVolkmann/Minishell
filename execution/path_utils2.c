@@ -36,3 +36,4 @@ int	count_substrings(char *str, char del)
 	return (result);
 }
 
+int	is_sus_dir(t_ast_node head, char *path, int status)
