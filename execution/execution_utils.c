@@ -6,13 +6,15 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:27:45 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/03 11:20:53 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/03 11:08:24 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//TODO ------- SUS_PATH,
+//TODO ------- SUS_PATH, makefile ( ta sem o builtin ), ver funcoes duplicadas e organizar
+
+static int	check_safety(t_ast_node *head, char *path);
 
 /** @brief Adjusts the file type of AST nodes for execution.
  * Assigns appropriate file types based on token type (e.g., redirections, pipes).
@@ -146,10 +148,13 @@ void	count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state)
 
 int	is_sus_dir(t_ast_node head, char *path)
 {
-	char	*copy;
+	char	copy;
+	int		i;
 
+	i = 0;
+	copy = ft_strdup()
 	if (!path || !head.args[0])
-		return (errno);
+		return (1);
 	while (*path)
 	{
 		if (path[0] == '.' && path[1] == '.' && (path[2] == '/' || path[2] == '\0'))
@@ -165,8 +170,22 @@ int	is_sus_dir(t_ast_node head, char *path)
 				path += 1;
 		}
 		else
-			*copy++ = *path++;
+			copy[i++] = *path++;
 	}
-	*copy = '\0';
+	copy[i] = '\0';
+	return (ft_strcmp(path, copy) != 0);
+}
+
+static int	check_safety(t_ast_node *head, char *path)
+{
+	struct stat	s;
+
+	if (ft_strcmp(path, "/etc") == 0 || ft_strcmp(path, "/dev") == 0
+		|| ft_strcmp(path, "/proc") == 0)
+		ft_putstr_fd("Error: access denied to restricted directory.\n", 2);
+	if (!is_path_accessible(path, X_OK) || !is_path_accessible(path, F_OK))
+		ft_putstr_fd("Error: path related.\n", 2);
+	if (lstat(path, &s) == -1)
+		return (perror("Error getting file info\n"), 1);
 	return (0);
 }
