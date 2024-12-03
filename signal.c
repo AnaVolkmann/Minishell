@@ -6,29 +6,11 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 17:09:44 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/27 17:50:44 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/03 11:48:44 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* void	sighandler(int signal)
-{
-	if (signal == SIGINT)
-	{
-		g_signal = 2;
-		write (STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
-void	ft_signal(void)
-{
-	signal(SIGINT, sighandler);
-	signal(SIGQUIT, SIG_IGN);
-} */
 
 void	setup_signal_handlers(void)
 {

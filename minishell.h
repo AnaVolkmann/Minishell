@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/03 11:45:08 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/03 11:56:19 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ typedef struct		s_ast_node
 }					t_ast_node;
 
 
-/******************Input processing****************/
+/******************Input processing***************/
 
 t_token		*process_to_tokenize_input(char *input);
 int			has_invalid_redirections(const char *input);
@@ -126,7 +126,7 @@ int			has_misplaced_operators(const char *input);
 int			syntax_error_checker(const char *input);
 int			has_logical_operators(const char *input);
 
-/******************Token Manegement****************/
+/*******************Token Manegement**************/
 
 void		free_tokens(t_token *tokens);
 t_token		*tokenize_input(char *input);
@@ -135,20 +135,16 @@ void		handle_word(char **input, t_token **tokens);
 void		handle_special_chars(char **input, t_token **tokens);
 void		add_token_to_list(t_token **tokens, t_token *new_token);
 
-/**********************Syntax**********************/
+/********************Syntax Handling****************/
 
 void		add_word_token(char **start, char **input, t_token **tokens);
 void		update_quote_status(char c, int *in_quote, char *quote_char);
-int			syntax_error_checker(const char *input);
 int			has_unclosed_quotes(const char *input);
-
-/*******************Syntax_Utils************************/
-
 void		update_quote_counts(char c, int *s_q_count, int *d_q_count);
 const char	*skip_spaces(const char *input);
 int			is_invalid_operator(const char **input);
 
-/*********************Init***********************/
+/********************Environment Init***************/
 
 int			init_parsed_env(t_env *env, char **original_env);
 void		init_default_variables(t_env *env);
@@ -161,21 +157,21 @@ void		add_shell_variable(t_env *env, int *count);
 int			count_parsed_env(char ***parsed_env);
 int			parse_env_entry(t_env *env, char *entry, int index);
 
-/*********************Parsing*********************/
+/********************Parsing*************************/
 
 t_ast_node	*parse_tokens(t_token **tokens);
 t_ast_node	*parse_pipeline(t_token **tokens);
 t_ast_node	*parse_redirection(t_token **tokens);
 t_ast_node	*parse_command(t_token **token);
 
-/*********************Parsing Utils***************/
+/********************Parsing Utils*******************/
 
 t_ast_node	*create_new_ast_node(t_token_type type);
 t_ast_node	*create_file_node(t_token *token);
 int			count_command_args(t_token *current);
 t_ast_node	*build_redirection_node(t_token **tokens, t_token *tmp);
 
-/**********************Builtins********************/
+/********************Builtin Commands****************/
 
 int			bash_exit(char **args, int arg_count, t_shell *shell);
 int			ft_cd(char *path, t_shell *shell);
@@ -185,7 +181,7 @@ int			echo(char **args, int argc, int fd, t_shell *shell);
 int			ft_env(t_shell *shell);
 char		*ft_pwd(t_shell *shell, int flag);
 
-/********************Extras***********************/
+/********************Extras************************/
 
 char		*expansion(char *path, t_shell *shell);
 char		*new_env_var(char *name, char *value);
@@ -193,8 +189,6 @@ char		*get_env(char *var, char **envp);
 char		**realloc_envp(char **envp, int size);
 int			find_env(char **envp, char *name);
 int			count_envp(char **envp);
-//void		sighandler(int signal);
-//void		ft_signal(void);
 void		handle_ctrl_c(int a);
 void		child_ctrl_c(int sig_num);
 void		setup_signal_handlers(void);
@@ -203,7 +197,7 @@ void		update_exit(int i, t_shell *shell);
 int			str_cmp(char *s_1, char *s_2, char *s_3);
 int			check_line(char **input);
 
-/*********************Free***********************/
+/********************Free*************************/
 
 void		free_envp(char **envp);
 void		free_shell(t_shell *shell);
@@ -212,7 +206,7 @@ void		cleanup_and_exit_shell(t_env *env, int status);
 void		free_parsed_env(t_env *env);
 void		free_environment_variables(char ***array);
 
-/********************Run Commands****************/
+/*******************Shell Utilities****************/
 
 void		run_minishell(t_env *env);
 void		command_executer(t_ast_node *head, t_env *env, int *status);
@@ -234,7 +228,7 @@ int			run_command_builtin(char **arguments, t_shell *shell);
 int			execute_cmd_with_redirect(char **cmd, int *fd, char **env, t_pipe_state *piped);
 char		*get_file_path(char *file, char **envp, char *env_var, int mode);
 
-/********************RUN UTILS******************/
+/********************Pipe and Redirect*********************/
 
 void		adjust_ast_node_for_execution(t_ast_node *head);
 int			check_file_permissions(t_ast_node *head, char **env);
@@ -246,7 +240,7 @@ int			wait_for_children(int status, t_pipe_state *piped);
 int			find_substr_index(char **str, char *sub_str, int n);
 char		*create_subpath_from_var(char *env_var, char *file, int env_var_len, int *flag);
 
-/*******************HANDLE_HEREDOC******************/
+/*******************HeheDoc Handling******************/
 
 void		quite_heredoc(int n);
 int			have_quotes(char *s);
