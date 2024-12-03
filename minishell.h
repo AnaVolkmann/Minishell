@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/02 18:47:18 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/03 11:45:08 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,6 +243,8 @@ void		init_or_reset_pipe_state(t_pipe_state *pipe_state, int f);
 int			handle_input_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *env);
 int			handle_output_redirection(t_ast_node *head, t_pipe_state *pipe_state);
 int			wait_for_children(int status, t_pipe_state *piped);
+int			find_substr_index(char **str, char *sub_str, int n);
+char		*create_subpath_from_var(char *env_var, char *file, int env_var_len, int *flag);
 
 /*******************HANDLE_HEREDOC******************/
 

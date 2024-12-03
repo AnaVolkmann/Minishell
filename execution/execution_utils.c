@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:27:45 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/03 11:08:24 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/03 11:20:53 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ char *get_file_path(char *file, char **envp, char *env_var, int mode)
 	env_var_index = find_substr_index(envp, env_var, env_var_len);
 	if (env_var_index < 0 || (file[0] == '.' && file[1] == '/'))
 		return verify_path_without_env(file, mode);
-	int env_value_len = sizeof_str(envp[env_var_index], '\0');
 	if (sizeof_str(file, ' ') != sizeof_str(file, '\0') && !is_path_accessible(file, mode))
 		return NULL;
 	while (envp[env_var_index][env_var_len])
