@@ -15,7 +15,7 @@
 //TODO ------- SUS_PATH, makefile ( ta sem o builtin ), 
 //ver funcoes duplicadas e organizar
 
-static int	check_safety(t_ast_node *head, char *path);
+//static int	check_safety(t_ast_node *head, char *path);
 
 /** @brief Adjusts the file type of AST nodes for execution.
  * Assigns appropriate file types based on token type 
@@ -153,7 +153,7 @@ void	count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state)
 		count_redirect_and_pipes(head->right, piped_state);
 }
 
-int	is_sus_dir(t_ast_node head, char *path)
+/*int	is_sus_dir(t_ast_node head, char *path)
 {
 	char	copy;
 	int		i;
@@ -196,4 +196,4 @@ static int	check_safety(t_ast_node *head, char *path)
 	if (lstat(path, &s) == -1)
 		return (perror("Error getting file info\n"), 1);
 	return (0);
-}
+}*/

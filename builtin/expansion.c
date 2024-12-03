@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
+
+static char	*expand_utils(char *path, t_shell *shell, char *env_value);
 
 /** @brief handles edge cases and searches the env var inside the shell's envp
  * if it not finds it, returns an error
@@ -51,7 +53,7 @@ static char	*expand_utils(char *path, t_shell *shell, char *env_value)
 
 	i = -1;
 	while (path[0] == '"')
-		ft_strtrim(path, '"');
+		ft_strtrim(path, "\"");
 	split = ft_split(path, ' ');
 	if (!split)
 		return (NULL);

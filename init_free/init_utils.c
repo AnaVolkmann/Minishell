@@ -28,13 +28,13 @@ int	parse_env_entry(t_env *env, char *entry, int index)
 {
 	char	*equal_sign;
 	int		key_len;
-	int		len;
+	//int		len;
 
-	equal_sign = ft_strchr(entry, "=");
+	equal_sign = ft_strchr(entry, '=');
 	if (!equal_sign)
 		return (0);
 	key_len = equal_sign - entry;
-	len = ft_strlen(equal_sign + 1);
+	//len = ft_strlen(equal_sign + 1);
 	env->parsed_env[index] = malloc(sizeof(char *) * 2);
 	if (!env->parsed_env)
 		return (0);
@@ -65,7 +65,7 @@ int	count_parsed_env(char ***parsed_env)
 	count = 0;
 	while ((*parsed_env)[count])
 		count++;
-	eturn (count);
+	return (count);
 }
 
 /** @brief Adds the "SHELL" variable with a default
