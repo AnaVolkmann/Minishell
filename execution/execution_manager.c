@@ -6,13 +6,14 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/03 10:59:03 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/03 15:02:27 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // TODO
+// init_environment -- parse_env_entry
 // builtin_execution;
 // execute_basic_cmd;
 // execute_with_redirect;

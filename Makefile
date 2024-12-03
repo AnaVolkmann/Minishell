@@ -1,4 +1,4 @@
-CC = gcc
+CC = cc
 RM = rm -rf
 CFLAGS = -Wall -Werror -Wextra -g
 
@@ -10,6 +10,7 @@ OBJ_DIR = obj/
 SRC = tokenization/tokenizer.c\
 tokenization/tokenizer_utils.c\
 main.c\
+init_free/free_me.c\
 init_free/init.c\
 init_free/init_utils.c\
 signal.c\
@@ -24,7 +25,6 @@ builtin/exit.c\
 builtin/export.c\
 builtin/pwd.c\
 builtin/unset.c\
-init_free/free_me.c\
 execution/execution_manager.c\
 execution/execution_utils.c\
 execution/cmd_execution.c\

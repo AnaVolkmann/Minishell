@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:54:22 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 18:20:41 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/03 14:59:19 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ int	count_parsed_env(char ***parsed_env)
 void	add_shell_variable(t_env *env, int *count)
 {
 	env->parsed_env[*count] = malloc(2 * sizeof(char *));
-	env->parsed_env[*count][0] = strdup("SHELL");
-	env->parsed_env[*count][1] = strdup("minishell");
+	env->parsed_env[*count][0] = ft_strdup("SHELL");
+	env->parsed_env[*count][1] = ft_strdup("minishell");
 	(*count)++;
 }
 
@@ -100,7 +100,7 @@ void	add_shell_variable(t_env *env, int *count)
 void	add_pwd_variable(t_env *env, int *count, char *cwd)
 {
 	env->parsed_env[*count] = malloc(2 * sizeof(char *));
-	env->parsed_env[*count][0] = strdup("PWD");
-	env->parsed_env[*count][1] = strdup(cwd);
+	env->parsed_env[*count][0] = ft_strdup("PWD");
+	env->parsed_env[*count][1] = ft_strdup(cwd);
 	(*count)++;
 }
