@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **original_env)
 	env = malloc(sizeof(t_env));
 	if (!isatty(1) || !isatty(0))
 		return (free(env), 0);
-	if(argc == 1 && init_environment(env, original_env))
+	if (argc == 1 && init_environment(env, original_env))
 	{
 		run_minishell(env);
 		cleanup_and_exit_shell(env, 0);
@@ -42,7 +42,8 @@ int	main(int argc, char **argv, char **original_env)
  * The function will continue to loop until the user exits 
  * (e.g., by entering `exit` or providing no input).
  *
- * @param env The environment structure containing environment variables and shell state.*/
+ * @param env The environment structure containing environment 
+ * 								variables and shell state.*/
 void	run_minishell(t_env *env)
 {
 	char		*input;
@@ -55,27 +56,27 @@ void	run_minishell(t_env *env)
     shell.exit_status = 0; // Inicializa o status de saída como sucesso
     shell.output_fd = STDOUT_FILENO;  // Saída padrão (terminal)
     shell.input_fd = STDIN_FILENO;    // Entrada padrão (terminal)
-    shell.path = env->parsed_env;  // Usando os caminhos de binários do parsed_env
+    shell.path = env->parsed_env;  // Usando caminhos de binários do parsed_env
     shell.envp = env->original_env;  */
 	while (1)
 	{
 		status = 0;
-		input = readline("Minishell: ");;
+		input = readline("Minishell: ");
 		if (!input)
-			break;
+			break ;
 		if (check_line(&input))
-			continue;
+			continue ;
 		add_history(input);
 		tokens = process_to_tokenize_input(input);
 		if (!tokens)
-			//status = exit_status
+			//status = ast->shell->exit_status;
 		if (!status)
 		{
 			ast = parse_tokens(&tokens);
 			command_executer(ast, env, &status);
 			free(ast);
 		}
-		//shell->exit_status = status;
+		//ast->shell->exit_status = status;
 		//update_env_status
 	}
 }
@@ -142,7 +143,6 @@ static int	minishell(t_shell *shell, t_ast_node **ast)
 	//command_executer(ast, env, &status);
 	return (0);
 } */
-
 
 /* 
 funcao_que_corre_a_arvore_para_ver_o_tipo_do_node_e_depois_executar(ast)

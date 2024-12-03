@@ -10,12 +10,21 @@ OBJ_DIR = obj/
 SRC = tokenization/tokenizer.c\
 tokenization/tokenizer_utils.c\
 main.c\
-init.c\
+init_free/init.c\
+init_free/init_utils.c\
 signal.c\
 input_validation/syntax_checker.c\
 input_validation/syntax_checker_utils.c\
 builtin/helper.c\
-free_me.c\
+builtin/expansion.c\
+builtin/cd.c\
+builtin/echo.c\
+builtin/env.c\
+builtin/exit.c\
+builtin/export.c\
+builtin/pwd.c\
+builtin/unset.c\
+init_free/free_me.c\
 execution/execution_manager.c\
 execution/execution_utils.c\
 execution/cmd_execution.c\

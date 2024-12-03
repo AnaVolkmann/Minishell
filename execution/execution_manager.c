@@ -19,7 +19,8 @@
 // expand_vars_in_ast
 // FINISH FUNCTION chech_file_permission
 
-/** @brief Parses command arguments, handles built-in commands, and executes external commands.
+/** @brief Parses command arguments, handles built-in commands,
+ * and executes external commands.
  * Also manages redirection or pipe states during execution.
  *
  * @param cmd Command arguments as a string array.
@@ -27,7 +28,8 @@
  * @param piped Pipe state structure containing redirection and piping info.
  * @param env Environment variables and shell state.
  * @return Execution status code.*/
-int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped, t_env *env)
+int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped,
+	t_env *env)
 {
 	char	**cmd_args;
 	char	**f_args;
@@ -46,7 +48,8 @@ int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped, t_env *env
 			free_envp(cmd_args); // testar leacks
 		}
 		else
-			status = execute_cmd_with_redirect(cmd_args, fd, env->original_env, piped);
+			status = execute_cmd_with_redirect(cmd_args, fd,
+					env->original_env, piped);
 	}
 	if (piped->executed_pipes_index > 1)
 		piped->executed_pipes_index -= 1;
@@ -54,44 +57,50 @@ int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped, t_env *env
 }
 
 /** @brief Opens files for input/output redirection based on file type.
- * Handles both input redirection (e.g., `<`) and output redirection (e.g., `>` or `>>`).
+ * Handles both input redirection (e.g., `<`)
+ * and output redirection (e.g., `>` or `>>`).
  *
  * @param head Abstract Syntax Tree (AST) node containing file information.
  * @param pipe_state Structure managing pipe and redirection state.
  * @param env Environment variables and shell state.
  * @param status Current execution status.
  * @return Updated status after handling file operations.*/
-int open_file_for_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *env, int status)
+int	open_file_for_redirection(t_ast_node *head, t_pipe_state *pipe_state,
+	t_env *env, int status)
 {
 	if (head->file_type == READ_FILE || head->file_type == READ_FROM_APPEND)
 		status = handle_input_redirection(head, pipe_state, env);
 	else
 		status = handle_output_redirection(head, pipe_state);
-
-	return status;
+	return (status);
 }
 
-/** @brief Handles input redirection by opening input files or processing heredocs.
+/** @brief Handles input redirection by opening
+ * input files or processing heredocs.
  *
  * @param head AST node containing file type and arguments.
  * @param pipe_state Pipe state structure for managing redirection state.
  * @param env Environment variables and shell state.
  * @return 0 on success, -1 on failure (e.g., file not found).*/
-int handle_input_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *env)
+int	handle_input_redirection(t_ast_node *head, t_pipe_state *pipe_state,
+	t_env *env)
 {
 	if (head->file_type == READ_FILE) // Input redirection
 	{
 		pipe_state->current_input_fd = open(head->args[0], O_RDONLY);
 		pipe_state->has_input_file = (pipe_state->current_input_fd >= 0);
-		return pipe_state->has_input_file ? 0 : -1;
+		if (!pipe_state->has_input_file)
+			return (-1);
+		return (0);
 	}
 	else if (head->file_type == READ_FROM_APPEND)
 	{
-		pipe_state->heredoc_status = exec_here_doc(head->args[0], pipe_state, env);
+		pipe_state->heredoc_status = exec_here_doc(head->args[0],
+				pipe_state, env);
 		signal(SIGINT, handle_ctrl_c);
-		return 0;
+		return (0);
 	}
-	return 0;
+	return (0);
 }
 
 /** @brief Handles output redirection by opening files for writing or appending.
@@ -99,15 +108,19 @@ int handle_input_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *
  * @param head AST node containing file type and arguments.
  * @param pipe_state Pipe state structure for managing redirection state.
  * @return 0 on success, -1 on failure (e.g., permission denied).*/
-int handle_output_redirection(t_ast_node *head, t_pipe_state *pipe_state)
+int	handle_output_redirection(t_ast_node *head, t_pipe_state *pipe_state)
 {
-	int mode = O_TRUNC;
+	int	mode;
 
+	mode = O_TRUNC;
 	if (head->file_type == WRITE_FILE_APPEND)
 		mode = O_APPEND;
-	pipe_state->current_output_fd = open(head->args[0], O_WRONLY | O_CREAT | mode, 0666);
+	pipe_state->current_output_fd = open(head->args[0],
+			O_WRONLY | O_CREAT | mode, 0666);
 	pipe_state->has_output_file = (pipe_state->current_output_fd >= 0);
-	return pipe_state->has_output_file ? 0 : -1;
+	if (!pipe_state->has_output_file)
+		return (-1);
+	return (0);
 }
 
 /** @brief Executes piped commands by recursively processing AST nodes.
@@ -118,7 +131,8 @@ int handle_output_redirection(t_ast_node *head, t_pipe_state *pipe_state)
  * @param env Environment variables and shell state.
  * @param fd File descriptors for piping.
  * @return Execution status of the pipeline.*/
-int handle_piped_cmd_exec(t_ast_node *head, t_pipe_state *piped_state, t_env *env, int *fd)
+int	handle_piped_cmd_exec(t_ast_node *head, t_pipe_state *piped_state,
+	t_env *env, int *fd)
 {
 	int	status;
 
@@ -128,26 +142,29 @@ int handle_piped_cmd_exec(t_ast_node *head, t_pipe_state *piped_state, t_env *en
 		status = prepare_and_execute_cmd(head->args, fd, piped_state, env);
 	}
 	if (head->type == TOKEN_REDIR_IN || head->type == TOKEN_REDIR_OUT
-		|| head->type == TOKEN_REDIR_APPEND || head->type == TOKEN_REDIR_HEREDOC)
+		|| head->type == TOKEN_REDIR_APPEND
+		|| head->type == TOKEN_REDIR_HEREDOC)
 		return (handle_redirection_cmd(head, piped_state, env, fd));
 	if (head->left)
 		status = handle_piped_cmd_exec(head->left, piped_state, env, fd);
 	if (head->right)
 		status = handle_piped_cmd_exec(head->right, piped_state, env, fd);
-	return status;
+	return (status);
 }
 
 /** @brief Handles redirection commands, updating pipe and file descriptors.
- * Manages redirection types (input, output, append, heredoc) and executes commands if needed.
+ * Manages redirection types (input, output, append, heredoc)
+ * and executes commands if needed.
  *
  * @param head AST node representing the redirection.
  * @param piped_state Pipe state structure containing redirection information.
  * @param env Environment variables and shell state.
  * @param fd File descriptors for redirection.
  * @return Status after processing redirection. */
-int handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state, t_env *env, int *fd)
+int	handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state,
+	t_env *env, int *fd)
 {
-	int status;
+	int	status;
 
 	piped_state->second_heredoc_status = 1;
 	if (head->right)
@@ -160,20 +177,24 @@ int handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state, t_env *e
 		&& piped_state->second_heredoc_status && !status)
 	{
 		piped_state->is_redirection_or_pipe = 1;
-		status = prepare_and_execute_cmd(head->left->args, fd, piped_state, env);
+		status = prepare_and_execute_cmd(head->left->args,
+				fd, piped_state, env);
 	}
 	if (head->left && head->left->type == TOKEN_PIPE
 		&& piped_state->second_heredoc_status)
 		status = handle_piped_cmd_exec(head->left, piped_state, env, fd);
-	if (head->left && (head->left->type == TOKEN_REDIR_IN || head->left->type == TOKEN_REDIR_OUT
-			|| head->left->type == TOKEN_REDIR_APPEND || head->left->type == TOKEN_REDIR_HEREDOC))
+	if (head->left && (head->left->type == TOKEN_REDIR_IN
+			|| head->left->type == TOKEN_REDIR_OUT
+			|| head->left->type == TOKEN_REDIR_APPEND
+			|| head->left->type == TOKEN_REDIR_HEREDOC))
 	{
 		status = handle_redirection_cmd(head->left, piped_state, env, fd);
 	}
-	return status;
+	return (status);
 }
 
-/** @brief Executes an AST node by determining its type and processing commands or redirections.
+/** @brief Executes an AST node by determining
+ * its type and processing commands or redirections.
  * Manages pipe and file descriptor cleanup after execution.
  *
  * @param head AST node representing the current command or operation.
@@ -192,7 +213,8 @@ int	execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env)
 		if (head->file_type == FILE_READY)
 			status = handle_piped_cmd_exec(head, piped_state, env, fd);
 		if (head->type == TOKEN_REDIR_IN || head->type == TOKEN_REDIR_OUT
-		|| head->type == TOKEN_REDIR_APPEND || head->type == TOKEN_REDIR_HEREDOC)
+			|| head->type == TOKEN_REDIR_APPEND
+			|| head->type == TOKEN_REDIR_HEREDOC)
 			status = handle_redirection_cmd(head, piped_state, env, fd);
 	}
 	if (head->file_type == EXECUTE_FILE)
@@ -208,7 +230,8 @@ int	execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env)
 }
 
 /** @brief Main entry point for executing commands in the AST.
- * Initializes pipe state, processes variables, checks permissions, and executes commands.
+ * Initializes pipe state, processes variables,
+ * checks permissions, and executes commands.
  *
  * @param head AST node representing the root of the command structure.
  * @param env Environment variables and shell state.

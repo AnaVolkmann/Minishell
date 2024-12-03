@@ -22,7 +22,8 @@
  * @param env_var_len Length of the environment variable.
  * @param flag Flag to control slash addition.
  * @return A new path string or NULL if allocation fails.*/
-char	*create_subpath_from_var(char *env_var, char *file, int env_var_len, int *flag)
+char	*create_subpath_from_var(char *env_var, char *file,
+			int env_var_len, int *flag)
 {
 	char	*tmp_path;
 	int		start_index;
@@ -36,10 +37,10 @@ char	*create_subpath_from_var(char *env_var, char *file, int env_var_len, int *f
 	file_size = sizeof_str(file, ' ');
 	tmp_path = malloc(env_var_index + file_size + 2);
 	if (!tmp_path)
-		return NULL;
-		while (b < (env_var_index + file_size + 1)) 
+		return (NULL);
+	while (b < (env_var_index + file_size + 1))
 	{
-		if (*flag && b < env_var_index) 
+		if (*flag && b < env_var_index)
 			tmp_path[b] = env_var[start_index + b];
 		else if (*flag && env_var[env_var_len - 1] != '/' && b == env_var_index)
 			tmp_path[b] = '/';
@@ -53,7 +54,8 @@ char	*create_subpath_from_var(char *env_var, char *file, int env_var_len, int *f
 
 /** @brief Counts the number of substrings separated by a delimiter.
  * 
- * Traverses the string and counts substrings separated by the specified delimiter.
+ * Traverses the string and counts substrings 
+ * separated by the specified delimiter.
  *
  * @param str The input string.
  * @param del The delimiter character.
@@ -67,7 +69,7 @@ int	count_substrings(char *str, char del)
 	i = 0;
 	j = 1;
 	result = 0;
-	while(str[i] && str)
+	while (str[i] && str)
 	{
 		if (str[i] != del)
 		{
@@ -84,7 +86,8 @@ int	count_substrings(char *str, char del)
 
 /** @brief Finds the index of a substring in an array of strings.
  * 
- * Searches for a substring in an array and returns the index of the matching string.
+ * Searches for a substring in an array and
+ * returns the index of the matching string.
  *
  * @param str Array of strings.
  * @param sub_str The substring to find.
@@ -96,12 +99,12 @@ int	find_substr_index(char **str, char *sub_str, int n)
 	int	j;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
-		if(str[i][0] == sub_str[0])
+		if (str[i][0] == sub_str[0])
 		{
 			j = 0;
-			while(str[i][j] && str[i][j] == sub_str[j])
+			while (str[i][j] && str[i][j] == sub_str[j])
 			{
 				if (j == (n -1))
 					return (i);

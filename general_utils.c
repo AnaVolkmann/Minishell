@@ -52,7 +52,8 @@ int	str_cmp(char *s_1, char *s_2, char *s_3)
  *  or only spaces; 0 otherwise.*/
 int	check_line(char **input)
 {
-	if (*input[0] == '\0' || ft_strcompare(*input, "\n", NULL) || is_space(*input))
+	if (*input[0] == '\0' || ft_strcompare(*input, "\n", NULL)
+		|| is_space(*input))
 	{
 		free(*input);
 		return (1);

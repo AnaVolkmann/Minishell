@@ -16,7 +16,7 @@
  * 	it has a flag that makes it print or not ( for cd use ) */
 static void	pwd_error(void);
 
-char	*ft_pwd(t_shell *shell, int	flag)
+char	*ft_pwd(t_shell *shell, int flag)
 {
 	char	*pwd;
 

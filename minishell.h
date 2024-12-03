@@ -60,7 +60,7 @@ typedef enum e_token_type
 
 /************************RULES*********************/
 
-typedef struct	s_pipe_state
+typedef struct s_pipe_state
 {
 	int					executed_pipes_index;
 	int					input_files_count;
@@ -78,16 +78,16 @@ typedef struct	s_pipe_state
 
 /**************************envp*********************/
 
-typedef struct		s_env
+typedef struct s_env
 {
 	char				**original_env;
 	char				***parsed_env;
-	struct t_shell				*shell;
+	struct t_shell		*shell;
 }					t_env;
 
 /***********************TOKEN STRUCT*****************/
 
-typedef struct		s_token
+typedef struct s_token
 {
 	t_token_type		type;
 	char				*value;
@@ -96,7 +96,7 @@ typedef struct		s_token
 
 /*************************SHELL STRUCT******************/
 
-typedef struct		s_shell
+typedef struct s_shell
 {
 	int					pid;
 	int					last_pid;
@@ -107,7 +107,7 @@ typedef struct		s_shell
 	char				**envp;
 }					t_shell;
 
-typedef struct		s_ast_node
+typedef struct s_ast_node
 {
 	t_token_type		type;
 	struct s_shell		*shell;
@@ -116,7 +116,6 @@ typedef struct		s_ast_node
 	struct s_ast_node	*right;
 	int					file_type;//indicates the type of redirection(input, output, append), if no redirec, set to 0.
 }					t_ast_node;
-
 
 /******************Input processing***************/
 
@@ -210,13 +209,19 @@ void		free_environment_variables(char ***array);
 
 void		run_minishell(t_env *env);
 void		command_executer(t_ast_node *head, t_env *env, int *status);
-int			execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env);
-int			handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state, t_env *env, int *fd);
-int			handle_piped_cmd_exec(t_ast_node *head, t_pipe_state *piped_state, t_env *env, int *fd);
-int			prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped, t_env *env);
-int			open_file_for_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *env, int status);
+int			execute_ast_node(t_ast_node *head, t_pipe_state *piped_state,
+				t_env *env);
+int			handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state,
+				t_env *env, int *fd);
+int			handle_piped_cmd_exec(t_ast_node *head, t_pipe_state *piped_state,
+				t_env *env, int *fd);
+int			prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped,
+				t_env *env);
+int			open_file_for_redirection(t_ast_node *head,
+				t_pipe_state *pipe_state, t_env *env, int status);
 char		**merge_cmd_args(char **f_args, char **cmd);
-int			execute_basic_cmd(char **cmd, int *_fd, char **env, t_pipe_state *piped);
+int			execute_basic_cmd(char **cmd, int *_fd, char **env,
+				t_pipe_state *piped);
 void		close_pipe_ends(int read_fd, int write_fd);
 int			command_is_builtin(char *cmd);
 char		*verify_path_without_env(char *file, int mode);
@@ -225,7 +230,8 @@ char		**prepare_cmd_args(char *cmd, char **envp, int c);
 char		*find_next_substring(char *str, char del, int *index);
 int			sizeof_str(char *str, char end);
 int			run_command_builtin(char **arguments, t_shell *shell);
-int			execute_cmd_with_redirect(char **cmd, int *fd, char **env, t_pipe_state *piped);
+int			execute_cmd_with_redirect(char **cmd, int *fd, char **env,
+				t_pipe_state *piped);
 char		*get_file_path(char *file, char **envp, char *env_var, int mode);
 void		child_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
 void		parent_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
@@ -234,19 +240,24 @@ void		parent_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
 
 void		adjust_ast_node_for_execution(t_ast_node *head);
 int			check_file_permissions(t_ast_node *head, char **env);
-void		count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state);
+void		count_redirect_and_pipes(t_ast_node *head,
+				t_pipe_state *piped_state);
 void		init_or_reset_pipe_state(t_pipe_state *pipe_state, int f);
-int			handle_input_redirection(t_ast_node *head, t_pipe_state *pipe_state, t_env *env);
-int			handle_output_redirection(t_ast_node *head, t_pipe_state *pipe_state);
+int			handle_input_redirection(t_ast_node *head,
+				t_pipe_state *pipe_state, t_env *env);
+int			handle_output_redirection(t_ast_node *head,
+				t_pipe_state *pipe_state);
 int			wait_for_children(int status, t_pipe_state *piped);
 int			find_substr_index(char **str, char *sub_str, int n);
-char		*create_subpath_from_var(char *env_var, char *file, int env_var_len, int *flag);
+char		*create_subpath_from_var(char *env_var, char *file,
+				int env_var_len, int *flag);
 
 /*******************HeheDoc Handling******************/
 
 void		quite_heredoc(int n);
 int			have_quotes(char *s);
 int			exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env);
-void		read_and_write(t_pipe_state *pipe_state, char *limiter, t_env *env, int is_expandable);
+void		read_and_write(t_pipe_state *pipe_state, char *limiter,
+				t_env *env, int is_expandable);
 
 #endif

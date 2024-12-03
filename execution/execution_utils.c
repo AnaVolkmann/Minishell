@@ -12,12 +12,14 @@
 
 #include "../minishell.h"
 
-//TODO ------- SUS_PATH, makefile ( ta sem o builtin ), ver funcoes duplicadas e organizar
+//TODO ------- SUS_PATH, makefile ( ta sem o builtin ), 
+//ver funcoes duplicadas e organizar
 
 static int	check_safety(t_ast_node *head, char *path);
 
 /** @brief Adjusts the file type of AST nodes for execution.
- * Assigns appropriate file types based on token type (e.g., redirections, pipes).
+ * Assigns appropriate file types based on token type 
+ * (e.g., redirections, pipes).
  * Recursively processes left and right child nodes in the AST.
  *
  * @param head AST node representing a command, redirection, or pipe.*/
@@ -50,37 +52,41 @@ void	adjust_ast_node_for_execution(t_ast_node *head)
 	}
 }
 
-char *get_file_path(char *file, char **envp, char *env_var, int mode)
+char	*get_file_path(char *file, char **envp, char *env_var, int mode)
 {
-	char *tmp_path;
-	int env_var_len;
-	int env_var_index;
-	int flag = 0;
+	char	*tmp_path;
+	int		env_var_len;
+	int		env_var_index;
+	int		flag;
 
+	flag = 0;
 	env_var_len = sizeof_str(env_var, '\0');
 	env_var_index = find_substr_index(envp, env_var, env_var_len);
 	if (env_var_index < 0 || (file[0] == '.' && file[1] == '/'))
-		return verify_path_without_env(file, mode);
-	if (sizeof_str(file, ' ') != sizeof_str(file, '\0') && !is_path_accessible(file, mode))
-		return NULL;
+		return (verify_path_without_env(file, mode));
+	if (sizeof_str(file, ' ') != sizeof_str(file, '\0')
+		&& !is_path_accessible(file, mode))
+		return (NULL);
 	while (envp[env_var_index][env_var_len])
 	{
-		tmp_path = create_subpath_from_var(envp[env_var_index], file, env_var_len, &flag);
+		tmp_path = create_subpath_from_var(envp[env_var_index],
+				file, env_var_len, &flag);
 		if (!tmp_path)
-			return NULL;
+			return (NULL);
 		if (is_path_accessible(tmp_path, mode))
-			return tmp_path;
+			return (tmp_path);
 		free(tmp_path);
 		if (!flag)
 			flag = 1;
 	}
-	return NULL;
+	return (NULL);
 }
 
-
 /** @brief Checks file permissions for commands and redirection files.
- * Validates access rights for executable commands or files used in input/output redirection.
- * Reports errors and updates the shell's exit status if permission issues are detected.
+ * Validates access rights for executable commands or 
+ * files used in input/output redirection.
+ * Reports errors and updates the shell's exit status 
+ * if permission issues are detected.
  *
  * @param head AST node containing the command or file to check.
  * @param env Environment variables, used to resolve paths.
@@ -91,7 +97,8 @@ int	check_file_permissions(t_ast_node *head, char **env)
 	char	*path;
 
 	status = 0;
-	if (head->args && !command_is_builtin(head->args[0]) && head->file_type == READ_FILE)
+	if (head->args && !command_is_builtin(head->args[0])
+		&& head->file_type == READ_FILE)
 	{
 		path = get_file_path(head->args[0], env, "PWD", R_OK);
 		if (!path)
@@ -125,7 +132,8 @@ int	check_file_permissions(t_ast_node *head, char **env)
 }
 
 /** @brief Counts the number of redirections and pipes in the AST.
- * Updates the `t_pipe_state` structure with counts of input/output files and pipe segments.
+ * Updates the `t_pipe_state` structure with counts of 
+ * input/output files and pipe segments.
  * Processes the AST recursively to include all child nodes.
  *
  * @param head AST node representing the command structure.
@@ -133,7 +141,6 @@ int	check_file_permissions(t_ast_node *head, char **env)
 void	count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state)
 {
 	head->file_type = 0;
-
 	if (head->type == TOKEN_REDIR_OUT || TOKEN_REDIR_APPEND)
 		piped_state->output_files_count += 1;
 	else if (head->type == TOKEN_REDIR_IN || head->type == TOKEN_REDIR_HEREDOC)
@@ -152,12 +159,13 @@ int	is_sus_dir(t_ast_node head, char *path)
 	int		i;
 
 	i = 0;
-	copy = ft_strdup()
+	copy = ft_strdup(path);
 	if (!path || !head.args[0])
 		return (1);
 	while (*path)
 	{
-		if (path[0] == '.' && path[1] == '.' && (path[2] == '/' || path[2] == '\0'))
+		if (path[0] == '.' && path[1] == '.'
+			&& (path[2] == '/' || path[2] == '\0'))
 		{
 			path += 2;
 			if (*path == '/')

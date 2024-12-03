@@ -39,7 +39,7 @@ int	command_is_builtin(char *cmd)
  * 
  * @param read_fd File descriptor for the read end.
  * @param write_fd File descriptor for the write end.*/
-void close_pipe_ends(int read_fd, int write_fd)
+void	close_pipe_ends(int read_fd, int write_fd)
 {
 	if (read_fd != -1)
 		close(read_fd);
@@ -54,10 +54,10 @@ void close_pipe_ends(int read_fd, int write_fd)
  * @param env Array of environment variables.
  * @param piped Pointer to the pipe state structure.
  * @return `1` on success; handles process exit on failure.*/
-int execute_command_basic(char **cmd, int *fd, char **env, int *piped)
+int	execute_command_basic(char **cmd, int *fd, char **env, int *piped)
 {
-	pid_t pid;
-	int pipe_fds[2];
+	pid_t	pid;
+	int		pipe_fds[2];
 
 	pipe(pipe_fds);
 	pid = fork();
@@ -84,7 +84,6 @@ int execute_command_basic(char **cmd, int *fd, char **env, int *piped)
 	return (1);
 }
 
-
 /** @brief Executes a command with file redirection support.
  * 
  * @param cmd Array containing the command and its arguments.
@@ -92,7 +91,8 @@ int execute_command_basic(char **cmd, int *fd, char **env, int *piped)
  * @param env Array of environment variables.
  * @param piped Pointer to the pipe state structure.
  * @return `1` on success; handles process exit on failure.*/
-int	execute_cmd_with_redirect(char **cmd, int *fd, char **env, t_pipe_state *piped)
+int	execute_cmd_with_redirect(char **cmd, int *fd, char **env,
+	t_pipe_state *piped)
 {
 	pid_t	pid;
 	int		pipe_fds[2];

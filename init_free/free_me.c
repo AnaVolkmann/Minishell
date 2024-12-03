@@ -38,13 +38,13 @@ void	free_environment_variables(char ***array)
 	free(array);
 }
 
-void free_envp(char **envp)
+void	free_envp(char **envp)
 {
-	int i;
+	int	i;
 
-    i = 0;
+	i = 0;
 	if (!envp)
-		return;
+		return ;
 	while (envp[i])
 	{
 		free(envp[i]);
@@ -52,7 +52,6 @@ void free_envp(char **envp)
 	}
 	free(envp);
 }
-
 
 void	free_shell(t_shell *shell)
 {
@@ -64,7 +63,7 @@ void	free_shell(t_shell *shell)
 
 void	free_ast(t_ast_node **ast)
 {
-	t_ast_node *tmp;
+	t_ast_node	*tmp;
 
 	if (!ast || !*ast)
 		return ;
@@ -76,20 +75,19 @@ void	free_ast(t_ast_node **ast)
 	*ast = NULL;
 }
 
-void free_parsed_env(t_env *env)
+void	free_parsed_env(t_env *env)
 {
-    int i;
+	int	i;
 
-    if (env && env->parsed_env)
-    {
-        i = 0;
-        while (env->parsed_env[i])
-        {
-            free(env->parsed_env[i]);
-            i++;
-        }
-        free(env->parsed_env);
-        env->parsed_env = NULL;
-    }
+	if (env && env->parsed_env)
+	{
+		i = 0;
+		while (env->parsed_env[i])
+		{
+			free(env->parsed_env[i]);
+			i++;
+		}
+		free(env->parsed_env);
+		env->parsed_env = NULL;
+	}
 }
-

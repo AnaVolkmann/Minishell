@@ -12,7 +12,8 @@
 
 #include "../minishell.h"
 
-/** @brief Manages file descriptors for a child process, handling pipes and redirections.
+/** @brief Manages file descriptors for a child process,
+ * handling pipes and redirections.
  *
  * @param piped Pipe state structure with redirection and piping info.
  * @param _fd File descriptors for the previous pipe.
@@ -29,10 +30,12 @@ void	child_fds_managment(t_pipe_state *piped, int *_fd, int *fd_)
 		dup2(piped->output_files_count, 1);
 		close(piped->output_files_count);
 	}
-	if (piped->executed_pipes_index && piped->executed_pipes_index <= piped->current_output_fd
+	if (piped->executed_pipes_index
+		&& piped->executed_pipes_index <= piped->current_output_fd
 		&& (!piped->is_redirection_or_pipe || !piped->has_input_file))
 		dup2(_fd[0], 0);
-	if (piped->executed_pipes_index > 1 && (piped->is_redirection_or_pipe || !piped->has_output_file))
+	if (piped->executed_pipes_index > 1
+		&& (piped->is_redirection_or_pipe || !piped->has_output_file))
 		dup2(fd_[1], 1);
 	else
 		close(fd_[0]);
@@ -40,7 +43,8 @@ void	child_fds_managment(t_pipe_state *piped, int *_fd, int *fd_)
 	close(fd_[1]);
 }
 
-/** @brief Manages file descriptors for a parent process, cleaning up pipes and redirections.
+/** @brief Manages file descriptors for a parent process, 
+ * cleaning up pipes and redirections.
  *
  * @param piped Pipe state structure with redirection and piping info.
  * @param _fd File descriptors for the previous pipe.
