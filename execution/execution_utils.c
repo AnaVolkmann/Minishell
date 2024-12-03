@@ -186,7 +186,7 @@ static int	is_sus_dir(char *path)
 int	check_safety(t_ast_node *head, char *path)
 {
 	struct stat	s;
-	char	*tmp;
+	char		*tmp;
 
 	tmp = ft_strdup(path);
 	if (!tmp)
@@ -196,7 +196,7 @@ int	check_safety(t_ast_node *head, char *path)
 	if (ft_strcmp(path, "/etc") == 0 || ft_strcmp(path, "/dev") == 0
 		|| ft_strcmp(path, "/proc") == 0)
 		return (ft_putstr_fd("Error: access denied to restricted directory.\n",
-			2), free(tmp), 1);
+				2), free(tmp), 1);
 	if (!is_path_accessible(path, X_OK) || !is_path_accessible(path, F_OK))
 		return (ft_putstr_fd("Error: path related.\n", 2), free(tmp), 1);
 	if (lstat(path, &s) == -1)
