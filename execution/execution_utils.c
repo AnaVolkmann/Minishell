@@ -15,8 +15,6 @@
 //TODO ------- SUS_PATH, makefile ( ta sem o builtin ), 
 //ver funcoes duplicadas e organizar
 
-//static int	check_safety(t_ast_node *head, char *path);
-
 /** @brief Adjusts the file type of AST nodes for execution.
  * Assigns appropriate file types based on token type 
  * (e.g., redirections, pipes).
@@ -153,14 +151,13 @@ void	count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state)
 		count_redirect_and_pipes(head->right, piped_state);
 }
 
-/*int	is_sus_dir(t_ast_node head, char *path)
+static int	is_sus_dir(char *path)
 {
-	char	copy;
+	char	copy[1024];
 	int		i;
 
 	i = 0;
-	copy = ft_strdup(path);
-	if (!path || !head.args[0])
+	if (!path)
 		return (1);
 	while (*path)
 	{
@@ -181,19 +178,28 @@ void	count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state)
 			copy[i++] = *path++;
 	}
 	copy[i] = '\0';
-	return (ft_strcmp(path, copy) != 0);
+	if (ft_strcmp(path, copy) != 0)
+		return (1);
+	return (0);
 }
 
-static int	check_safety(t_ast_node *head, char *path)
+int	check_safety(t_ast_node *head, char *path)
 {
 	struct stat	s;
+	char	*tmp;
 
+	tmp = ft_strdup(path);
+	if (!tmp)
+		return (1);
+	if (is_sus_dir(tmp) == 1)
+		return (free(tmp), 1);
 	if (ft_strcmp(path, "/etc") == 0 || ft_strcmp(path, "/dev") == 0
 		|| ft_strcmp(path, "/proc") == 0)
-		ft_putstr_fd("Error: access denied to restricted directory.\n", 2);
+		return (ft_putstr_fd("Error: access denied to restricted directory.\n",
+			2), free(tmp), 1);
 	if (!is_path_accessible(path, X_OK) || !is_path_accessible(path, F_OK))
-		ft_putstr_fd("Error: path related.\n", 2);
+		return (ft_putstr_fd("Error: path related.\n", 2), free(tmp), 1);
 	if (lstat(path, &s) == -1)
-		return (perror("Error getting file info\n"), 1);
-	return (0);
-}*/
+		return (perror("Error getting file info\n"), free(tmp), 1);
+	return (free(tmp), 0);
+}
