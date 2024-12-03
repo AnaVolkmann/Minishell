@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 12:11:12 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 17:49:21 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/03 12:25:04 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,34 +54,36 @@ void close_pipe_ends(int read_fd, int write_fd)
  * @param env Array of environment variables.
  * @param piped Pointer to the pipe state structure.
  * @return `1` on success; handles process exit on failure.*/
-int	execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped)
+int execute_command_basic(char **cmd, int *fd, char **env, int *piped)
 {
-	pid_t	pid;
-	int		fd[2];
+	pid_t pid;
+	int pipe_fds[2];
 
-	pipe(fd);
+	pipe(pipe_fds);
+	pid = fork();
 	signal(SIGINT, child_ctrl_c);
 	signal(SIGQUIT, child_ctrl_c);
 	if (pid == 0)
 	{
-		if (piped->executed_pipes_index && piped->executed_pipes_index <= 5)
+		if (piped[0] && piped[0] <= piped[5])
 			dup2(fd[0], 0);
-		if (piped->executed_pipes_index > 1)
-			dup2(fd[1], 1);
+		if (piped[0] > 1)
+			dup2(pipe_fds[1], 1);
 		else
 			close(fd[0]);
-		close_pipe_ends(fd[0], fd[1]);
-		execve(cmd[0], (char *const *)cmd, env);
-		//   ft_putendl_fd(strerror(errno), 2);
-        //  exit(127);
+		close_pipe_ends(pipe_fds[0], pipe_fds[1]);
+		execve(cmd[0], cmd, env);
+		//ft_putendl_fd(strerror(errno), 2);
+		//exit(127);
 	}
-	close_pipe_ends(fd[0], fd[1]);
-	if (piped->executed_pipes_index < piped->pipes_count && piped->pipes_count > 1)
-		fd[0] = fd[0];
+	close_pipe_ends(pipe_fds[0], pipe_fds[1]);
+	if (piped[0] > 1)
+		fd[0] = pipe_fds[0];
 	else
-		close(fd[0]);
+		close(pipe_fds[0]);
 	return (1);
 }
+
 
 /** @brief Executes a command with file redirection support.
  * 
@@ -93,20 +95,20 @@ int	execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped)
 int	execute_cmd_with_redirect(char **cmd, int *fd, char **env, t_pipe_state *piped)
 {
 	pid_t	pid;
-	int		fd[2];
+	int		pipe_fds[2];
 
-	pipe(fd);
+	pipe(pipe_fds);
 	pid = fork();
 	signal(SIGINT, child_ctrl_c);
 	signal(SIGQUIT, child_ctrl_c);
 	if (!pid)
 	{
-		manage_child_fds(piped, fd, fd);
+		child_fds_managment(piped, pipe_fds, fd);
 		execve(cmd[0], cmd, env);
 		// ft_putendl_fd(strerror(errno), 2);
 		//exit(127);
 	}
-	manage_parent_fds(piped, fd, fd);
+	parent_fds_managment(piped, pipe_fds, fd);
 	free_envp(cmd);
 	return (1);
 }

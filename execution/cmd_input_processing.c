@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:21:20 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 15:08:40 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/03 12:27:00 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,28 @@ int	wait_for_children(int status, t_pipe_state *piped)
 	return (status);
 }
 
+static char	*strcopy(char *src)
+{
+	int		a;
+	int		b;
+	char	*dest;
+
+	b = 0;
+	while (src[b])
+		b += 1;
+	dest = malloc(b + 1);
+	if (!dest)
+		return (NULL);
+	a = 0;
+	while (a < b)
+	{
+		dest[a] = src[a];
+		a += 1;
+	}
+	dest[a] = '\0';
+	return (dest);
+}
+
 char	**merge_cmd_args(char **f_args, char **cmd)
 {
 	int		i;
@@ -83,13 +105,13 @@ char	**merge_cmd_args(char **f_args, char **cmd)
 		return (NULL);
 	i = 0;
 	if (f_args[i])
-		new_args[i] = ft_strcopy(f_args[i]);
+		new_args[i] = strcopy(f_args[i]);
 	else
-		new_args[i] = ft_strcopy("");
+		new_args[i] = strcopy("");
 	if (cmd && cmd[0])
 	{
 		while (cmd[++i])
-			new_args[i] = ft_strcopy(cmd[i]);
+			new_args[i] = strcopy(cmd[i]);
 	}
 	new_args[i] = 0;
 	free_envp(f_args);

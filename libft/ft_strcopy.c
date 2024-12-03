@@ -6,13 +6,13 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:47:40 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 14:48:50 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/03 12:14:43 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	s_strcopy(char *s_1, char *s_2, int start, int end)
+void	ft_strcopy(char *s_1, char *s_2, int start, int end)
 {
 	int				i;
 
