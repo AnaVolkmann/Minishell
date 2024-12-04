@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:24:01 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/29 15:26:27 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 12:19:51 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	str_cmp(char *s_1, char *s_2, char *s_3)
  *  or only spaces; 0 otherwise.*/
 int	check_line(char **input)
 {
-	if (*input[0] == '\0' || ft_strcompare(*input, "\n", NULL)
+	if (*input[0] == '\0' || ft_strcompare(*input, "\n", '\0')
 		|| is_space(*input))
 	{
 		free(*input);

@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:18:13 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/02 18:28:29 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 12:18:10 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ int	run_command_builtin(char **arguments, t_shell *shell)
 	return (NULL);
 }
 
-/** @brief checks if the command is already an absolute "/" 
+ @brief checks if the command is already an absolute "/" 
  * or an relative "." path if not, 
- * it calls the loop_path to find the program */
+ * it calls the loop_path to find the program
 static char	*get_path(char *cmd, char **envp)
 {
 	char	*cmd_path;
@@ -91,7 +91,7 @@ static char	*get_path(char *cmd, char **envp)
 	return (free(cmd_path), full_path);
 }
 
-/** @brief it runs the execve commands */
+@brief it runs the execve commands 
 static int	run_command_exec(char *cmd, char *const *argument, t_shell *shell)
 {
 	char	*cmd_path;
@@ -105,9 +105,9 @@ static int	run_command_exec(char *cmd, char *const *argument, t_shell *shell)
 	return (free(cmd_path), 0);
 }
 
-/** @brief it first tries to execute the builtin functions, 
+@brief it first tries to execute the builtin functions, 
  * if its not inside that, it straight up goes to execve, 
- * returns error if none found */
+ * returns error if none found 
 int	execute(char *cmd, char *const *argument, t_shell *shell)
 {
 	if (run_command_builtin((char **)argument, shell) == 0)

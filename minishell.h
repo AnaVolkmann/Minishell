@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/03 12:18:00 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 12:10:12 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,9 +223,7 @@ int			open_file_for_redirection(t_ast_node *head,
 				t_pipe_state *pipe_state, t_env *env, int status);
 char		**merge_cmd_args(char **f_args, char **cmd);
 int			execute_basic_cmd(char **cmd, int *_fd, char **env,
-				t_pipe_state *piped); // qual das duas?
-int			execute_command_basic(char **cmd, int *fd, char **env,
-				 int *piped);
+				t_pipe_state *piped);
 void		close_pipe_ends(int read_fd, int write_fd);
 int			command_is_builtin(char *cmd);
 char		*verify_path_without_env(char *file, int mode);

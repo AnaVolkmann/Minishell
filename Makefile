@@ -25,6 +25,7 @@ builtin/exit.c\
 builtin/export.c\
 builtin/pwd.c\
 builtin/unset.c\
+execution/execute.c\
 execution/execution_manager.c\
 execution/execution_utils.c\
 execution/cmd_execution.c\
@@ -35,6 +36,7 @@ execution/path_utils2.c\
 execution/process_management.c\
 parsing/parser.c\
 parsing/parser_utils.c\
+general_utils.c\
 
 # Generate the object files, each one placed inside obj/ based on its directory structure
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))

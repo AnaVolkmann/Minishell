@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 12:11:12 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/03 12:25:04 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 12:15:56 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	close_pipe_ends(int read_fd, int write_fd)
  * @param env Array of environment variables.
  * @param piped Pointer to the pipe state structure.
  * @return `1` on success; handles process exit on failure.*/
-int	execute_command_basic(char **cmd, int *fd, char **env, int *piped)
+int	execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped)
 {
 	pid_t	pid;
 	int		pipe_fds[2];
@@ -65,9 +65,9 @@ int	execute_command_basic(char **cmd, int *fd, char **env, int *piped)
 	signal(SIGQUIT, child_ctrl_c);
 	if (pid == 0)
 	{
-		if (piped[0] && piped[0] <= piped[5])
+		if (piped->executed_pipes_index && piped->executed_pipes_index <= piped->current_output_fd)
 			dup2(fd[0], 0);
-		if (piped[0] > 1)
+		if (piped->executed_pipes_index > 1)
 			dup2(pipe_fds[1], 1);
 		else
 			close(fd[0]);
@@ -77,7 +77,7 @@ int	execute_command_basic(char **cmd, int *fd, char **env, int *piped)
 		//exit(127);
 	}
 	close_pipe_ends(pipe_fds[0], pipe_fds[1]);
-	if (piped[0] > 1)
+	if (piped->executed_pipes_index > 1)
 		fd[0] = pipe_fds[0];
 	else
 		close(pipe_fds[0]);
