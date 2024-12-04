@@ -12,6 +12,8 @@
 
 #include "libft.h"
 
+static	int	sizeof_str(char *str, char end);
+
 /** @brief Compares two strings up to a specified maximum length.
  * This function compares the characters of two strings `s_1` 
  * and `s_2` up to the given maximum number of characters (`max`). 
@@ -34,4 +36,14 @@ int	ft_strcompare(char *s_1, char *s_2, int max)
 	if (sizeof_str(s_1, '\0') == a && a == max)
 		return (1);
 	return (0);
+}
+
+static	int	sizeof_str(char *str, char end)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i] != '\0' && str[i] != end)
+		i++;
+	return (i);
 }

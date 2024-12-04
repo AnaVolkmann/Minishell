@@ -195,6 +195,8 @@ void		remove_env(char **envp, int index);
 void		update_exit(int i, t_shell *shell);
 int			str_cmp(char *s_1, char *s_2, char *s_3);
 int			check_line(char **input);
+int			count_substrings(char *str, char del);
+int			str_cmp(char *s_1, char *s_2, char *s_3);
 
 /********************Free*************************/
 
@@ -221,7 +223,9 @@ int			open_file_for_redirection(t_ast_node *head,
 				t_pipe_state *pipe_state, t_env *env, int status);
 char		**merge_cmd_args(char **f_args, char **cmd);
 int			execute_basic_cmd(char **cmd, int *_fd, char **env,
-				t_pipe_state *piped);
+				t_pipe_state *piped); // qual das duas?
+int			execute_command_basic(char **cmd, int *fd, char **env,
+				 int *piped);
 void		close_pipe_ends(int read_fd, int write_fd);
 int			command_is_builtin(char *cmd);
 char		*verify_path_without_env(char *file, int mode);
@@ -235,6 +239,8 @@ int			execute_cmd_with_redirect(char **cmd, int *fd, char **env,
 char		*get_file_path(char *file, char **envp, char *env_var, int mode);
 void		child_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
 void		parent_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
+int			check_safety(t_ast_node *head, char *path);
+
 
 /********************Pipe and Redirect*********************/
 
@@ -259,5 +265,10 @@ int			have_quotes(char *s);
 int			exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env);
 void		read_and_write(t_pipe_state *pipe_state, char *limiter,
 				t_env *env, int is_expandable);
+
+/****************************FD**************************/
+
+void		parent_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
+void		child_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
 
 #endif

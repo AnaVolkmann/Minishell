@@ -50,25 +50,33 @@ void	adjust_ast_node_for_execution(t_ast_node *head)
 	}
 }
 
+/** @brief Finds the absolute path of an executable using environment variables.
+ * 
+ * @param file The file name to locate.
+ * @param envp Array of environment variables.
+ * @param env_var The specific environment variable (e.g., `"PATH"`)
+ * 				to search within.
+ * @param mode Accessibility check mode (e.g., `R_OK`, `W_OK`, `X_OK`).
+ * @return Allocated string containing the absolute path if found and
+ * accessible; `NULL` otherwise.*/
 char	*get_file_path(char *file, char **envp, char *env_var, int mode)
 {
 	char	*tmp_path;
-	int		env_var_len;
-	int		env_var_index;
+	int		var_len;
+	int		index;
 	int		flag;
 
 	flag = 0;
-	env_var_len = sizeof_str(env_var, '\0');
-	env_var_index = find_substr_index(envp, env_var, env_var_len);
-	if (env_var_index < 0 || (file[0] == '.' && file[1] == '/'))
+	var_len = sizeof_str(env_var, '\0');
+	index = find_substr_index(envp, env_var, var_len);
+	if (index < 0 || (file[0] == '.' && file[1] == '/'))
 		return (verify_path_without_env(file, mode));
 	if (sizeof_str(file, ' ') != sizeof_str(file, '\0')
 		&& !is_path_accessible(file, mode))
 		return (NULL);
-	while (envp[env_var_index][env_var_len])
+	while (envp[index][var_len])
 	{
-		tmp_path = create_subpath_from_var(envp[env_var_index],
-				file, env_var_len, &flag);
+		tmp_path = create_subpath_from_var(envp[index],	file, var_len, &flag);
 		if (!tmp_path)
 			return (NULL);
 		if (is_path_accessible(tmp_path, mode))
@@ -139,7 +147,7 @@ int	check_file_permissions(t_ast_node *head, char **env)
 void	count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state)
 {
 	head->file_type = 0;
-	if (head->type == TOKEN_REDIR_OUT || TOKEN_REDIR_APPEND)
+	if (head->type == TOKEN_REDIR_OUT || head->type == TOKEN_REDIR_APPEND)
 		piped_state->output_files_count += 1;
 	else if (head->type == TOKEN_REDIR_IN || head->type == TOKEN_REDIR_HEREDOC)
 		piped_state->input_files_count += 1;
@@ -188,6 +196,7 @@ int	check_safety(t_ast_node *head, char *path)
 	struct stat	s;
 	char		*tmp;
 
+	(void)head;//dei void
 	tmp = ft_strdup(path);
 	if (!tmp)
 		return (1);

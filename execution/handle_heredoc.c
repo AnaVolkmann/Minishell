@@ -57,11 +57,12 @@ void	read_and_write(t_pipe_state *pipe_state, char *limiter, t_env *env, int is_
 	char *buf;
 	int f_arr[3];
 
-	limiter = remove_quotes_from_str(limiter, 0, 0, 0);
+	(void)env;
+	//limiter = remove_quotes_from_str(limiter, 0, 0, 0);
 	while (1)
 	{
 		buf = readline(">> ");
-		if (!buf || str_cmp(limiter, buf, sizeof_str(buf, '\n')))
+		if (!buf /*|| str_cmp(limiter, buf, sizeof_str(buf, '\n'))*/)// comentei por conta dos parametros
 		{
 			free(buf);
 			break;
@@ -70,9 +71,9 @@ void	read_and_write(t_pipe_state *pipe_state, char *limiter, t_env *env, int is_
 		{
 			buf[sizeof_str(buf, '\n')] = '\0';
 			ft_memset(f_arr, 0, 3 * sizeof(int));
-			buf = recursively_expand_variables(buf, env, 0, f_arr);
+			//buf = recursively_expand_variables(buf, env, 0, f_arr);
 			ft_memset(f_arr, 0, 3 * sizeof(int));
-			buf = recursively_expand_variables(buf, env, 1, f_arr);
+			//buf = recursively_expand_variables(buf, env, 1, f_arr);
 		}
 		write(pipe_state->current_output_fd, buf, sizeof_str(buf, '\0'));
 		write(pipe_state->current_output_fd, "\n", 1);
@@ -95,6 +96,8 @@ int	exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env)
 	int		status;
 	int		out_fd[2];
 
+	(void)env; // dei void 
+	(void)limiter;
 	pipe(out_fd);
 	pid = fork();
 	signal(SIGINT, SIG_IGN);

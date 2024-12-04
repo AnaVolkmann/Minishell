@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
+int	g_signal = 0;
+
+void	run_minishell(t_env *env);
+
 //The isatty() function shall test whether fildes,
 //an open file descriptor, is associated with a terminal device
 int	main(int argc, char **argv, char **original_env)

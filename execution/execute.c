@@ -47,7 +47,7 @@ int	run_command_builtin(char **arguments, t_shell *shell)
  * command to see if its inside this path. if not, frees and goes to
  * the next. if it find it, returns the full path, otherwise
  * it returns NULL */
-static char	*loop_path(char *cmd, char *path_env)
+/*static char	*loop_path(char *cmd, char *path_env)
 {
 	char	**path;
 	char	*full_path;
@@ -115,4 +115,4 @@ int	execute(char *cmd, char *const *argument, t_shell *shell)
 	else if (run_command_exec(cmd, argument, shell) == 0)
 		return (0);
 	return (1);
-}
+}*/

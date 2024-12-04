@@ -38,8 +38,8 @@ int	parse_env_entry(t_env *env, char *entry, int index)
 	env->parsed_env[index] = malloc(sizeof(char *) * 2);
 	if (!env->parsed_env)
 		return (0);
-	env->parsed_env[0] = ft_strndup(entry, key_len);
-	env->parsed_env[1] = ft_strdup(equal_sign + 1);
+	env->parsed_env[0][0] = ft_strndup(entry, key_len);// coloquei [0] nos dois
+	env->parsed_env[0][1] = ft_strdup(equal_sign + 1);
 	if (!env->parsed_env[index][0] || !env->parsed_env[index][1])
 	{
 		free(env->parsed_env[index][0]);
