@@ -6,14 +6,11 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:24:12 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/03 12:32:16 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 15:21:06 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// TODO - remove_quotes_from_str
-// TODO - recursively_expand_variables
 
 /** @brief Handles a signal interrupt during heredoc processing.
  * Outputs a newline and exits the child process.

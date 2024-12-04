@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 13:47:52 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 15:21:07 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ typedef struct s_ast_node
 	char				**args;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
-	int					file_type;//indicates the type of redirection(input, output, append), if no redirec, set to 0.
+	int					file_type;
 }					t_ast_node;
 
 /******************Input processing***************/
@@ -145,11 +145,7 @@ int			is_invalid_operator(const char **input);
 
 /********************Environment Init***************/
 
-int			init_parsed_env(t_env *env, char **original_env);
-void		init_default_variables(t_env *env, int i);
-void		add_missing_default_variables(t_env *env,
-				int shell_found, int pwd_found, char *cwd);
-char		**duplicate_env_variables(char **env);
+char		**init_dinam_env(char **original_env);
 int			init_environment(t_env *env, char **original_env);
 void		add_pwd_variable(t_env *env, int *count, char *cwd);
 void		add_shell_variable(t_env *env, int *count);

@@ -6,14 +6,11 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:27:45 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/03 11:08:24 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 15:21:05 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-//TODO ------- SUS_PATH, makefile ( ta sem o builtin ), 
-//ver funcoes duplicadas e organizar
 
 /** @brief Adjusts the file type of AST nodes for execution.
  * Assigns appropriate file types based on token type 
