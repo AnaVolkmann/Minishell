@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 12:10:12 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:47:52 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int			is_invalid_operator(const char **input);
 /********************Environment Init***************/
 
 int			init_parsed_env(t_env *env, char **original_env);
-void		init_default_variables(t_env *env);
+void		init_default_variables(t_env *env, int i);
 void		add_missing_default_variables(t_env *env,
 				int shell_found, int pwd_found, char *cwd);
 char		**duplicate_env_variables(char **env);
@@ -197,6 +197,7 @@ int			str_cmp(char *s_1, char *s_2, char *s_3);
 int			check_line(char **input);
 int			count_substrings(char *str, char del);
 int			str_cmp(char *s_1, char *s_2, char *s_3);
+char		*strcopy(char *src);
 
 /********************Free*************************/
 

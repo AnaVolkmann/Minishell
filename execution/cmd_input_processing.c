@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:21:20 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/03 12:27:00 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:47:52 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	wait_for_children(int status, t_pipe_state *piped)
 	return (status);
 }
 
-static char	*strcopy(char *src)
+char	*strcopy(char *src)
 {
 	int		a;
 	int		b;
