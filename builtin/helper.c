@@ -13,18 +13,18 @@
 #include "../minishell.h"
 
 /** @brief searches for the variable in envp, returns its index if found*/
-int	find_env(char **envp, char *name)
+int	find_env(t_env *env, char *name)
 {
 	int	len;
 	int	i;
 
-	if (!name || !envp)
+	if (!name || !env->parsed_env)
 		return (-1);
 	len = ft_strlen(name);
 	i = 0;
-	while (envp[i])
+	while (env->parsed_env[i])
 	{
-		if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
+		if (ft_strncmp(env->parsed_env[i], name, len) == 0 && env->parsed_env[i][len] == '=')
 			return (i);
 		i++;
 	}
