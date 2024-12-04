@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 16:39:55 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:07:42 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,10 @@ char		**init_dinam_env(char **original_env);
 int			init_environment(t_env *env, char **original_env);
 t_shell		*init_shell(t_shell *shell);
 t_ast_node	*init_ast(t_ast_node *ast);
+void		is_sus_dir(char *path_, char *file, int *status);
+int			specify_error(char *file, int _status);
+int			get_shell_exit_status(int err);
+
 /********************Parsing*************************/
 
 t_ast_node	*parse_tokens(t_token **tokens);

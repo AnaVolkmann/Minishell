@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:08:55 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 15:51:38 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 16:49:07 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	run_minishell(t_env *env)
 		input = readline("Minishell: ");
 		if (!input)
 			break ;
-	//	if (check_line(&input))
-		//	continue ;
+		if (check_line(&input))
+			continue ;
 		add_history(input);
 		tokens = process_to_tokenize_input(input);
 		if (!tokens)

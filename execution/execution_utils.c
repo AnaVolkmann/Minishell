@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:27:45 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/04 15:21:05 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:06:27 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,30 +108,36 @@ int	check_file_permissions(t_ast_node *head, char **env)
 			status = 0;
 		else
 		{
-			//suspicious path (is_susp_dir(path, head->args[0], head->shell->exit_status); mudar status
+			is_sus_dir(path, head->args[0], &status);
 			free(path);
 		}
-		if (status == 1)
-		{
-			ft_putstr_fd("   err: \'", 2);
-			ft_putstr_fd(head->args[0], 2);
-			ft_putstr_fd("\' ", 2);
-			ft_putendl_fd(strerror(errno), 2);
-		//	update_exit(get_shell_exit_status(errno), head->shell->exit_status);
-		}
-		else if (!status)
-		{
-			ft_putstr_fd("   minishell(\'", 2);
-			ft_putstr_fd(head->args[0], 2);
-			ft_putendl_fd("\'): permission denied", 2);
-			update_exit(1, head->shell);
-		}
+		status = specify_error(head->args[0], status);
 	}
 	if (!status && head->left)
 		status = check_file_permissions(head->left, env);
 	if (!status && head->right)
 		status = check_file_permissions(head->right, env);
 	return (status);
+}
+
+int	specify_error(char *file, int _status)
+{
+	if (_status == 1)
+	{
+		_status = get_shell_exit_status(errno);
+		ft_putstr_fd("   err: \'", 2);
+		ft_putstr_fd(file, 2);
+		ft_putstr_fd("\' ", 2);
+		ft_putendl_fd(strerror(errno), 2);
+		return (_status);
+	}
+	else if (_status)
+	{
+		ft_putstr_fd("   minishell(\'", 2);
+		ft_putstr_fd(file, 2);
+		ft_putendl_fd("\'): permission denied", 2);
+	}
+	return (_status);
 }
 
 /** @brief Counts the number of redirections and pipes in the AST.
@@ -156,7 +162,29 @@ void	count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state)
 		count_redirect_and_pipes(head->right, piped_state);
 }
 
-static int	is_sus_dir(char *path)
+void	is_sus_dir(char *path_, char *file, int *status)
+{
+	struct stat		s;
+
+	if (file && str_cmp(file, ".", NULL))
+		*status = 2;
+	else if (str_cmp(file, "..", NULL)
+		|| str_cmp(file, ",", ""))
+	{
+		*status = 1;
+		errno = 2;
+	}
+	else if (!stat(path_, &s)
+		&& s.st_mode)
+	{
+		*status = 2;
+		ft_putstr_fd("   err: this \'", 2);
+		ft_putstr_fd(path_, 2);
+		ft_putendl_fd("\' Is a directory", 2);
+		errno = 13;
+	}
+}
+/* int	is_sus_dir(char *path)
 {
 	char	copy[1024];
 	int		i;
@@ -186,9 +214,9 @@ static int	is_sus_dir(char *path)
 	if (ft_strcmp(path, copy) != 0)
 		return (1);
 	return (0);
-}
+} */
 
-int	check_safety(t_ast_node *head, char *path)
+/* int	check_safety(t_ast_node *head, char *path)
 {
 	struct stat	s;
 	char		*tmp;
@@ -208,4 +236,4 @@ int	check_safety(t_ast_node *head, char *path)
 	if (lstat(path, &s) == -1)
 		return (perror("Error getting file info\n"), free(tmp), 1);
 	return (free(tmp), 0);
-}
+} */

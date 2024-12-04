@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 14:11:29 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/05 18:17:18 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:07:42 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,15 @@ int	bash_exit(char **args, int arg_count, t_shell *shell)
 void	update_exit(int i, t_shell *shell)
 {
 	shell->exit_status = i;
+}
+
+int	get_shell_exit_status(int err)
+{
+	if (err == 2)
+		return (127);
+	else if (err == 13)
+		return (126);
+	return (err);
 }
 
 /** @brief I HAVE NO IDEA IF THIS IS HOW ITS SUPPOUSED TO BEEEEEEE */
