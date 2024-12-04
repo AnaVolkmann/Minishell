@@ -15,59 +15,59 @@
 static void	ordered_envp(char **copy);
 static char	**copy_envp(char **envp);
 static void	export_error(char *path);
-static int	ft_add(char	*new_var, t_shell *shell, char **keysplit);
+static int	ft_add(char	*new_var, t_env *env, char **keysplit);
 
 /** @brief separates the path as in KEY=value
  * then sets the env
  * if no arguments, prints the ordered envp */
-int	ft_export(char *path, t_shell *shell)
+int	ft_export(char *path, t_env *env)
 {
 	char	**keysplit;
 	char	*new_var;
 	int		i;
 
 	i = 0;
-	if (!shell || !shell->envp)
-		return (update_exit(2, shell), -1);
+	if (!env->shell || !env->parsed_env)
+		return (update_exit(2, env->shell), -1);
 	if (!path)
-		return (update_exit(0, shell), ordered_envp(copy_envp(shell->envp)), 0);
+		return (update_exit(0, env->shell), ordered_envp(copy_envp(env->parsed_env)), 0);
 	keysplit = ft_split(path, '=');
 	if (!keysplit || !keysplit[0])
-		return (update_exit(2, shell), export_error(path), -1);
+		return (update_exit(2, env->shell), export_error(path), -1);
 	while (keysplit[i])
 		i++;
 	if (i != 2)
-		return (update_exit(2, shell), 1);
+		return (update_exit(2, env->shell), 1);
 	new_var = ft_strdup(path);
 	if (!new_var)
-		return (update_exit(1, shell), free_envp(keysplit), -1);
-	if (ft_add(new_var, shell, keysplit) != 0)
+		return (update_exit(1, env->shell), free_envp(keysplit), -1);
+	if (ft_add(new_var, env->shell, keysplit) != 0)
 		return (1);
-	return (update_exit(0, shell), free_envp(keysplit), 0);
+	return (update_exit(0, env->shell), free_envp(keysplit), 0);
 }
 
 /** @brief looks for the variable inside envp
  * if it finds it, just replaces it with the new value one
  * otherwise it reallocates the whole envp to fit the new variable */
-static int	ft_add(char	*new_var, t_shell *shell, char **keysplit)
+static int	ft_add(char	*new_var, t_env *env, char **keysplit)
 {
 	int	i;
 
-	i = find_env(shell->envp, keysplit[0]);
+	i = find_env(env->parsed_env, keysplit[0]);
 	if (i >= 0)
 	{
-		free(shell->envp[i]);
-		shell->envp[i] = new_var;
+		free(env->parsed_env[i]);
+		env->parsed_env[i] = new_var;
 	}
 	else
 	{
-		i = count_envp(shell->envp);
-		shell->envp = realloc_envp(shell->envp, i + 2);
-		if (!shell->envp)
-			return (update_exit(1, shell),
+		i = count_envp(env->parsed_env);
+		env->parsed_env = realloc_envp(env->parsed_env, i + 2);
+		if (!env->parsed_env)
+			return (update_exit(1, env->shell),
 				free_envp(keysplit), free(new_var), -1);
-		shell->envp[i] = new_var;
-		shell->envp[i + 1] = NULL;
+		env->parsed_env[i] = new_var;
+		env->parsed_env[i + 1] = NULL;
 	}
 	return (0);
 }

@@ -12,12 +12,12 @@
 
 #include "../minishell.h"
 
-static char	*expand_utils(char *path, t_shell *shell, char *env_value);
+static char	*expand_utils(char *path, t_shell *shell, t_env *env, char *env_value);
 
 /** @brief handles edge cases and searches the env var inside the shell's envp
  * if it not finds it, returns an error
  * the function caller needs to free is return value */
-char	*expansion(char *path, t_shell *shell)
+char	*expansion(char *path, t_shell *shell, t_env *env)
 {
 	char	*env_value;
 
@@ -26,7 +26,7 @@ char	*expansion(char *path, t_shell *shell)
 		return (update_exit(1, shell), NULL);
 	if (path[0] == '"')
 	{
-		env_value = expand_utils(path, shell, env_value);
+		env_value = expand_utils(path, shell, env, env_value);
 		if (!env_value)
 			return (update_exit(1, shell), NULL);
 	}
@@ -40,13 +40,13 @@ char	*expansion(char *path, t_shell *shell)
 		return (update_exit(0, shell), ft_itoa(shell->last_pid));
 	if (env_value)
 		return (update_exit(0, shell), ft_strdup(env_value));
-	env_value = get_env(path, shell->envp);
+	env_value = get_env(path, env->parsed_env);
 	if (!env_value)
 		return (update_exit(1, shell), NULL);
 	return (update_exit(0, shell), ft_strdup(env_value));
 }
 
-static char	*expand_utils(char *path, t_shell *shell, char *env_value)
+static char	*expand_utils(char *path, t_shell *shell, t_env* env, char *env_value)
 {
 	char	**split;
 	int		i;
@@ -59,7 +59,7 @@ static char	*expand_utils(char *path, t_shell *shell, char *env_value)
 		return (NULL);
 	while (split[++i])
 	{
-		env_value = ft_strjoin(env_value, expansion(split[i], shell));
+		env_value = ft_strjoin(env_value, expansion(split[i], shell, env));
 		if (!env_value)
 			return (free_envp(split), update_exit(1, shell), NULL);
 	}

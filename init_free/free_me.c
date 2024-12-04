@@ -16,26 +16,13 @@ void	cleanup_and_exit_shell(t_env *env, int status)
 {
 	if (env)
 	{
-		free_envp(env->original_env);
-		free_environment_variables(env->parsed_env);
+		if (env->parsed_env)
+			free_envp(env->parsed_env);
 		free(env);
+		if (env->shell)
+			free(env->shell);
 	}
 	exit(status);
-}
-
-void	free_environment_variables(char ***array)
-{
-	int	a;
-
-	a = 0;
-	while (array[a])
-	{
-		free(array[a][0]);
-		free(array[a][1]);
-		free(array[a]);
-		a += 1;
-	}
-	free(array);
 }
 
 void	free_envp(char **envp)
@@ -51,14 +38,6 @@ void	free_envp(char **envp)
 		i++;
 	}
 	free(envp);
-}
-
-void	free_shell(t_shell *shell)
-{
-	if (!shell)
-		return ;
-	if (shell->envp)
-		free_envp(shell->envp);
 }
 
 void	free_ast(t_ast_node **ast)

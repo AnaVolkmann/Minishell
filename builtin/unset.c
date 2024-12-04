@@ -12,27 +12,27 @@
 
 #include "../minishell.h"
 
-static void	unset_error(char *name, t_shell *shell, int i);
+static void	unset_error(char *name, t_env *env, int i);
 
 /** @brief looks for the target inside the shell->envp, if it finds, calls
  * the remove function, returns error otherwise */
-int	ft_unset(char *name, t_shell *shell)
+int	ft_unset(char *name, t_env *env)
 {
 	int	index;
 
-	if (!name || !*name || !shell->envp)
-		return (update_exit (1, shell), unset_error(name, shell, 0), 1);
-	index = find_env(shell->envp, name);
+	if (!name || !*name || !env->parsed_env)
+		return (update_exit (1, env->shell), unset_error(name, env->shell, 0), 1);
+	index = find_env(env, name);
 	if (index >= 0)
-		return (update_exit (0, shell), remove_env(shell->envp, index), 0);
-	return (update_exit (1, shell), unset_error(name, shell, 1), 1);
+		return (update_exit (0, env->shell), remove_env(env->parsed_env, index), 0);
+	return (update_exit (1, env->shell), unset_error(name, env->shell, 1), 1);
 }
 
-static void	unset_error(char *name, t_shell *shell, int i)
+static void	unset_error(char *name, t_env *env, int i)
 {
 	if (!name || !*name)
 		ft_putstr_fd("Error: Invalid variable name\n", 2);
-	if (!shell->envp)
+	if (!env->parsed_env)
 		ft_putstr_fd("Error: Environment is not set\n", 2);
 	if (i == 1)
 	{

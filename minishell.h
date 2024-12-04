@@ -103,8 +103,6 @@ typedef struct s_shell
 	int					exit_status;
 	int					output_fd;
 	int					input_fd;
-	char				**path;
-	char				**envp;
 }					t_shell;
 
 typedef struct s_ast_node
@@ -173,20 +171,20 @@ t_ast_node	*build_redirection_node(t_token **tokens, t_token *tmp);
 /********************Builtin Commands****************/
 
 int			bash_exit(char **args, int arg_count, t_shell *shell);
-int			ft_cd(char *path, t_shell *shell);
-int			ft_export(char *path, t_shell *shell);
-int			ft_unset(char *name, t_shell *shell);
+int			ft_cd(char *path, t_env *env);
+int			ft_export(char *path, t_env *env);
+int			ft_unset(char *name, t_env *env);
 int			echo(char **args, int argc, int fd, t_shell *shell);
-int			ft_env(t_shell *shell);
+int			ft_env(t_env *env);
 char		*ft_pwd(t_shell *shell, int flag);
 
 /********************Extras************************/
 
-char		*expansion(char *path, t_shell *shell);
+char		*expansion(char *path, t_shell *shell, t_env *env);
 char		*new_env_var(char *name, char *value);
 char		*get_env(char *var, char **envp);
 char		**realloc_envp(char **envp, int size);
-int			find_env(char **envp, char *name);
+int			find_env(t_env *env, char *name);
 int			count_envp(char **envp);
 void		handle_ctrl_c(int a);
 void		child_ctrl_c(int sig_num);
@@ -202,11 +200,9 @@ char		*strcopy(char *src);
 /********************Free*************************/
 
 void		free_envp(char **envp);
-void		free_shell(t_shell *shell);
 void		free_ast(t_ast_node **ast);
 void		cleanup_and_exit_shell(t_env *env, int status);
 void		free_parsed_env(t_env *env);
-void		free_environment_variables(char ***array);
 
 /*******************Shell Utilities****************/
 
