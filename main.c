@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:08:55 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 16:49:07 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:21:28 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 // execute_with_redirect;
 // expand_vars_in_ast
 // FINISH FUNCTION chech_file_permission
-//heredoc // TODO - remove_quotes_from_str
 // TODO - recursively_expand_variables
 // TODO - verifiar saidas de erro!
 

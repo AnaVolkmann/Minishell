@@ -6,11 +6,23 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:24:12 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/04 15:21:06 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:26:30 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	str_compare(char *s1, char *s2, int max)
+{
+	int	i;
+
+	i = 0;
+	while (i < max && *s1 && *s2 && s1[i] == s2[i])
+		i++;
+	if (sizeof_str(s1, '\0') == i && i == max)
+		return (1);
+	return (0);
+}
 
 /** @brief Handles a signal interrupt during heredoc processing.
  * Outputs a newline and exits the child process.
@@ -55,11 +67,11 @@ void	read_and_write(t_pipe_state *pipe_state, char *limiter, t_env *env, int is_
 	int f_arr[3];
 
 	(void)env;
-	//limiter = remove_quotes_from_str(limiter, 0, 0, 0);
+	limiter = remove_quotes_from_str(limiter, 0, 0, 0);
 	while (1)
 	{
 		buf = readline(">> ");
-		if (!buf /*|| str_cmp(limiter, buf, sizeof_str(buf, '\n'))*/)// comentei por conta dos parametros
+		if (!buf || str_compare(limiter, buf, sizeof_str(buf, '\n')))
 		{
 			free(buf);
 			break;
@@ -102,7 +114,7 @@ int	exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env)
 	{
 		signal(SIGINT, quite_heredoc);
 		close(out_fd[0]);
-	//	read_and_write(out_fd[1], limiter, env, have_quotes(limiter));
+		read_and_write(out_fd[1], limiter, env, have_quotes(limiter));
 		exit(1);
 	}
 	waitpid(pid, &status, 0);

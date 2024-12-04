@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:24:01 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/04 12:19:51 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:21:28 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,26 @@ int	check_line(char **input)
 		return (1);
 	}
 	return (0);
+}
+
+char	*remove_quotes_from_str(char *str, int si_q_c, int do_q_c, int a)
+{
+	char				*new_str;
+	int					b;
+
+	b = 0;
+	new_str = malloc(sizeof_str(str, '\0') + 1);
+	while (str[a])
+	{
+		if (str[a] == 34 && !(si_q_c % 2))
+			do_q_c++;
+		else if (str[a] == 39 && !(do_q_c % 2))
+			si_q_c++;
+		if ((str[a] != 34 || si_q_c % 2)
+			&& ((str[a] != 39) || do_q_c % 2))
+			new_str[b++] = str[a];
+		a++;
+	}
+	new_str[b] = '\0';
+	return (free(str), new_str);
 }

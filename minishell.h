@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 17:07:42 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:21:28 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ int			check_line(char **input);
 int			count_substrings(char *str, char del);
 int			str_cmp(char *s_1, char *s_2, char *s_3);
 char		*strcopy(char *src);
+char	*remove_quotes_from_str(char *str, int si_q_c, int do_q_c, int a);
 
 /********************Free*************************/
 
