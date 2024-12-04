@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:21:06 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/02 18:27:15 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 15:24:52 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	cleanup_and_exit_shell(t_env *env, int status)
 	{
 		if (env->parsed_env)
 			free_envp(env->parsed_env);
-		free(env);
 		if (env->shell)
 			free(env->shell);
 	}
+	free(env);
 	exit(status);
 }
 

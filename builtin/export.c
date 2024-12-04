@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 17:07:44 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/22 15:54:26 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 16:34:22 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_export(char *path, t_env *env)
 	new_var = ft_strdup(path);
 	if (!new_var)
 		return (update_exit(1, env->shell), free_envp(keysplit), -1);
-	if (ft_add(new_var, env->shell, keysplit) != 0)
+	if (ft_add(new_var, env, keysplit) != 0)
 		return (1);
 	return (update_exit(0, env->shell), free_envp(keysplit), 0);
 }
@@ -53,7 +53,7 @@ static int	ft_add(char	*new_var, t_env *env, char **keysplit)
 {
 	int	i;
 
-	i = find_env(env->parsed_env, keysplit[0]);
+	i = find_env(env, keysplit[0]);
 	if (i >= 0)
 	{
 		free(env->parsed_env[i]);

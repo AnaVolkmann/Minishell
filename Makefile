@@ -12,7 +12,6 @@ tokenization/tokenizer_utils.c\
 main.c\
 init_free/free_me.c\
 init_free/init.c\
-init_free/init_utils.c\
 signal.c\
 input_validation/syntax_checker.c\
 input_validation/syntax_checker_utils.c\

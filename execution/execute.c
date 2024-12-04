@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:18:13 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 12:18:10 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 16:40:46 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /** @brief it compares the command with all 7 builtins
  * if any match is found, it runs the command with its argument, otherwise
  * it returns -1 to signalize that it didnt ran */
-int	run_command_builtin(char **arguments, t_shell *shell)
+int	run_command_builtin(char **arguments, t_env *env, t_shell *shell)
 {
 	int		i;
 	char	*pwd;
@@ -24,22 +24,22 @@ int	run_command_builtin(char **arguments, t_shell *shell)
 	while (arguments[i])
 		i++;
 	if (ft_strcmp(arguments[0], "cd") == 0)
-		return (ft_cd(arguments[1], shell), 0);
+		return (ft_cd(arguments[1], env), 0);
 	else if (ft_strcmp(arguments[0], "echo") == 0)
 		return (echo(arguments + 1, i, shell->output_fd, shell), 0);
 	else if (ft_strcmp(arguments[0], "env") == 0)
-		return (ft_env(shell), 0);
+		return (ft_env(env), 0);
 	else if (ft_strcmp(arguments[0], "exit") == 0)
 		return (bash_exit(arguments + 1, i, shell), 0);
 	else if (ft_strcmp(arguments[0], "export") == 0)
-		return (ft_export(arguments[1], shell), 0);
+		return (ft_export(arguments[1], env), 0);
 	else if (ft_strcmp(arguments[0], "pwd") == 0)
 	{
 		pwd = ft_pwd(shell, 1);
 		return (free(pwd), 0);
 	}
 	else if (ft_strcmp(arguments[0], "unset") == 0)
-		return (ft_unset(arguments[1], shell), 0);
+		return (ft_unset(arguments[1], env), 0);
 	return (-1);
 }
 

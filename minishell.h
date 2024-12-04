@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 15:21:07 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 16:39:55 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ typedef struct s_pipe_state
 typedef struct s_env
 {
 	char				**original_env;
-	char				***parsed_env;
-	struct t_shell		*shell;
+	char				**parsed_env;
+	struct s_shell		*shell;
 }					t_env;
 
 /***********************TOKEN STRUCT*****************/
@@ -145,11 +145,8 @@ int			is_invalid_operator(const char **input);
 
 char		**init_dinam_env(char **original_env);
 int			init_environment(t_env *env, char **original_env);
-void		add_pwd_variable(t_env *env, int *count, char *cwd);
-void		add_shell_variable(t_env *env, int *count);
-int			count_parsed_env(char ***parsed_env);
-int			parse_env_entry(t_env *env, char *entry, int index);
-
+t_shell		*init_shell(t_shell *shell);
+t_ast_node	*init_ast(t_ast_node *ast);
 /********************Parsing*************************/
 
 t_ast_node	*parse_tokens(t_token **tokens);
@@ -224,7 +221,7 @@ int			is_path_accessible(char *path, int mode);
 char		**prepare_cmd_args(char *cmd, char **envp, int c);
 char		*find_next_substring(char *str, char del, int *index);
 int			sizeof_str(char *str, char end);
-int			run_command_builtin(char **arguments, t_shell *shell);
+int			run_command_builtin(char **arguments, t_env *env, t_shell *shell);
 int			execute_cmd_with_redirect(char **cmd, int *fd, char **env,
 				t_pipe_state *piped);
 char		*get_file_path(char *file, char **envp, char *env_var, int mode);

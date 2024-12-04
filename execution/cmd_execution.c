@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 12:11:12 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/04 12:15:56 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 16:40:04 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ int	execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped)
 			close(fd[0]);
 		close_pipe_ends(pipe_fds[0], pipe_fds[1]);
 		execve(cmd[0], cmd, env);
-		//ft_putendl_fd(strerror(errno), 2);
-		//exit(127);
+		//update_exit(127, env->shell)
 	}
 	close_pipe_ends(pipe_fds[0], pipe_fds[1]);
 	if (piped->executed_pipes_index > 1)
@@ -105,8 +104,7 @@ int	execute_cmd_with_redirect(char **cmd, int *fd, char **env,
 	{
 		child_fds_managment(piped, pipe_fds, fd);
 		execve(cmd[0], cmd, env);
-		// ft_putendl_fd(strerror(errno), 2);
-		//exit(127);
+		//update_extit(127, env->shell);
 	}
 	parent_fds_managment(piped, pipe_fds, fd);
 	free_envp(cmd);

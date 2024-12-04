@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 13:22:23 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/06 11:55:14 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 16:21:59 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_cd(char *path, t_env *env)
 				ft_putstr_fd("Error: OLDPWD unset\n", 2), 1);
 		printf("%s\n", path);
 	}
-	if (set_pwd(path, env->shell) != 0)
+	if (set_pwd(path, env) != 0)
 		return (update_exit(1, env->shell), 1);
 	return (update_exit(0, env->shell), 0);
 }
@@ -57,7 +57,7 @@ static int	set_pwd(char *path, t_env *env)
 		export = new_env_var("OLDPWD", old_pwd);
 		if (!export)
 			return (1);
-		ft_export(export, env->shell);
+		ft_export(export, env);
 		free(export);
 	}
 	new_pwd = ft_pwd(env->shell, 0);
@@ -67,7 +67,7 @@ static int	set_pwd(char *path, t_env *env)
 	export = new_env_var("PWD", new_pwd);
 	if (!export)
 		return (free (new_pwd), 1);
-	ft_export(export, env->shell);
+	ft_export(export, env);
 	return (free (export), free (new_pwd), 0);
 }
 
