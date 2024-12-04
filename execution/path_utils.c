@@ -47,47 +47,6 @@ char	*verify_path_without_env(char *file, int mode)
 	return (NULL);
 }
 
-// locate the executable file's absolute path by:
-/** @brief Finds the absolute path of an executable using environment variables.
- * 
- * @param file The file name to locate.
- * @param envp Array of environment variables.
- * @param env_var The specific environment variable (e.g., `"PATH"`)
- * 				to search within.
- * @param mode Accessibility check mode (e.g., `R_OK`, `W_OK`, `X_OK`).
- * @return Allocated string containing the absolute path if found and
- * accessible; `NULL` otherwise.*/
-char	*get_file_path(char *file, char **envp, char *env_var, int mode) // adicionei um *
-{
-	char	*temp_path;
-	int		env_var_len;
-	int		env_var_index;
-	int		flag;
-	//int		env_value_len;
-
-	flag = 0;
-	env_var_len = sizeof_str(env_var, '\0');
-	env_var_index = find_substr_index(envp, env_var, env_var_len);
-	if (env_var_index < 0 || (file[0] == '.' && file[1] == '/'))
-		return (verify_path_without_env(file, mode));
-	//env_value_len = sizeof_str(envp[env_var_index], '\0');
-	if (sizeof_str(file, ' ') != sizeof_str(file, '\0') && !is_path_accessible(file, mode))
-		return (NULL);
-	while (envp[env_var_index][env_var_len])
-	{
-		temp_path = create_subpath_from_var(envp[env_var_index],
-				file, env_var_len, &flag);
-		if (!temp_path)
-			return (NULL);
-		if (is_path_accessible(temp_path, mode))
-			return (temp_path);
-		free(temp_path);
-		if (!flag)
-			flag = 1;
-	}
-	return (NULL);
-}
-
 /** @brief Calculates the length of a string up to the specified end character.
  * 
  * @param str Input string.
