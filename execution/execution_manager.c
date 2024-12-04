@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/04 16:40:04 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:40:38 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int	open_file_for_redirection(t_ast_node *head, t_pipe_state *pipe_state,
 int	handle_input_redirection(t_ast_node *head, t_pipe_state *pipe_state,
 	t_env *env)
 {
-	if (head->file_type == READ_FILE) // Input redirection
+    (void)env;
+	if (head->file_type == READ_FILE)
 	{
 		pipe_state->current_input_fd = open(head->args[0], O_RDONLY);
 		pipe_state->has_input_file = (pipe_state->current_input_fd >= 0);
@@ -89,7 +90,7 @@ int	handle_input_redirection(t_ast_node *head, t_pipe_state *pipe_state,
 	else if (head->file_type == READ_FROM_APPEND)
 	{
 		pipe_state->heredoc_status = exec_here_doc(head->args[0],
-				pipe_state, env);
+				pipe_state);
 		signal(SIGINT, handle_ctrl_c);
 		return (0);
 	}

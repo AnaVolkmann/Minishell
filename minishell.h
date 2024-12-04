@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 17:21:28 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:42:00 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ int			execute_cmd_with_redirect(char **cmd, int *fd, char **env,
 char		*get_file_path(char *file, char **envp, char *env_var, int mode);
 void		child_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
 void		parent_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
-int			check_safety(t_ast_node *head, char *path);
+//int			check_safety(t_ast_node *head, char *path);
 
 
 /********************Pipe and Redirect*********************/
