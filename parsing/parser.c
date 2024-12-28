@@ -74,7 +74,7 @@ t_ast_node	*parse_redirection(t_token **tokens)
 			(*tokens)->next = (*tokens)->next->next;
 			redirect_node->left = parse_redirection(&temp);
 			redirect_node->right = create_file_node(next_token->next);
-			return (free(next_token), free(next_token->value), redirect_node);
+			return (free(next_token->value), free(next_token), redirect_node);
 		}
 		*tokens = next_token;
 	}

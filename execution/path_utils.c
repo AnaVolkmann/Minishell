@@ -103,7 +103,7 @@ char	*find_next_substring(char *str, char del, int *index)
 char	**prepare_cmd_args(char *cmd, char **envp, int c)
 {
 	char	**parsed_cmd;
-	char	*cmd_holder;
+	//char	*cmd_holder;
 	int		index[3];
 
 	(void)envp; //dei void
@@ -112,7 +112,7 @@ char	**prepare_cmd_args(char *cmd, char **envp, int c)
 	index[0] = 0;
 	while (c < index[1])
 	{
-		cmd_holder = find_next_substring(cmd, '\0', index);
+		//cmd_holder = find_next_substring(cmd, '\0', index);
 		/*if (!c && !command_is_builtin(cmd_holder))
 		{
 			parsed_cmd = get_file_path(cmd_holder, envp, "PATH", X_OK);

@@ -114,7 +114,7 @@ int	exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env)
 	{
 		signal(SIGINT, quite_heredoc);
 		close(out_fd[0]);
-		read_and_write(out_fd[1], limiter, env, have_quotes(limiter));
+		//read_and_write(out_fd[1], limiter, env, have_quotes(limiter));
 		exit(1);
 	}
 	waitpid(pid, &status, 0);

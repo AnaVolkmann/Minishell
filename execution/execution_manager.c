@@ -90,7 +90,7 @@ int	handle_input_redirection(t_ast_node *head, t_pipe_state *pipe_state,
 	else if (head->file_type == READ_FROM_APPEND)
 	{
 		pipe_state->heredoc_status = exec_here_doc(head->args[0],
-				pipe_state);
+				pipe_state, env);
 		signal(SIGINT, handle_ctrl_c);
 		return (0);
 	}

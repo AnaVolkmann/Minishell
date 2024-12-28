@@ -18,6 +18,7 @@
 // FINISH FUNCTION chech_file_permission
 // TODO - recursively_expand_variables
 // TODO - verifiar saidas de erro!
+// comentei funcoes em: path utils, handle_heredoc para compilar ***
 
 int	g_signal = 0;
 
