@@ -75,9 +75,13 @@ void	run_minishell(t_env *env)
 		if (tokens) // if (!status) só executa se não existir algum status, que só existe depois de executar, paradoxal
 		{
 			ast = parse_tokens(&tokens);
+			while (ast) { // fiz um loop pra continuar executando a arvore, nao leva em consideracao pipes nem redirs
 			//command_executer(ast, env, &status);
 			//execute(ast->args[0], ast->args + 1, env->shell);
 			run_command_builtin(ast->args, env, env->shell);
+			ast->args++;
+			ast = ast->right;
+			}
 			free(ast);
 		}
 		//ast->shell->exit_status = status;
