@@ -264,4 +264,6 @@ void		read_and_write(t_pipe_state *pipe_state, char *limiter,
 void		parent_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
 void		child_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
 
+int	execute(char *cmd, char *const *argument, t_shell *shell);
+
 #endif

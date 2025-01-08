@@ -55,13 +55,13 @@ int	main(int argc, char **argv, char **original_env)
 void	run_minishell(t_env *env)
 {
 	char		*input;
-	int			status;
+	//int			status;
 	t_token		*tokens;
 	t_ast_node	*ast;
 
 	while (1)
 	{
-		status = 0;
+		//status = 0; // vou tentar sem esse status
 		input = readline("Minishell: ");
 		if (!input)
 			break ;
@@ -70,11 +70,14 @@ void	run_minishell(t_env *env)
 		add_history(input);
 		tokens = process_to_tokenize_input(input);
 		if (!tokens)
-			//status = ast->shell->exit_status;
-		if (!status)
+			return ; // retornei um erro qualquer
+			//status = ast->shell->exit_status; // aqui o shell status ainda é 0, pois nao executou nada
+		if (tokens) // if (!status) só executa se não existir algum status, que só existe depois de executar, paradoxal
 		{
 			ast = parse_tokens(&tokens);
-			command_executer(ast, env, &status);
+			//command_executer(ast, env, &status);
+			//execute(ast->args[0], ast->args + 1, env->shell);
+			run_command_builtin(ast->args, env, env->shell);
 			free(ast);
 		}
 		//ast->shell->exit_status = status;

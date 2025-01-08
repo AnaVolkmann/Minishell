@@ -46,8 +46,8 @@ int	run_command_builtin(char **arguments, t_env *env, t_shell *shell)
 /** @brief it splits the PATH variable ":" and tries to access the
  * command to see if its inside this path. if not, frees and goes to
  * the next. if it find it, returns the full path, otherwise
- * it returns NULL */
-/*static char	*loop_path(char *cmd, char *path_env)
+ * it returns NULL 
+static char	*loop_path(char *cmd, char *path_env)
 {
 	char	**path;
 	char	*full_path;
@@ -107,7 +107,7 @@ static int	run_command_exec(char *cmd, char *const *argument, t_shell *shell)
 
 @brief it first tries to execute the builtin functions, 
  * if its not inside that, it straight up goes to execve, 
- * returns error if none found 
+ * returns error if none found
 int	execute(char *cmd, char *const *argument, t_shell *shell)
 {
 	if (run_command_builtin((char **)argument, shell) == 0)
