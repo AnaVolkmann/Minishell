@@ -102,8 +102,9 @@ char	*find_next_substring(char *str, char del, int *index)
  * @return Array of strings representing the parsed command and arguments.*/
 char	**prepare_cmd_args(char *cmd, char **envp, int c)
 {
+	// em alguns parsed_cmd, coloquei o [c]
 	char	**parsed_cmd;
-	//char	*cmd_holder;
+	char	*cmd_holder;
 	int		index[3];
 
 	(void)envp; //dei void
@@ -112,16 +113,16 @@ char	**prepare_cmd_args(char *cmd, char **envp, int c)
 	index[0] = 0;
 	while (c < index[1])
 	{
-		//cmd_holder = find_next_substring(cmd, '\0', index);
-		/*if (!c && !command_is_builtin(cmd_holder))
+		cmd_holder = find_next_substring(cmd, '\0', index);
+		if (!c && !command_is_builtin(cmd_holder))
 		{
-			parsed_cmd = get_file_path(cmd_holder, envp, "PATH", X_OK);
+			parsed_cmd[c] = get_file_path(cmd_holder, envp, "PATH", X_OK); // aqui
 			if (!parsed_cmd)
-				parsed_cmd = ft_strdup(cmd_holder);
+				parsed_cmd[c] = ft_strdup(cmd_holder); // aqui
 			free(cmd_holder);
-		}													//parametros
+		}
 		else
-			parsed_cmd[c] = cmd_holder;*/
+			parsed_cmd[c] = cmd_holder;
 		if (!parsed_cmd)
 			return (NULL);
 	}

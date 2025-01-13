@@ -223,6 +223,12 @@ int	execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env)
 	return (g_signal = 0, status);
 }
 
+static void	expand_vars_in_ast(t_ast_node *ast, t_env *env)
+{
+	if (ft_strcmp(ast->args[0], "$") == 0)
+		expansion(ast->args[0], env->shell, env);
+}
+
 /** @brief Main entry point for executing commands in the AST.
  * Initializes pipe state, processes variables,
  * checks permissions, and executes commands.
@@ -239,7 +245,7 @@ void	command_executer(t_ast_node *head, t_env *env, int *status)
 	count_redirect_and_pipes(head, &piped_state);
 	init_or_reset_pipe_state(&piped_state, 0);
 	adjust_ast_node_for_execution(head);
-	//expand_vars_in_ast(head, env);
+	expand_vars_in_ast(head, env);
 	_status = check_file_permissions(head, env->original_env);
 	if (!_status)
 		*status = execute_ast_node(head, &piped_state, env);

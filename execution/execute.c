@@ -43,10 +43,10 @@ int	run_command_builtin(char **arguments, t_env *env, t_shell *shell)
 	return (-1);
 }
 
-/** @brief it splits the PATH variable ":" and tries to access the
- * command to see if its inside this path. if not, frees and goes to
- * the next. if it find it, returns the full path, otherwise
- * it returns NULL 
+// * @brief it splits the PATH variable ":" and tries to access the
+//  * command to see if its inside this path. if not, frees and goes to
+//  * the next. if it find it, returns the full path, otherwise
+//  * it returns NULL 
 static char	*loop_path(char *cmd, char *path_env)
 {
 	char	**path;
@@ -74,9 +74,9 @@ static char	*loop_path(char *cmd, char *path_env)
 	return (NULL);
 }
 
- @brief checks if the command is already an absolute "/" 
- * or an relative "." path if not, 
- * it calls the loop_path to find the program
+//  @brief checks if the command is already an absolute "/" 
+//  * or an relative "." path if not, 
+//  * it calls the loop_path to find the program
 static char	*get_path(char *cmd, char **envp)
 {
 	char	*cmd_path;
@@ -91,28 +91,28 @@ static char	*get_path(char *cmd, char **envp)
 	return (free(cmd_path), full_path);
 }
 
-@brief it runs the execve commands 
-static int	run_command_exec(char *cmd, char *const *argument, t_shell *shell)
+// @brief it runs the execve commands 
+static int	run_command_exec(char *cmd, char *const *argument, t_env *envp)
 {
 	char	*cmd_path;
 
-	cmd_path = get_path(cmd, shell->envp);
+	cmd_path = get_path(cmd, envp->parsed_env);
 	if (!cmd_path)
 		return (printf("Command not found: %s\n", cmd), 1);
-	if (execve(cmd_path, argument, shell->envp) == -1)
+	if (execve(cmd_path, argument, envp->parsed_env) == -1)
 		return (free(cmd_path), printf("execve: %s: %s\n",
 				cmd, strerror(errno)), 1);
 	return (free(cmd_path), 0);
 }
 
-@brief it first tries to execute the builtin functions, 
- * if its not inside that, it straight up goes to execve, 
- * returns error if none found
-int	execute(char *cmd, char *const *argument, t_shell *shell)
+// @brief it first tries to execute the builtin functions, 
+//  * if its not inside that, it straight up goes to execve, 
+//  * returns error if none found
+int	execute(char *cmd, char *const *argument, t_env *envp)
 {
-	if (run_command_builtin((char **)argument, shell) == 0)
+	if (run_command_builtin((char **)argument, envp, envp->shell) == 0)
 		return (0);
-	else if (run_command_exec(cmd, argument, shell) == 0)
+	else if (run_command_exec(cmd, argument, envp) == 0)
 		return (0);
 	return (1);
-}*/
+}

@@ -18,7 +18,7 @@
 // FINISH FUNCTION chech_file_permission
 // TODO - recursively_expand_variables
 // TODO - verifiar saidas de erro!
-// comentei funcoes em: path utils, handle_heredoc para compilar ***
+// comentei funcoes em: path utils, handle_heredoc e execution_manager para compilar ***
 
 int	g_signal = 0;
 
@@ -72,15 +72,13 @@ void	run_minishell(t_env *env)
 		if (!tokens)
 			return ; // retornei um erro qualquer
 			//status = ast->shell->exit_status; // aqui o shell status ainda é 0, pois nao executou nada
-		if (tokens) // if (!status) só executa se não existir algum status, que só existe depois de executar, paradoxal
+		if (tokens)
 		{
 			ast = parse_tokens(&tokens);
-			while (ast) { // fiz um loop pra continuar executando a arvore, nao leva em consideracao pipes nem redirs
-			//command_executer(ast, env, &status);
-			//execute(ast->args[0], ast->args + 1, env->shell);
-			run_command_builtin(ast->args, env, env->shell);
-			ast->args++;
-			ast = ast->right;
+			while (ast) { // fiz um loop pra continuar executando a arvore
+				//command_executer(ast, env, &env->shell->exit_status);
+				execute(ast->args[0], ast->args, env); //funciona pra testar 1 comando por vez
+				ast = ast->right; // walk the tree?
 			}
 			free(ast);
 		}
