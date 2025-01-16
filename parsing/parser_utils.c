@@ -72,14 +72,13 @@ t_ast_node	*create_file_node(t_token *token)
 	file_node->args = malloc(sizeof(char *) * 2);
 	if (!file_node->args)
 	{
-		free(file_node);
+		free (file_node);
 		return (NULL);
 	}
 	file_node->args[0] = token->value;
 	file_node->args[1] = NULL;
 	file_node->left = NULL;
 	file_node->right = NULL;
-	free(token);
 	return (file_node);
 }
 
@@ -97,7 +96,8 @@ t_ast_node *build_redirection_node(t_token **tokens, t_token *tmp)
 	t_ast_node	*redirect_node;
 
 	redirect_node = create_new_ast_node((*tokens)->type);
-	*tokens = (*tokens)->next->next;
+	*tokens = (*tokens)->next;
+	//redirect_node->left = parse_command(&tmp);
 	redirect_node->left = parse_redirection(tokens);
 	redirect_node->right = create_file_node(tmp->next);
 	free(tmp->value);

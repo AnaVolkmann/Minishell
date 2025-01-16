@@ -39,6 +39,76 @@ int	main(int argc, char **argv, char **original_env)
 	return (0);
 }
 
+void print_tokens(t_token *tokens)
+{
+    while (tokens)
+    {
+        printf("Token type: %d, Value: %s\n", tokens->type, tokens->value);
+        tokens = tokens->next;
+    }
+}
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Function to print indentation
+void print_indentation(int level) {
+    for (int i = 0; i < level; i++) {
+        printf("    "); // 4 spaces for each level
+    }
+}
+
+// Function to print the AST
+void print_ast_visual(t_ast_node *node, int level) {
+    if (!node) {
+        print_indentation(level);
+        printf("NULL\n");
+        return;
+    }
+
+    // Print the current node type
+    print_indentation(level);
+    switch (node->type) {
+        case TOKEN_PIPE:
+            printf("+-- [Pipe]\n");
+            break;
+        case TOKEN_REDIR_IN:
+            printf("+-- [Redirection: <]\n");
+            break;
+        case TOKEN_REDIR_OUT:
+            printf("+-- [Redirection: >]\n");
+            break;
+        case TOKEN_REDIR_APPEND:
+            printf("+-- [Redirection: >>]\n");
+            break;
+        case TOKEN_REDIR_HEREDOC:
+            printf("+-- [Redirection: <<]\n");
+            break;
+        case TOKEN_WORD:
+            printf("+-- [Command");
+            if (node->args && node->args[0]) {
+                printf(": %s", node->args[0]);
+                for (int i = 1; node->args[i]; i++) {
+                    printf(", %s", node->args[i]);
+                }
+            }
+            printf("]\n");
+            break;
+        default:
+            printf("+-- [Unknown Type: %d]\n", node->type);
+    }
+
+    // Recursively print the left and right children
+    print_indentation(level);
+    printf("  Left ->\n");
+    print_ast_visual(node->left, level + 1);
+
+    print_indentation(level);
+    printf("  Right ->\n");
+    print_ast_visual(node->right, level + 1);
+}
+
 /** @brief Main loop to run the minishell.
  * 
  * This function runs the interactive shell, repeatedly prompting 
@@ -55,6 +125,7 @@ int	main(int argc, char **argv, char **original_env)
 void	run_minishell(t_env *env)
 {
 	char		*input;
+	(void)env;
 	//int			status;
 	t_token		*tokens;
 	t_ast_node	*ast;
@@ -72,16 +143,18 @@ void	run_minishell(t_env *env)
 		if (!tokens)
 			return ; // retornei um erro qualquer
 			//status = ast->shell->exit_status; // aqui o shell status ainda é 0, pois nao executou nada
-		if (tokens)
-		{
+		// if (tokens)
+		// {
+			print_tokens(tokens);
 			ast = parse_tokens(&tokens);
-			while (ast) { // fiz um loop pra continuar executando a arvore
-				//command_executer(ast, env, &env->shell->exit_status);
-				execute(ast->args[0], ast->args, env); //funciona pra testar 1 comando por vez
-				ast = ast->right; // walk the tree?
-			}
-			free(ast);
-		}
+			print_ast_visual(ast, 0);
+		// 	while (ast) { // fiz um loop pra continuar executando a arvore
+		// 		//command_executer(ast, env, &env->shell->exit_status);
+		// 		execute(ast->args[0], ast->args, env); //funciona pra testar 1 comando por vez
+		// 		ast = ast->right; // walk the tree?
+		// 	}
+		// 	free(ast);
+		// }
 		//ast->shell->exit_status = status;
 		//update_env_status
 	}

@@ -57,26 +57,27 @@ t_ast_node	*parse_command(t_token **token)
 t_ast_node	*parse_redirection(t_token **tokens)
 {
 	t_token		*temp;
-	t_token		*next_token;
+	t_token		*file_token;
 	t_ast_node	*redirect_node;
 
-	if (!*tokens)
-		return (NULL);
 	temp = *tokens;
 	if ((*tokens)->type >= TOKEN_REDIR_IN && (*tokens)->type <= TOKEN_REDIR_HEREDOC)
 		return (build_redirection_node(tokens, temp));
 	while (*tokens && (*tokens)->next)
 	{
-		next_token = (*tokens)->next;
 		if ((*tokens)->next->type >= TOKEN_REDIR_IN && (*tokens)->next->type <= TOKEN_REDIR_HEREDOC)
 		{
+			file_token = (*tokens)->next->next;
+			if (!file_token)
+				return (printf("Error: redirection with no file specified.\n"), NULL);
 			redirect_node = create_new_ast_node((*tokens)->next->type);
-			(*tokens)->next = (*tokens)->next->next;
-			redirect_node->left = parse_redirection(&temp);
-			redirect_node->right = create_file_node(next_token->next);
-			return (free(next_token->value), free(next_token), redirect_node);
+			(*tokens)->next = file_token->next;
+			//redirect_node->left = parse_redirection(tokens);
+			redirect_node->left = parse_command(&temp);
+			redirect_node->right = create_file_node(file_token);
+			return (redirect_node);
 		}
-		*tokens = next_token;
+		*tokens = (*tokens)->next;
 	}
 	return (parse_command(&temp));
 }
