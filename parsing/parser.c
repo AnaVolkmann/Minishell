@@ -72,7 +72,7 @@ t_ast_node	*parse_redirection(t_token **tokens)
 				return (printf("Error: redirection with no file specified.\n"), NULL);
 			redirect_node = create_new_ast_node((*tokens)->next->type);
 			(*tokens)->next = file_token->next;
-			//redirect_node->left = parse_redirection(tokens);
+			//redirect_node->left = parse_redirection(tokens); // preciso ver o que fazer em caso de multiplos redirects
 			redirect_node->left = parse_command(&temp);
 			redirect_node->right = create_file_node(file_token);
 			return (redirect_node);

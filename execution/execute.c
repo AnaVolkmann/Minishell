@@ -95,13 +95,23 @@ static char	*get_path(char *cmd, char **envp)
 static int	run_command_exec(char *cmd, char *const *argument, t_env *envp)
 {
 	char	*cmd_path;
+	pid_t	pid;
+	int		status;
 
 	cmd_path = get_path(cmd, envp->parsed_env);
 	if (!cmd_path)
-		return (printf("Command not found: %s\n", cmd), 1);
-	if (execve(cmd_path, argument, envp->parsed_env) == -1)
-		return (free(cmd_path), printf("execve: %s: %s\n",
-				cmd, strerror(errno)), 1);
+		return (printf("Command not found: %s\n", cmd), 1); // tem que ser no stderr
+	pid = fork();
+	if (pid == 0)
+	{
+		if (execve(cmd_path, argument, envp->parsed_env) == -1)
+			return (free(cmd_path), printf("execve: %s: %s\n",
+					cmd, strerror(errno)), 1);
+	}
+	else if (pid > 0)
+		waitpid(pid, &status, 0);
+	else
+		return (free(cmd_path), perror("fork"), 1);
 	return (free(cmd_path), 0);
 }
 

@@ -67,7 +67,7 @@ int	wait_for_children(int status, t_pipe_state *piped)
 		signal(SIGINT, handle_ctrl_c);
 		signal(SIGQUIT, SIG_IGN);
 		if (!g_signal)
-			return (WEXITSTATUS(status));
+			return (WEXITSTATUS(status)); // funcao permitida?
 		else
 			return (g_signal);
 	}

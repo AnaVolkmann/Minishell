@@ -27,9 +27,9 @@ int	echo(char **args, int argc, int fd, t_shell *shell)
 	n = 1;
 	if (fd < 0 || write(fd, "\n", 1) == -1)
 		return (update_exit(1, shell), perror("echo"), 1);
-	if (!args || argc == 0)
+	if (!args || !args[i] || argc == 0)
 		return (write (fd, "\n", 1), update_exit(0, shell), 0);
-	while (i < argc && check_flag(args[i]))
+	while (i < argc && args[i] && check_flag(args[i]))
 	{
 		n = 0;
 		i++;
@@ -52,7 +52,9 @@ static int	check_flag(char *str)
 	int	i;
 
 	i = 1;
-	if (!str || str[0] != '-' || str[1] != 'n')
+	if (!str)
+		return (0);
+	if (str[0] != '-' || str[1] != 'n')
 		return (0);
 	while (str[++i])
 		if (str[i] != 'n')
