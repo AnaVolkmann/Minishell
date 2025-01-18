@@ -19,6 +19,7 @@
 // TODO - recursively_expand_variables
 // TODO - verifiar saidas de erro!
 // comentei funcoes em: path utils, handle_heredoc e execution_manager para compilar ***
+// tem leak no cd. exit e echo dao core dump. 
 
 int	g_signal = 0;
 

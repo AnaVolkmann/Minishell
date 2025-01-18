@@ -51,6 +51,7 @@ void	free_ast(t_ast_node **ast)
 	free_ast(&tmp->right);
 	if (tmp->args)
 		free_envp(tmp->args);
+	free(tmp);
 	*ast = NULL;
 }
 
