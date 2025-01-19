@@ -14,9 +14,7 @@
 
 // TODO - CHECK_LINE
 // execute_with_redirect;
-// expand_vars_in_ast
 // FINISH FUNCTION chech_file_permission
-// TODO - recursively_expand_variables
 // TODO - verifiar saidas de erro!
 // comentei funcoes em: path utils, handle_heredoc e execution_manager para compilar ***
 // leak em bash_exit, still reachable, provavelmente readfile
@@ -56,13 +54,11 @@ int	main(int argc, char **argv, char **original_env)
 void	run_minishell(t_env *env)
 {
 	char		*input;
-	//int			status;
 	t_token		*tokens;
 	t_ast_node	*ast;
 
 	while (1)
 	{
-		//status = 0;
 		input = readline("Minishell: ");
 		if (!input)
 			break ;
@@ -72,7 +68,6 @@ void	run_minishell(t_env *env)
 		tokens = process_to_tokenize_input(input);
 		if (!tokens)
 			return ; // retornei um erro qualquer
-			//status = ast->shell->exit_status;
 		ast = parse_tokens(&tokens);
 		if (ast)
 			// command_executer(ast, env, &env->shell->exit_status);

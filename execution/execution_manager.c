@@ -223,12 +223,6 @@ int	execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env)
 	return (g_signal = 0, status);
 }
 
-static void	expand_vars_in_ast(t_ast_node *ast, t_env *env)
-{
-	if (ft_strcmp(ast->args[0], "$") == 0)
-		expansion(ast->args[0], env->shell, env);
-}
-
 /** @brief Main entry point for executing commands in the AST.
  * Initializes pipe state, processes variables,
  * checks permissions, and executes commands.

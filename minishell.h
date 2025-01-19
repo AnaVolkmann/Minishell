@@ -108,7 +108,7 @@ typedef struct s_shell
 typedef struct s_ast_node
 {
 	t_token_type		type;
-	struct s_shell		*shell;
+	//struct s_shell		*shell;
 	char				**args;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
@@ -164,6 +164,7 @@ t_ast_node	*create_new_ast_node(t_token_type type);
 t_ast_node	*create_file_node(t_token *token);
 int			count_command_args(t_token *current);
 t_ast_node	*build_redirection_node(t_token **tokens, t_token *tmp);
+t_ast_node	*expand_vars_in_ast(t_ast_node *ast, t_env *env);
 
 /********************Builtin Commands****************/
 

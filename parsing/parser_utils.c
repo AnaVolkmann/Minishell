@@ -104,3 +104,16 @@ t_ast_node *build_redirection_node(t_token **tokens, t_token *tmp)
 	free(tmp);
 	return (redirect_node);
 }
+
+t_ast_node	*expand_vars_in_ast(t_ast_node *ast, t_env *env)
+{
+	if (!ast)
+		return (NULL);
+	if (ft_strcmp(ast->args[0], "$") == 0)
+		expansion(ast->args[0], env->shell, env);
+	if (ast->left)
+		expand_vars_in_ast(ast->left, env);
+	if (ast->right)
+		expand_vars_in_ast(ast->right, env);
+	return (ast);
+}
