@@ -26,11 +26,11 @@ int	run_command_builtin(char **arguments, t_env *env, t_shell *shell)
 	if (ft_strcmp(arguments[0], "cd") == 0)
 		return (ft_cd(arguments[1], env), 0);
 	else if (ft_strcmp(arguments[0], "echo") == 0)
-		return (echo(arguments + 1, i, shell->output_fd, shell), 0);
+		return (echo(arguments + 1, i - 1, shell->output_fd, shell), 0);
 	else if (ft_strcmp(arguments[0], "env") == 0)
 		return (ft_env(env), 0);
 	else if (ft_strcmp(arguments[0], "exit") == 0)
-		return (bash_exit(arguments + 1, i, shell), 0);
+		return (bash_exit(arguments + 1, i - 1, env), 0);
 	else if (ft_strcmp(arguments[0], "export") == 0)
 		return (ft_export(arguments[1], env), 0);
 	else if (ft_strcmp(arguments[0], "pwd") == 0)

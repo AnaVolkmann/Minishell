@@ -33,11 +33,11 @@ int	ft_export(char *path, t_env *env)
 		return (update_exit(0, env->shell), ordered_envp(copy_envp(env->parsed_env)), 0);
 	keysplit = ft_split(path, '=');
 	if (!keysplit || !keysplit[0])
-		return (update_exit(2, env->shell), export_error(path), -1);
+		return (update_exit(2, env->shell), free_envp(keysplit), export_error(path), -1);
 	while (keysplit[i])
 		i++;
 	if (i != 2)
-		return (update_exit(2, env->shell), 1);
+		return (update_exit(2, env->shell), free_envp(keysplit), 1);
 	new_var = ft_strdup(path);
 	if (!new_var)
 		return (update_exit(1, env->shell), free_envp(keysplit), -1);

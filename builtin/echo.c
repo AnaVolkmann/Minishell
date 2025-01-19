@@ -25,7 +25,7 @@ int	echo(char **args, int argc, int fd, t_shell *shell)
 
 	i = 0;
 	n = 1;
-	if (fd < 0 || write(fd, "\n", 1) == -1)
+	if (fd < 0 || write(fd, "", 1) == -1)
 		return (update_exit(1, shell), perror("echo"), 1);
 	if (!args || !args[i] || argc == 0)
 		return (write (fd, "\n", 1), update_exit(0, shell), 0);

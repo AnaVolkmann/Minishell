@@ -167,7 +167,7 @@ t_ast_node	*build_redirection_node(t_token **tokens, t_token *tmp);
 
 /********************Builtin Commands****************/
 
-int			bash_exit(char **args, int arg_count, t_shell *shell);
+int			bash_exit(char **args, int arg_count, t_env *env);
 int			ft_cd(char *path, t_env *env);
 int			ft_export(char *path, t_env *env);
 int			ft_unset(char *name, t_env *env);
