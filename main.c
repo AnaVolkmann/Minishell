@@ -74,10 +74,10 @@ void	run_minishell(t_env *env)
 		ast = parse_tokens(&tokens);
 		if (ast)
 		{
-			// if (ast->left == NULL && ast->right == NULL)
+			if (ast->left == NULL && ast->right == NULL)
 				execute(ast->args[0], ast->args, env); // executa comandos simples
-			// else
-			// 	command_executer(ast, env, &env->shell->exit_status);
+			else
+				command_executer(ast, env, &env->shell->exit_status);
 		}
 		free_ast(&ast);
 		//ast->shell->exit_status = status;

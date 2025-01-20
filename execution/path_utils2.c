@@ -99,7 +99,7 @@ int	find_substr_index(char **str, char *sub_str, int n)
 	int	j;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i][0] == sub_str[0])
 		{

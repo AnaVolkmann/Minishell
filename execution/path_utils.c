@@ -102,7 +102,7 @@ char	*find_next_substring(char *str, char del, int *index)
  * @return Array of strings representing the parsed command and arguments.*/
 char	**prepare_cmd_args(char *cmd, char **envp, int c)
 {
-	// em alguns parsed_cmd, coloquei o [c]
+	// em alguns parsed_cmd, coloquei o [c] // checar leaks
 	char	**parsed_cmd;
 	char	*cmd_holder;
 	int		index[3];
@@ -111,20 +111,23 @@ char	**prepare_cmd_args(char *cmd, char **envp, int c)
 	index[1] = count_substrings(cmd, ' ');
 	parsed_cmd = malloc(sizeof(char *) * (index[1] + 1));
 	index[0] = 0;
+	if (index[1] <= 0) // adicionei essa protecao
+		return (NULL);
 	while (c < index[1])
 	{
 		cmd_holder = find_next_substring(cmd, '\0', index);
 		if (!c && !command_is_builtin(cmd_holder))
 		{
 			parsed_cmd[c] = get_file_path(cmd_holder, envp, "PATH", X_OK); // aqui
-			if (!parsed_cmd)
+			if (!parsed_cmd[c]) // aqui
 				parsed_cmd[c] = ft_strdup(cmd_holder); // aqui
 			free(cmd_holder);
 		}
 		else
 			parsed_cmd[c] = cmd_holder;
-		if (!parsed_cmd)
-			return (NULL);
+		if (!parsed_cmd[c]) // aqui
+			return (free_envp(parsed_cmd), NULL);
+		c++;
 	}
 	parsed_cmd[c] = NULL;
 	return (parsed_cmd);
