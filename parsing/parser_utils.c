@@ -105,12 +105,23 @@ t_ast_node *build_redirection_node(t_token **tokens, t_token *tmp)
 	return (redirect_node);
 }
 
+// é preciso dar free no que retornar da expansion()
+// e se a expansao estiver no meio do node?
 t_ast_node	*expand_vars_in_ast(t_ast_node *ast, t_env *env)
 {
+	char	*expanded;
 	if (!ast)
 		return (NULL);
-	if (ft_strcmp(ast->args[0], "$") == 0)
-		expansion(ast->args[0], env->shell, env);
+	if (ast->args && ast->args[0])
+	{
+		expanded = expansion(ast->args[0], env->shell, env);
+		if (expanded)
+		{
+			free (ast->args[0]);
+			ast->args[0] = ft_strdup(expanded);
+			free (expanded);
+		}
+	}
 	if (ast->left)
 		expand_vars_in_ast(ast->left, env);
 	if (ast->right)

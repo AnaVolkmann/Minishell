@@ -40,7 +40,7 @@ void	adjust_ast_node_for_execution(t_ast_node *head)
 		}
 		if (!head->file_type)
 			head->file_type = EXECUTE_FILE;
-		if (!head->left)
+		if (head->left)
 			adjust_ast_node_for_execution(head->left);
 		if (head->right)
 			adjust_ast_node_for_execution(head->right);
@@ -104,14 +104,12 @@ int	check_file_permissions(t_ast_node *head, char **env)
 		&& head->file_type == READ_FILE)
 	{
 		path = get_file_path(head->args[0], env, "PWD", R_OK);
-		if (!path)
-			status = 0;
-		else
+		if (path)
 		{
 			is_sus_dir(path, head->args[0], &status);
 			free(path);
+			status = specify_error(head->args[0], status);
 		}
-		status = specify_error(head->args[0], status);
 	}
 	if (!status && head->left)
 		status = check_file_permissions(head->left, env);

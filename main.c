@@ -16,8 +16,11 @@
 // execute_with_redirect;
 // FINISH FUNCTION chech_file_permission
 // TODO - verifiar saidas de erro!
+
 // comentei funcoes em: path utils, handle_heredoc e execution_manager para compilar ***
 // leak em bash_exit, still reachable, provavelmente readfile
+// multiplos redirects criam uma arvore AST com hierarquia errada
+// execução complexa não funciona. Simples sim. Commandos execve e builtins funcionam para testes
 
 int	g_signal = 0;
 
@@ -70,8 +73,12 @@ void	run_minishell(t_env *env)
 			return ; // retornei um erro qualquer
 		ast = parse_tokens(&tokens);
 		if (ast)
-			// command_executer(ast, env, &env->shell->exit_status);
-			execute(ast->args[0], ast->args, env); // executa comandos simples
+		{
+			// if (ast->left == NULL && ast->right == NULL)
+				execute(ast->args[0], ast->args, env); // executa comandos simples
+			// else
+			// 	command_executer(ast, env, &env->shell->exit_status);
+		}
 		free_ast(&ast);
 		//ast->shell->exit_status = status;
 		//update_env_status

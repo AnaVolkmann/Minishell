@@ -36,7 +36,7 @@ void	init_or_reset_pipe_state(t_pipe_state *pipe_state, int f)
 		pipe_state->is_redirection_or_pipe = 0;
 		pipe_state->heredoc_status = 0;
 		pipe_state->children_count = 0;
-		pipe_state->second_heredoc_status = 0;
+		pipe_state->second_heredoc_status = 0; // settar direto pra 1?
 	}
 	else if (pipe_state->pipes_count)
 		pipe_state->executed_pipes_index += 1;
