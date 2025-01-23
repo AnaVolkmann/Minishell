@@ -18,9 +18,8 @@
 // TODO - verifiar saidas de erro!
 
 // comentei funcoes em: path utils, handle_heredoc e execution_manager para compilar ***
-// leak em bash_exit, still reachable, provavelmente readfile
+// leak em bash_exit, still reachable, provavelmente readfile ou falta de cleanup
 // multiplos redirects criam uma arvore AST com hierarquia errada
-// execução complexa não funciona. Simples sim. Commandos execve e builtins funcionam para testes
 
 int	g_signal = 0;
 
