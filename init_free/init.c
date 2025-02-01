@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 12:41:56 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/04 16:31:49 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/01 12:37:34 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,11 @@ int init_environment(t_env *env, char **original_env)
 	if (ft_export("SHELL=minishell", env) != 0)
 	{
 		free(env->shell);
-		//perror?
 		free(env->parsed_env);
 		return (0);
 	}
 	if (ft_export("?=0", env) != 0)
 	{
-		//perror?
 		free(env->shell);
 		free(env->parsed_env);
 		return (0);

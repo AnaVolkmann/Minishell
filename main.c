@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:08:55 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 17:21:28 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/01 13:48:20 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,7 @@ int	main(int argc, char **argv, char **original_env)
  * (e.g., by entering `exit` or providing no input).
  *
  * @param env The environment structure containing environment 
- * 								variables and shell state.
- * 
- * sera que precisa retornar algum erro especifico caso nao exista tokens*/
+ * 								variables and shell state.*/
 void	run_minishell(t_env *env)
 {
 	char		*input;
@@ -71,7 +69,7 @@ void	run_minishell(t_env *env)
 		add_history(input);
 		tokens = process_to_tokenize_input(input);
 		if (!tokens)
-			return ;
+			env->shell->exit_status = 258;
 		ast = parse_tokens(&tokens);
 		if (ast)
 		{
