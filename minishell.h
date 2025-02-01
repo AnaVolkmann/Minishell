@@ -194,7 +194,7 @@ int			check_line(char **input);
 int			count_substrings(char *str, char del);
 int			str_cmp(char *s_1, char *s_2, char *s_3);
 char		*strcopy(char *src);
-char	*remove_quotes_from_str(char *str, int si_q_c, int do_q_c, int a);
+char		*remove_quotes_from_str(char *str, int si_q_c, int do_q_c, int a);
 
 /********************Free*************************/
 
@@ -235,7 +235,6 @@ void		child_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
 void		parent_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
 //int			check_safety(t_ast_node *head, char *path);
 
-
 /********************Pipe and Redirect*********************/
 
 void		adjust_ast_node_for_execution(t_ast_node *head);
@@ -265,6 +264,6 @@ void		read_and_write(t_pipe_state *pipe_state, char *limiter,
 void		parent_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
 void		child_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
 
-int	execute(char *cmd, char *const *argument, t_env *envp);
+int			execute(char *cmd, char *const *argument, t_env *envp);
 
 #endif

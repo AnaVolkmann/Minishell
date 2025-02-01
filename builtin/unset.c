@@ -24,7 +24,8 @@ int	ft_unset(char *name, t_env *env)
 		return (update_exit (1, env->shell), unset_error(name, env, 0), 1);
 	index = find_env(env, name);
 	if (index >= 0)
-		return (update_exit (0, env->shell), remove_env(env->parsed_env, index), 0);
+		return (update_exit (0, env->shell),
+			remove_env(env->parsed_env, index), 0);
 	return (update_exit (1, env->shell), unset_error(name, env, 1), 1);
 }
 

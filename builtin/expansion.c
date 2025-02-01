@@ -12,7 +12,8 @@
 
 #include "../minishell.h"
 
-static char	*expand_utils(char *path, t_shell *shell, t_env *env, char *env_value);
+static char	*expand_utils(char *path, t_shell *shell,
+				t_env *env, char *env_value);
 
 /** @brief handles edge cases and searches the env var inside the shell's envp
  * if it not finds it, returns an error
@@ -46,7 +47,8 @@ char	*expansion(char *path, t_shell *shell, t_env *env)
 	return (update_exit(0, shell), ft_strdup(env_value));
 }
 
-static char	*expand_utils(char *path, t_shell *shell, t_env* env, char *env_value)
+static char	*expand_utils(char *path, t_shell *shell,
+				t_env *env, char *env_value)
 {
 	char	**split;
 	int		i;

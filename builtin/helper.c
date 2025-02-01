@@ -24,7 +24,8 @@ int	find_env(t_env *env, char *name)
 	i = 0;
 	while (env->parsed_env[i])
 	{
-		if (ft_strncmp(env->parsed_env[i], name, len) == 0 && env->parsed_env[i][len] == '=')
+		if (ft_strncmp(env->parsed_env[i], name, len) == 0
+			&& env->parsed_env[i][len] == '=')
 			return (i);
 		i++;
 	}

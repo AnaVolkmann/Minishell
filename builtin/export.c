@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static void	ordered_envp(char **copy);
+static void	ordered(char **copy);
 static char	**copy_envp(char **envp);
 static void	export_error(char *path);
 static int	ft_add(char	*new_var, t_env *env, char **keysplit);
@@ -30,10 +30,12 @@ int	ft_export(char *path, t_env *env)
 	if (!env->shell || !env->parsed_env)
 		return (update_exit(2, env->shell), -1);
 	if (!path)
-		return (update_exit(0, env->shell), ordered_envp(copy_envp(env->parsed_env)), 0);
+		return (update_exit(0, env->shell),
+			ordered(copy_envp(env->parsed_env)), 0);
 	keysplit = ft_split(path, '=');
 	if (!keysplit || !keysplit[0])
-		return (update_exit(2, env->shell), free_envp(keysplit), export_error(path), -1);
+		return (update_exit(2, env->shell), free_envp(keysplit),
+			export_error(path), -1);
 	while (keysplit[i])
 		i++;
 	if (i != 2)
@@ -98,7 +100,7 @@ static char	**copy_envp(char **envp)
 
 /** @brief does a pseudo bubble sort algorithm to order the envp
  * at the end prints it whole */
-static void	ordered_envp(char **copy)
+static void	ordered(char **copy)
 {
 	int		i;
 	char	*tmp;

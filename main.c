@@ -17,8 +17,8 @@
 // FINISH FUNCTION chech_file_permission
 // TODO - verifiar saidas de erro!
 
-// comentei funcoes em: path utils, handle_heredoc e execution_manager para compilar ***
-// leak em bash_exit, still reachable, provavelmente readfile ou falta de cleanup
+// comentei funcoes em: path utils, handle_heredoc e execution_manager p comp
+// leak em bash_exit, still reachable, provavelmente readfile/falta de cleanup
 // multiplos redirects criam uma arvore AST com hierarquia errada
 
 int	g_signal = 0;
@@ -52,7 +52,9 @@ int	main(int argc, char **argv, char **original_env)
  * (e.g., by entering `exit` or providing no input).
  *
  * @param env The environment structure containing environment 
- * 								variables and shell state.*/
+ * 								variables and shell state.
+ * 
+ * sera que precisa retornar algum erro especifico caso nao exista tokens*/
 void	run_minishell(t_env *env)
 {
 	char		*input;
@@ -69,17 +71,15 @@ void	run_minishell(t_env *env)
 		add_history(input);
 		tokens = process_to_tokenize_input(input);
 		if (!tokens)
-			return ; // retornei um erro qualquer
+			return ;
 		ast = parse_tokens(&tokens);
 		if (ast)
 		{
 			if (ast->left == NULL && ast->right == NULL)
-				execute(ast->args[0], ast->args, env); // executa comandos simples
+				execute(ast->args[0], ast->args, env);
 			else
 				command_executer(ast, env, &env->shell->exit_status);
 		}
 		free_ast(&ast);
-		//ast->shell->exit_status = status;
-		//update_env_status
 	}
 }

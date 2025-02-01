@@ -39,21 +39,22 @@ int	ft_cd(char *path, t_env *env)
 		return (printf("%s\n", tmp), free(tmp), update_exit(0, env->shell), 0);
 	}
 	if (set_pwd(path, env) != 0)
-			return (update_exit(1, env->shell), 1);
+		return (update_exit(1, env->shell), 1);
 	return (update_exit(0, env->shell), 0);
 }
 
 /** @brief updates OLD PWD and PWD. first it saves the pwd to char *old pwd
  * then tries to change dir (it fails if no permission)
  * then updates old pwd 
- * it then gets the new pwd value and updates the env */
+ * it then gets the new pwd value and updates the env 
+ * what if pwd is unset?  */
 static int	set_pwd(char *path, t_env *env)
 {
 	char	*old_pwd;
 	char	*new_pwd;
 	char	*export;
 
-	old_pwd = get_env("PWD", env->parsed_env); // what if pwd is unset?
+	old_pwd = get_env("PWD", env->parsed_env);
 	if (chdir(path) != 0)
 		return (cd_error(path), free (old_pwd), 1);
 	if (old_pwd)

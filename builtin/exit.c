@@ -38,18 +38,21 @@ int	bash_exit(char **args, int arg_count, t_env *env)
 	long int	exit_value;
 
 	if (arg_count == 0)
-		return (ft_putendl_fd("exit", 2), update_exit(0, env->shell), cleanup_and_exit_shell(env, 0), 0);
+		return (ft_putendl_fd("exit", 2), update_exit(0, env->shell),
+			cleanup_and_exit_shell(env, 0), 0);
 	if (arg_count == 1)
 	{
 		if (!str_is_digit(args[0]))
-			return (update_exit (2, env->shell), exit_error(args[0]), cleanup_and_exit_shell(env, 2), 2);
+			return (update_exit (2, env->shell), exit_error(args[0]),
+				cleanup_and_exit_shell(env, 2), 2);
 		else
 		{
 			exit_value = strtol(args[0], NULL, 10);
 			if (exit_value > INT_MAX || exit_value < INT_MIN)
 			{
 				ft_putstr_fd("bash: exit: overflow or underflow\n", 2);
-				return (update_exit (2, env->shell), cleanup_and_exit_shell(env, 2), 2);
+				return (update_exit (2, env->shell),
+					cleanup_and_exit_shell(env, 2), 2);
 			}
 			return (update_exit((int)exit_value, env->shell),
 				cleanup_and_exit_shell(env, (int)exit_value), 0);
