@@ -65,7 +65,8 @@ int	execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped)
 	signal(SIGQUIT, child_ctrl_c);
 	if (pid == 0)
 	{
-		if (piped->executed_pipes_index && piped->executed_pipes_index <= piped->current_output_fd)
+		if (piped->executed_pipes_index
+				&& piped->executed_pipes_index <= piped->current_output_fd)
 			dup2(fd[0], 0);
 		if (piped->executed_pipes_index > 1)
 			dup2(pipe_fds[1], 1);

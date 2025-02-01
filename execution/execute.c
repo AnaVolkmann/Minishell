@@ -85,7 +85,7 @@ static char	*get_path(char *cmd, char **envp)
 	if (cmd[0] == '/' || cmd[0] == '.')
 		return (ft_strdup(cmd));
 	cmd_path = get_env("PATH", envp);
-	if (!cmd_path) // *cmd_path == '\0'?
+	if (!cmd_path)
 		return (printf("PATH environment variable is not set.\n"), NULL);
 	full_path = loop_path(cmd, cmd_path);
 	return (free(cmd_path), full_path);
