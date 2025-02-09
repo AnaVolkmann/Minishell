@@ -88,24 +88,24 @@ void	handle_special_chars(char **input, t_token **tokens)
 	{
 		if (*(*input + 1) == '>')
 		{
-			add_token_to_list(tokens, new_token(TOKEN_REDIR_APPEND, ">>"));
+			add_token_to_list(tokens, new_token(T_REDIR_APPEND, ">>"));
 			(*input)++;
 		}
 		else
-			add_token_to_list(tokens, new_token(TOKEN_REDIR_OUT, ">"));
+			add_token_to_list(tokens, new_token(T_REDIR_OUT, ">"));
 	}
 	else if (**input == '<')
 	{
 		if (*(*input + 1) == '<')
 		{
-			add_token_to_list(tokens, new_token(TOKEN_REDIR_HEREDOC, "<<"));
+			add_token_to_list(tokens, new_token(T_REDIR_HEREDOC, "<<"));
 			(*input)++;
 		}
 		else
-			add_token_to_list(tokens, new_token(TOKEN_REDIR_IN, "<"));
+			add_token_to_list(tokens, new_token(T_REDIR_IN, "<"));
 	}
 	else if (**input == '|')
-		add_token_to_list(tokens, new_token(TOKEN_PIPE, "|"));
+		add_token_to_list(tokens, new_token(T_PIPE, "|"));
 	(*input)++;
 }
 

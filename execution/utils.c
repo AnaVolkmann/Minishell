@@ -20,18 +20,18 @@
  * @param head AST node representing a command, redirection, or pipe.*/
 void	adjust_ast_node_for_execution(t_ast_node *head)
 {
-	if (head->type != TOKEN_WORD)
+	if (head->type != T_WORD)
 	{
 		head->file_type = FILE_READY;
-		if (head->type == TOKEN_REDIR_OUT && head->right)
+		if (head->type == T_REDIR_OUT && head->right)
 			head->right->file_type = WRITE_FILE;
-		if (head->type == TOKEN_REDIR_APPEND && head->right)
+		if (head->type == T_REDIR_APPEND && head->right)
 			head->right->file_type = WRITE_FILE_APPEND;
-		if (head->type == TOKEN_REDIR_IN && head->right)
+		if (head->type == T_REDIR_IN && head->right)
 			head->right->file_type = READ_FILE;
-		if (head->type == TOKEN_REDIR_HEREDOC && head->right)
+		if (head->type == T_REDIR_HEREDOC && head->right)
 			head->right->file_type = READ_FROM_APPEND;
-		if (head->type == TOKEN_PIPE)
+		if (head->type == T_PIPE)
 		{
 			if (head->right)
 				head->right->file_type = EXECUTE_FILE;
@@ -73,7 +73,7 @@ char	*get_file_path(char *file, char **envp, char *env_var, int mode)
 		return (NULL);
 	while (envp[index][var_len])
 	{
-		tmp_path = create_subpath_from_var(envp[index],	file, var_len, &flag);
+		tmp_path = create_subpath_from_var(envp[index], file, var_len, &flag);
 		if (!tmp_path)
 			return (NULL);
 		if (is_path_accessible(tmp_path, mode))
@@ -148,90 +148,14 @@ int	specify_error(char *file, int _status)
 void	count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state)
 {
 	head->file_type = 0;
-	if (head->type == TOKEN_REDIR_OUT || head->type == TOKEN_REDIR_APPEND)
+	if (head->type == T_REDIR_OUT || head->type == T_REDIR_APPEND)
 		piped_state->output_files_count += 1;
-	else if (head->type == TOKEN_REDIR_IN || head->type == TOKEN_REDIR_HEREDOC)
+	else if (head->type == T_REDIR_IN || head->type == T_REDIR_HEREDOC)
 		piped_state->input_files_count += 1;
-	else if (head->type == TOKEN_PIPE)
+	else if (head->type == T_PIPE)
 		piped_state->pipes_count += 1;
 	if (head->left)
 		count_redirect_and_pipes(head->left, piped_state);
 	if (head->right)
 		count_redirect_and_pipes(head->right, piped_state);
 }
-
-void	is_sus_dir(char *path_, char *file, int *status)
-{
-	struct stat		s;
-
-	if (file && str_cmp(file, ".", NULL))
-		*status = 2;
-	else if (str_cmp(file, "..", NULL)
-		|| str_cmp(file, ",", ""))
-	{
-		*status = 1;
-		errno = 2;
-	}
-	else if (!stat(path_, &s)
-		&& s.st_mode)
-	{
-		*status = 2;
-		ft_putstr_fd("   err: this \'", 2);
-		ft_putstr_fd(path_, 2);
-		ft_putendl_fd("\' Is a directory", 2);
-		errno = 13;
-	}
-}
-/* int	is_sus_dir(char *path)
-{
-	char	copy[1024];
-	int		i;
-
-	i = 0;
-	if (!path)
-		return (1);
-	while (*path)
-	{
-		if (path[0] == '.' && path[1] == '.'
-			&& (path[2] == '/' || path[2] == '\0'))
-		{
-			path += 2;
-			if (*path == '/')
-				path += 1;
-		}
-		else if (path[0] == '.' && (path[1] == '/' || path[1] == '\0'))
-		{
-			path += 1;
-			if (*path == '/')
-				path += 1;
-		}
-		else
-			copy[i++] = *path++;
-	}
-	copy[i] = '\0';
-	if (ft_strcmp(path, copy) != 0)
-		return (1);
-	return (0);
-} */
-
-/* int	check_safety(t_ast_node *head, char *path)
-{
-	struct stat	s;
-	char		*tmp;
-
-	(void)head;//dei void
-	tmp = ft_strdup(path);
-	if (!tmp)
-		return (1);
-	if (is_sus_dir(tmp) == 1)
-		return (free(tmp), 1);
-	if (ft_strcmp(path, "/etc") == 0 || ft_strcmp(path, "/dev") == 0
-		|| ft_strcmp(path, "/proc") == 0)
-		return (ft_putstr_fd("Error: access denied to restricted directory.\n",
-				2), free(tmp), 1);
-	if (!is_path_accessible(path, X_OK) || !is_path_accessible(path, F_OK))
-		return (ft_putstr_fd("Error: path related.\n", 2), free(tmp), 1);
-	if (lstat(path, &s) == -1)
-		return (perror("Error getting file info\n"), free(tmp), 1);
-	return (free(tmp), 0);
-} */

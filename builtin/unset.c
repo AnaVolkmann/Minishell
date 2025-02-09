@@ -43,18 +43,13 @@ static void	unset_error(char *name, t_env *env, int i)
 	}
 }
 
-//(TODO) {} ()
-// >> append?
-// << should be given a delimiter, then read the input until a line containing
-// the delimiter is seen. However, it doesn’t have to update the history!
+//(TODO)
 
 // Handle ’ (single quote) which should prevent the shell from interpreting
 // the meta-characters in the quoted sequence
 
 // Handle " (double quote) which should prevent the shell from interpreting
 // the meta-characters in the quoted sequence except for $ (dollar sign).
-
-// GCC use on Makefile?
 
 // if inside quotes, dont expand, but run command if its exactly it.
 // "ls" -l works "ls -l" no, neither "ls "-l or "ls"-l

@@ -9,7 +9,10 @@ OBJ_DIR = obj/
 
 SRC = tokenization/tokenizer.c\
 tokenization/tokenizer_utils.c\
-main.c\
+main.c\// >> append?
+// << should be given a delimiter, then read the input until a line containing
+// the delimiter is seen. However, it doesn’t have to update the history!
+
 init_free/free_me.c\
 init_free/init.c\
 signal.c\
@@ -25,14 +28,15 @@ builtin/export.c\
 builtin/pwd.c\
 builtin/unset.c\
 execution/execute.c\
-execution/execution_manager.c\
-execution/execution_utils.c\
-execution/cmd_execution.c\
-execution/cmd_input_processing.c\
-execution/handle_heredoc.c\
+execution/execute2.c\
+execution/manager.c\
+execution/manager2.c\
+execution/utils.c\
+execution/utils2.c\
+execution/heredoc.c\
 execution/path_utils.c\
 execution/path_utils2.c\
-execution/process_management.c\
+execution/process_manager.c\
 parsing/parser.c\
 parsing/parser_utils.c\
 general_utils.c\

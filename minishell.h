@@ -49,13 +49,13 @@ extern int	g_signal;
 
 typedef enum e_token_type
 {
-	TOKEN_WORD,// For comands and arguments
-	TOKEN_PIPE,// For '|'
-	TOKEN_REDIR_IN,// For '<'
-	TOKEN_REDIR_OUT,// For '>'
-	TOKEN_REDIR_APPEND,// For '>>'
-	TOKEN_REDIR_HEREDOC,// For '<<'
-	TOKEN_ENV_VAR,// For environment variables
+	T_WORD,// For comands and arguments
+	T_PIPE,// For '|'
+	T_REDIR_IN,// For '<'
+	T_REDIR_OUT,// For '>'
+	T_REDIR_APPEND,// For '>>'
+	T_REDIR_HEREDOC,// For '<<'
+	T_ENV_VAR,// For environment variables
 }				t_token_type;
 
 /************************RULES*********************/
