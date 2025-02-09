@@ -21,6 +21,7 @@ void	cleanup_and_exit_shell(t_env *env, int status)
 		if (env->shell)
 			free(env->shell);
 	}
+	//rl_clear_history();
 	free(env);
 	exit(status);
 }

@@ -23,6 +23,8 @@ git rev-parse --abbrev-ref HEAD "wich branch im on"
 compile the program with -lreadline flag
 valgrind -s --track-origins=yes --leak-check=full --show-leak-kinds=all --suppressions=valgrind_readline.supp
 -q if want it to be "cleaner"
+valgrind --leak-check=full --show-leak-kinds=definite,indirect ./minishell
+
 
 edge cases:::
 
