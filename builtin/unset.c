@@ -42,17 +42,3 @@ static void	unset_error(char *name, t_env *env, int i)
 		ft_putstr_fd("\n", 2);
 	}
 }
-
-//(TODO)
-
-// Handle ’ (single quote) which should prevent the shell from interpreting
-// the meta-characters in the quoted sequence
-
-// Handle " (double quote) which should prevent the shell from interpreting
-// the meta-characters in the quoted sequence except for $ (dollar sign).
-
-// if inside quotes, dont expand, but run command if its exactly it.
-// "ls" -l works "ls -l" no, neither "ls "-l or "ls"-l
-// pwd | $oi | cat > test
-// echo "$USER" = lufiguei
-// echo '$USER' = $USER
