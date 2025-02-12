@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_utils.c                                  :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:27:45 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/04 17:06:27 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:44:58 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /** @brief Adjusts the file type of AST nodes for execution.
- * Assigns appropriate file types based on token type 
+ * Assigns appropriate file types based on token type
  * (e.g., redirections, pipes).
  * Recursively processes left and right child nodes in the AST.
  *
@@ -48,7 +48,7 @@ void	adjust_ast_node_for_execution(t_ast_node *head)
 }
 
 /** @brief Finds the absolute path of an executable using environment variables.
- * 
+ *
  * @param file The file name to locate.
  * @param envp Array of environment variables.
  * @param env_var The specific environment variable (e.g., `"PATH"`)
@@ -86,9 +86,9 @@ char	*get_file_path(char *file, char **envp, char *env_var, int mode)
 }
 
 /** @brief Checks file permissions for commands and redirection files.
- * Validates access rights for executable commands or 
+ * Validates access rights for executable commands or
  * files used in input/output redirection.
- * Reports errors and updates the shell's exit status 
+ * Reports errors and updates the shell's exit status
  * if permission issues are detected.
  *
  * @param head AST node containing the command or file to check.
@@ -139,7 +139,7 @@ int	specify_error(char *file, int _status)
 }
 
 /** @brief Counts the number of redirections and pipes in the AST.
- * Updates the `t_pipe_state` structure with counts of 
+ * Updates the `t_pipe_state` structure with counts of
  * input/output files and pipe segments.
  * Processes the AST recursively to include all child nodes.
  *
@@ -158,4 +158,14 @@ void	count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state)
 		count_redirect_and_pipes(head->left, piped_state);
 	if (head->right)
 		count_redirect_and_pipes(head->right, piped_state);
+}
+
+int	count_strings_in_array(char **array)
+{
+	int			i;
+
+	i = 0;
+	while (array[i] != 0)
+		i++;
+	return (i);
 }

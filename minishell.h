@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 17:42:00 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/12 19:21:32 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ t_ast_node	*create_new_ast_node(t_token_type type);
 t_ast_node	*create_file_node(t_token *token);
 int			count_command_args(t_token *current);
 t_ast_node	*build_redirection_node(t_token **tokens, t_token *tmp);
-t_ast_node	*expand_vars_in_ast(t_ast_node *ast, t_env *env);
+void		expand_vars_in_ast(t_ast_node *head, t_env *env);
 
 /********************Builtin Commands****************/
 
@@ -194,6 +194,9 @@ int			check_line(char **input);
 int			count_substrings(char *str, char del);
 int			str_cmp(char *s_1, char *s_2, char *s_3);
 char		*strcopy(char *src);
+int			count_strings_in_array(char **array);
+int			find_env_var_index(t_env *env, char *name);
+void		s_strcopy(char *s1, char *s2, int start, int end);
 char		*remove_quotes_from_str(char *str, int si_q_c, int do_q_c, int a);
 
 /********************Free*************************/
@@ -263,6 +266,19 @@ void		read_and_write(t_pipe_state *pipe_state, char *limiter,
 
 void		parent_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
 void		child_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
+
+/**************************expansion**********************/
+
+int			simple_refactor(char **array, int index, char *str, int i);
+int			count_special_chars(char *str, int s_q, int d_q);
+int			count_whitespace_flaws(char *str, int a, int b, int res);
+int			count_total_flaws(char **array);
+void		expand_vars_in_ast(t_ast_node *head, t_env *env);
+char		**refactor_args_array(char **args, int *sintax_fix);
+char		*recursively_expand_vars(char *var, t_env *env, int control, int *array);
+char 		*expand_vars_in_string(char *str, t_env *env, int start, int *expand_idx);
+int			is_valid_var_start(char *str, int index, int control);
+char		*replace_var_with_value(char *old_val, char *new_val, int start, int end);
 
 int			execute(char *cmd, char *const *argument, t_env *envp);
 

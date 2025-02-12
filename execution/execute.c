@@ -3,19 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:18:13 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 16:40:46 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/12 20:33:52 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	run_builtin(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
+{
+
+}
+
+int	run_child_with_redirs(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
+{
+
+}
+
+int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
+{
+	pid_t	pid;
+	int		fd_s[2];
+	int		fd_out[2];
+	int		status;
+
+	(pipe(fd_s), pid = fork());
+	if (!pid)
+	{
+		if (piped->executed_pipes_index && piped->executed_pipes_index <= piped->current_output_fd)
+			dup2(fd[0], 0);
+		if (piped->executed_pipes_index > 1)
+			dup2(fd_s[1], 1);
+		else
+			close(fd[0]);
+		close_pipe_ends(fd_s[0], fd_s[1]);
+		dup2(1, fd_out[1]);
+		env->shell->exit_status = exec_builtin_in_child(cmd_args, env, fd_out, piped);
+		exit(WEXITSTATUS(env->shell->exit_status));
+	}
+	close_pipe_ends(fd_s[1], fd[0]);
+	if (piped->executed_pipes_index > 1)
+		fd[0] = fd_s[0];
+	else
+		close(fd_s[0]);
+	return (1);
+}
+
+int	manage_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
+{
+	int		status;
+
+	status = 0;
+	piped->children_count++;
+	if (piped->executed_pipes_index)
+	{
+		if (!piped->is_redirection_or_pipe)
+			status = run_builtin_child(cmd_args, fd, env, piped);
+		else
+			status = run_child_with_redirs(cmd_args, fd, env, piped);
+		free_envp(cmd_args);
+	}
+	else
+		status = run_builtin(cmd_args, fd, env, piped);
+	return (status);
+}
+
 /** @brief it compares the command with all 7 builtins
  * if any match is found, it runs the command with its argument, otherwise
  * it returns -1 to signalize that it didnt ran */
-int	run_command_builtin(char **arguments, t_env *env, t_shell *shell)
+/* int	run_command_builtin(char **arguments, t_env *env, t_shell *shell)
 {
 	int		i;
 	char	*pwd;
@@ -46,7 +104,7 @@ int	run_command_builtin(char **arguments, t_env *env, t_shell *shell)
 // * @brief it splits the PATH variable ":" and tries to access the
 //  * command to see if its inside this path. if not, frees and goes to
 //  * the next. if it find it, returns the full path, otherwise
-//  * it returns NULL 
+//  * it returns NULL
 static char	*loop_path(char *cmd, char *path_env)
 {
 	char	**path;
@@ -74,8 +132,8 @@ static char	*loop_path(char *cmd, char *path_env)
 	return (NULL);
 }
 
-//  @brief checks if the command is already an absolute "/" 
-//  * or an relative "." path if not, 
+//  @brief checks if the command is already an absolute "/"
+//  * or an relative "." path if not,
 //  * it calls the loop_path to find the program
 static char	*get_path(char *cmd, char **envp)
 {
@@ -91,7 +149,7 @@ static char	*get_path(char *cmd, char **envp)
 	return (free(cmd_path), full_path);
 }
 
-// @brief it runs the execve commands 
+// @brief it runs the execve commands
 static int	run_command_exec(char *cmd, char *const *argument, t_env *envp)
 {
 	char	*cmd_path;
@@ -115,8 +173,8 @@ static int	run_command_exec(char *cmd, char *const *argument, t_env *envp)
 	return (free(cmd_path), 0);
 }
 
-// @brief it first tries to execute the builtin functions, 
-//  * if its not inside that, it straight up goes to execve, 
+// @brief it first tries to execute the builtin functions,
+//  * if its not inside that, it straight up goes to execve,
 //  * returns error if none found
 int	execute(char *cmd, char *const *argument, t_env *envp)
 {
@@ -126,3 +184,4 @@ int	execute(char *cmd, char *const *argument, t_env *envp)
 		return (0);
 	return (1);
 }
+ */

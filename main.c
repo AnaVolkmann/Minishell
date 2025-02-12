@@ -6,12 +6,13 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:08:55 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/12 12:25:20 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/12 20:29:14 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//TO-DO CHECAR AONDE SERIA POSSIVEL UTILIZAR EXIT_STATUS DA ESTRUTURA AO INVEZ DE CRIAR UM INT NOVO EM CADA FUNCAOOOO
 // TODO - CHECK_LINE
 // execute_with_redirect;
 // FINISH FUNCTION chech_file_permission
