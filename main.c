@@ -15,11 +15,20 @@
 // TODO - CHECK_LINE
 // execute_with_redirect;
 // FINISH FUNCTION chech_file_permission
-// TODO - verifiar saidas de erro!
 
-// comentei funcoes em: path utils, handle_heredoc e execution_manager p comp
-// leak em bash_exit, still reachable, provavelmente readfile/falta de cleanup
-// multiplos redirects criam uma arvore AST com hierarquia errada
+ /*      TO DO'S      */
+// testar heredoc
+// testar  multiplos redirects criam uma arvore AST com hierarquia errada
+// testar expansão
+// verificar saidas de erro
+// verificar se frases de erro estao todas no stderr
+// norminette
+// fazer comentários
+
+/*       Duvidas      */
+// echo nao escreve com redirect
+// exit still reachable ( provavelmente readline )
+// checar pwd unset
 
 int	g_signal = 0;
 

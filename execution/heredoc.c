@@ -125,7 +125,7 @@ int	exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env)
 	waitpid(pid, &status, 0);
 	close(out_fd[1]);
 	pipe_state->current_input_fd = out_fd[0];
-	pipe_state->heredoc_status = (WEXITSTATUS(status)) - 1;
+	pipe_state->heredoc_status = (WEXITSTATUS(status)) - 1; // função permitida?
 	if (pipe_state->heredoc_status < 0)
 		pipe_state->heredoc_status += 2;
 	pipe_state->second_heredoc_status = status;

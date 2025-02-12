@@ -12,8 +12,6 @@
 
 #include "../minishell.h"
 
-// (TODO)syntax_verification funtion
-
 /**
  * @brief Processes input string by trimming whitespace and tokenizing it.
  * 

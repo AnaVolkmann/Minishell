@@ -92,3 +92,16 @@ For redirections, the command runs first (left), and the redirection (right) is 
     128: Invalid argument to exit (if you try to exit with an invalid status).
     130: Command terminated by Ctrl+C (SIGINT).
     255: Exit status range limit (indicating an error outside the 0–255 range).
+
+
+// Handle ’ (single quote) which should prevent the shell from interpreting
+// the meta-characters in the quoted sequence
+
+// Handle " (double quote) which should prevent the shell from interpreting
+// the meta-characters in the quoted sequence except for $ (dollar sign).
+
+// if inside quotes, dont expand, but run command if its exactly it.
+// "ls" -l works "ls -l" no, neither "ls "-l or "ls"-l
+// pwd | $oi | cat > test
+// echo "$USER" = lufiguei
+// echo '$USER' = $USER
