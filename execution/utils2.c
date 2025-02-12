@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_utils2.c                                 :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.co      +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 11:44:03 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/09 11:44:26 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/02/12 13:19:54 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ char	*strcopy(char *src)
 	dest[a] = '\0';
 	return (dest);
 }
+
+
 
 char	**merge_cmd_args(char **f_args, char **cmd)
 {

@@ -32,7 +32,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
-# include <term.h>
+/*# include <term.h>*/
 # include <termios.h>
 # include <unistd.h>
 # include <readline/history.h>
@@ -41,7 +41,7 @@
 # include <stdbool.h>
 # include <limits.h>
 
-/*****************GLOBAL VARIABLE*****************/
+	/*****************GLOBAL VARIABLE*****************/
 
 extern int	g_signal;
 
