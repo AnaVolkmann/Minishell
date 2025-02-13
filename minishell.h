@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/12 19:21:32 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/13 12:19:56 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ char		*strcopy(char *src);
 int			count_strings_in_array(char **array);
 int			find_env_var_index(t_env *env, char *name);
 void		s_strcopy(char *s1, char *s2, int start, int end);
+int			is_string_numeric(char *s1);
 char		*remove_quotes_from_str(char *str, int si_q_c, int do_q_c, int a);
 
 /********************Free*************************/
@@ -205,6 +206,8 @@ void		free_envp(char **envp);
 void		free_ast(t_ast_node **ast);
 void		cleanup_and_exit_shell(t_env *env, int status);
 void		free_parsed_env(t_env *env);
+void		ft_exit(char **cmd, t_env *env);
+int			string_to_int(char *str);
 
 /*******************Shell Utilities****************/
 
@@ -230,7 +233,7 @@ int			is_path_accessible(char *path, int mode);
 char		**prepare_cmd_args(char *cmd, char **envp, int c);
 char		*find_next_substring(char *str, char del, int *index);
 int			sizeof_str(char *str, char end);
-int			run_command_builtin(char **arguments, t_env *env, t_shell *shell);
+int			run_command_builtin(char **arguments, t_env *env, int *fd_out, t_pipe_state *piped);
 int			execute_cmd_with_redirect(char **cmd, int *fd, char **env,
 				t_pipe_state *piped);
 char		*get_file_path(char *file, char **envp, char *env_var, int mode);
@@ -280,6 +283,17 @@ char 		*expand_vars_in_string(char *str, t_env *env, int start, int *expand_idx)
 int			is_valid_var_start(char *str, int index, int control);
 char		*replace_var_with_value(char *old_val, char *new_val, int start, int end);
 
-int			execute(char *cmd, char *const *argument, t_env *envp);
+
+/*********************************execution**********************/
+
+int	manage_single_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
+int	exec_builtin_with_simple_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
+int	exec_builtin_with_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
+void	exec_builtin_and_exit(char **cmd_args, t_env *env, int *fd_out, t_pipe_state *piped);
+int	run_child_with_redirs(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
+int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
+int	manage_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
+
+//int			execute(char *cmd, char *const *argument, t_env *envp);
 
 #endif

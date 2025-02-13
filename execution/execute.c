@@ -6,20 +6,45 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:18:13 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/12 20:33:52 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/13 12:23:50 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	run_builtin(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
+void	exec_builtin_and_exit(char **cmd_args, t_env *env, int *fd_out, t_pipe_state *piped)
 {
-
+	env->shell->exit_status = run_command_builtin(cmd_args, env, fd_out, piped);
+	exit(WEXITSTATUS(env->shell->exit_status));
 }
 
 int	run_child_with_redirs(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 {
+	pid_t	pid;
+	int		fd_out[2];
 
+	fd_out[1] = 1;
+
+	if (piped->is_redirection_or_pipe && piped->has_output_file)
+		fd_out[1] = piped->input_files_count;
+	if (piped->executed_pipes_index > 1 && (!piped->is_redirection_or_pipe || !piped->has_output_file))
+		pipe(fd_out);
+	pid = fork();
+	if (!pid)
+		exec_builtin_and_exit(cmd_args, env, fd_out, piped);
+	if (piped->is_redirection_or_pipe && piped->has_output_file)
+	{
+		close(fd_out[1]);
+		piped->has_output_file = 0;
+	}
+	if (!piped->has_input_file && !piped->has_output_file)
+		piped->is_redirection_or_pipe = 0;
+	if (piped->executed_pipes_index > 1 && (!piped->is_redirection_or_pipe || !piped->has_input_file))
+	{
+		close(fd_out[1]);
+		fd[0] = fd_out[0];
+	}
+	return (1);
 }
 
 int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
@@ -27,7 +52,6 @@ int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 	pid_t	pid;
 	int		fd_s[2];
 	int		fd_out[2];
-	int		status;
 
 	(pipe(fd_s), pid = fork());
 	if (!pid)
@@ -40,7 +64,7 @@ int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 			close(fd[0]);
 		close_pipe_ends(fd_s[0], fd_s[1]);
 		dup2(1, fd_out[1]);
-		env->shell->exit_status = exec_builtin_in_child(cmd_args, env, fd_out, piped);
+		env->shell->exit_status = run_command_builtin(cmd_args, env, fd_out, piped);
 		exit(WEXITSTATUS(env->shell->exit_status));
 	}
 	close_pipe_ends(fd_s[1], fd[0]);
@@ -53,21 +77,18 @@ int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 
 int	manage_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 {
-	int		status;
-
-	status = 0;
 	piped->children_count++;
 	if (piped->executed_pipes_index)
 	{
 		if (!piped->is_redirection_or_pipe)
-			status = run_builtin_child(cmd_args, fd, env, piped);
+		env->shell->exit_status = run_builtin_child(cmd_args, fd, env, piped);
 		else
-			status = run_child_with_redirs(cmd_args, fd, env, piped);
+		env->shell->exit_status = run_child_with_redirs(cmd_args, fd, env, piped);
 		free_envp(cmd_args);
 	}
 	else
-		status = run_builtin(cmd_args, fd, env, piped);
-	return (status);
+	env->shell->exit_status = manage_single_builtin_execution(cmd_args, fd, env, piped);
+	return (env->shell->exit_status);
 }
 
 /** @brief it compares the command with all 7 builtins

@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:27:45 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/02/12 18:44:58 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/13 12:08:21 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,4 +168,18 @@ int	count_strings_in_array(char **array)
 	while (array[i] != 0)
 		i++;
 	return (i);
+}
+
+int	is_string_numeric(char *s1)
+{
+	int				i;
+
+	i = 0;
+	while (s1[i])
+	{
+		if (!ft_isdigit(s1[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }

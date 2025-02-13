@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   free_me.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:21:06 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 15:24:52 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/13 12:19:35 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	string_to_int(char *str)
+{
+	int			nbr;
+	int			i;
+
+	nbr = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] <= '9' && str[i] >= '0')
+			nbr = (nbr * 10) + (str[i] - 48);
+		i++;
+	}
+	return (nbr);
+}
 
 void	cleanup_and_exit_shell(t_env *env, int status)
 {
@@ -24,6 +40,18 @@ void	cleanup_and_exit_shell(t_env *env, int status)
 	//rl_clear_history();
 	free(env);
 	exit(status);
+}
+
+void	ft_exit(char **cmd, t_env *env)
+{
+	if (cmd[1] && cmd[2])
+	env->shell->exit_status = 1;
+	else if (cmd[1] && !is_string_numeric(cmd[1]))
+	env->shell->exit_status = 255;
+	else if (cmd[1])
+	env->shell->exit_status = string_to_int(cmd[1]);
+	free_envp(cmd);
+	exit(env->shell->exit_status);
 }
 
 void	free_envp(char **envp)
