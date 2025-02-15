@@ -54,19 +54,23 @@ int	have_quotes(char *s)
 	return (1);
 }
 
-/** @brief Reads input and writes to a file descriptor until a limiter is encountered.
- * Processes heredoc input, optionally expanding environment variables if the limiter has no quotes.
+/** @brief Reads input and writes to a file descriptor until 
+ * a limiter is encountered.
+ * Processes heredoc input, optionally expanding environment variables 
+ * if the limiter has no quotes.
  *
  * @param pipe_state Pipe state containing the current output file descriptor.
  * @param limiter The string that terminates heredoc input.
  * @param env Environment variables for variable expansion.
- * @param is_expandable Flag indicating whether variable expansion is enabled.*/
-void	read_and_write(t_pipe_state *pipe_state, char *limiter, t_env *env, int is_expandable)
+ * @param is_expandable Flag indicating whether variable expansion 
+ * is enabled.*/
+void	read_and_write(t_pipe_state *pipe_state, char *limiter,
+						t_env *env, int is_expandable)
 {
-	char *buf;
-	int f_arr[3];
+	char	*buf;
+	int		f_arr[3];
 
-	(void)env;
+	(void)env; // tirar quando arrumar
 	limiter = remove_quotes_from_str(limiter, 0, 0, 0);
 	while (1)
 	{
@@ -74,7 +78,7 @@ void	read_and_write(t_pipe_state *pipe_state, char *limiter, t_env *env, int is_
 		if (!buf || str_compare(limiter, buf, sizeof_str(buf, '\n')))
 		{
 			free(buf);
-			break;
+			break ;
 		}
 		if (is_expandable)
 		{
@@ -93,7 +97,8 @@ void	read_and_write(t_pipe_state *pipe_state, char *limiter, t_env *env, int is_
 
 /** @brief Executes a heredoc operation.
  * Creates a subprocess to read heredoc input until the limiter is encountered.
- * Handles variable expansion, writes input to a pipe, and sets pipe state for further execution.
+ * Handles variable expansion, writes input to a pipe, 
+ * and sets pipe state for further execution.
  *
  * @param limiter The delimiter string that terminates heredoc input.
  * @param pipe_state Pipe state to manage heredoc input and output descriptors.
@@ -105,8 +110,8 @@ int	exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env)
 	int		status;
 	int		out_fd[2];
 
-	(void)env; // dei void 
-	(void)limiter;
+	(void)env; // tirar quando arrumar
+	(void)limiter; // tirar quando arrumar
 	pipe(out_fd);
 	pid = fork();
 	signal(SIGINT, SIG_IGN);
@@ -120,7 +125,7 @@ int	exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env)
 	waitpid(pid, &status, 0);
 	close(out_fd[1]);
 	pipe_state->current_input_fd = out_fd[0];
-	pipe_state->heredoc_status = (WEXITSTATUS(status)) - 1;
+	pipe_state->heredoc_status = (WEXITSTATUS(status)) - 1; // função permitida?
 	if (pipe_state->heredoc_status < 0)
 		pipe_state->heredoc_status += 2;
 	pipe_state->second_heredoc_status = status;

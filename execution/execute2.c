@@ -65,7 +65,8 @@ int	execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped)
 	signal(SIGQUIT, child_ctrl_c);
 	if (pid == 0)
 	{
-		if (piped->executed_pipes_index && piped->executed_pipes_index <= piped->current_output_fd)
+		if (piped->executed_pipes_index
+			&& piped->executed_pipes_index <= piped->current_output_fd)
 			dup2(fd[0], 0);
 		if (piped->executed_pipes_index > 1)
 			dup2(pipe_fds[1], 1);
@@ -73,7 +74,7 @@ int	execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped)
 			close(fd[0]);
 		close_pipe_ends(pipe_fds[0], pipe_fds[1]);
 		execve(cmd[0], cmd, env);
-		//update_exit(127, env->shell)
+		//update_exit(127, env->shell);
 	}
 	close_pipe_ends(pipe_fds[0], pipe_fds[1]);
 	if (piped->executed_pipes_index > 1)

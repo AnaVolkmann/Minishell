@@ -85,7 +85,7 @@ void	add_word_token(char **start, char **input, t_token **tokens)
 		word = ft_strndup(*start, (*input - *start));
 		if (word)
 		{
-			add_token_to_list(tokens, new_token(TOKEN_WORD, word));
+			add_token_to_list(tokens, new_token(T_WORD, word));
 			free(word);
 		}
 		else

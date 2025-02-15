@@ -16,13 +16,13 @@
  * original environment and setting default variables.
  * 
  * This function initializes the `parsed_env` field of the `env` structure and
- * sets the `SHELL` and `?` environment variables to default values. Returns 1 on success,
- * 0 on failure.
+ * sets the `SHELL` and `?` environment variables to default values. Returns 1
+ * on success, 0 on failure.
  * 
  * @param env The environment structure to initialize.
  * @param original_env The original environment variables passed to the program.
  * @return 1 on success, 0 on failure.*/
-int init_environment(t_env *env, char **original_env)
+int	init_environment(t_env *env, char **original_env)
 {
 	if (!env)
 		return (0);
@@ -46,13 +46,17 @@ int init_environment(t_env *env, char **original_env)
 	return (1);
 }
 
-/** @brief Duplicates the original environment into a new dynamically allocated array.
+/** @brief Duplicates the original environment into a new dynamically 
+ * allocated array.
  * 
- * This function allocates memory for a new environment array, copies each environment 
- * variable from the original array into the new array, and returns the new environment.
+ * This function allocates memory for a new environment array, copies 
+ * each environment 
+ * variable from the original array into the new array, and returns the
+ *  new environment.
  * 
  * @param original_env The original environment array.
- * @return A new dynamically allocated environment array, or NULL on failure.*/
+ * @return A new dynamically allocated environment array, or NULL on 
+ * failure.*/
 char	**init_dinam_env(char **original_env)
 {
 	int		i;
@@ -82,7 +86,8 @@ char	**init_dinam_env(char **original_env)
 
 /** @brief Initializes the shell structure with default values.
  * 
- * This function sets the initial values for the `pid`, `last_pid`, `exit_status`, 
+ * This function sets the initial values for the `pid`, `last_pid`,
+ * `exit_status`, 
  * `output_fd`, and `input_fd` fields in the shell structure.
  * 
  * @param shell The shell structure to initialize.
@@ -100,7 +105,8 @@ t_shell	*init_shell(t_shell *shell)
 
 /** @brief Initializes an AST node with default values.
  * 
- * This function initializes the arguments, left, and right fields of an AST node to NULL.
+ * This function initializes the arguments, left, and right
+ * fields of an AST node to NULL.
  * 
  * @param ast The AST node to initialize.
  * @return The initialized AST node.*/

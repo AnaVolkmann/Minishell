@@ -14,8 +14,10 @@
 
 /** @brief Counts the number of arguments in a command.
  *
- * This function counts the number of consecutive tokens of type `TOKEN_WORD`, representing the
- * arguments of a command. It traverses the token list starting from the current token.
+ * This function counts the number of consecutive tokens of type `TOKEN_WORD`, 
+ * representing the
+ * arguments of a command. It traverses the token list starting from the 
+ * current token.
  *
  * @param current A pointer to the token list to be parsed.
  * @return The number of command arguments (tokens of type `TOKEN_WORD`).*/
@@ -24,7 +26,7 @@ int	count_command_args(t_token *current)
 	int	i;
 
 	i = 0;
-	while (current && current->type == TOKEN_WORD)
+	while (current && current->type == T_WORD)
 	{
 		i++;
 		current = current->next;
@@ -34,11 +36,14 @@ int	count_command_args(t_token *current)
 
 /** @brief Creates a new AST node with the specified token type.
  *
- * This function allocates memory for a new AST node, initializes its type, and sets its left, 
- * right, and args fields to NULL. The node represents a generic AST element with a specific type.
+ * This function allocates memory for a new AST node, initializes its type, 
+ * and sets its left, 
+ * right, and args fields to NULL. The node represents a generic AST element 
+ * with a specific type.
  *
  * @param type The type of the token that this node will represent.
- * @return A pointer to the newly created AST node, or NULL if memory allocation fails.*/
+ * @return A pointer to the newly created AST node, 
+ * or NULL if memory allocation fails.*/
 t_ast_node	*create_new_ast_node(t_token_type type)
 {
 	t_ast_node	*new_node;
@@ -55,12 +60,15 @@ t_ast_node	*create_new_ast_node(t_token_type type)
 
 /** @brief Creates an AST node representing a file, linked to a given token.
  *
- * This function creates an AST node to represent a file associated with the given token. The file
- * node is allocated with space for a single argument (the file name) and sets the node's left and 
+ * This function creates an AST node to represent a file associated with 
+ * the given token. The file
+ * node is allocated with space for a single argument (the file name) and 
+ * sets the node's left and 
  * right child pointers to NULL.
  *
  * @param token The token representing the file to be used in the AST node.
- * @return A pointer to the created file AST node, or NULL if memory allocation fails.*/
+ * @return A pointer to the created file AST node, 
+ * or NULL if memory allocation fails.*/
 t_ast_node	*create_file_node(t_token *token)
 {
 	t_ast_node	*file_node;
@@ -84,14 +92,16 @@ t_ast_node	*create_file_node(t_token *token)
 
 /** @brief Creates and links an AST node for redirection.
  *
- * This function creates a redirection node by first creating a new AST node for the current 
- * redirection token, then parsing the left side (redirection details) and linking the right side
+ * This function creates a redirection node by first 
+ * creating a new AST node for the current 
+ * redirection token, then parsing the left side (redirection details) 
+ * and linking the right side
  * (the file node). It consumes tokens in the process.
  *
  * @param tokens A pointer to the token list to be parsed.
  * @param tmp A temporary token used to link the redirection file.
  * @return A pointer to the newly created redirection AST node.*/
-t_ast_node *build_redirection_node(t_token **tokens, t_token *tmp)
+t_ast_node	*build_redirection_node(t_token **tokens, t_token *tmp)
 {
 	t_ast_node	*redirect_node;
 
@@ -110,6 +120,7 @@ t_ast_node *build_redirection_node(t_token **tokens, t_token *tmp)
 t_ast_node	*expand_vars_in_ast(t_ast_node *ast, t_env *env)
 {
 	char	*expanded;
+
 	if (!ast)
 		return (NULL);
 	if (ast->args && ast->args[0])
