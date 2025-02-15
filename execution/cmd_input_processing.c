@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:21:20 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/04 13:47:52 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:09:33 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	wait_for_children(int status, t_pipe_state *piped)
 		signal(SIGINT, handle_ctrl_c);
 		signal(SIGQUIT, SIG_IGN);
 		if (!g_signal)
-			return (WEXITSTATUS(status)); // funcao permitida?
+			return (WEXITSTATUS(status)); //clear to use
 		else
 			return (g_signal);
 	}
