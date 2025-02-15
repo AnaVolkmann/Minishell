@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:18:13 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/13 12:23:50 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/15 18:36:31 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,44 @@ int	manage_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state 
 	if (piped->executed_pipes_index)
 	{
 		if (!piped->is_redirection_or_pipe)
-		env->shell->exit_status = run_builtin_child(cmd_args, fd, env, piped);
+			env->shell->exit_status = run_builtin_child(cmd_args, fd, env, piped);
 		else
-		env->shell->exit_status = run_child_with_redirs(cmd_args, fd, env, piped);
+			env->shell->exit_status = run_child_with_redirs(cmd_args, fd, env, piped);
 		free_envp(cmd_args);
 	}
 	else
-	env->shell->exit_status = manage_single_builtin_execution(cmd_args, fd, env, piped);
+		env->shell->exit_status = manage_single_builtin_execution(cmd_args, fd, env, piped);
+	return (env->shell->exit_status);
+}
+
+int	run_command_builtin(char **cmd_args, t_env *env, int *fd_out, t_pipe_state *piped)
+{
+	int		i;
+	char	*pwd;
+
+	i = 0;
+	(void)piped;
+	while(cmd_args[i])
+	{
+		if (ft_strcmp(cmd_args[0], "cd") == 0)
+			env->shell->exit_status = ft_cd(cmd_args[1], env);
+		else if (ft_strcmp(cmd_args[0], "echo") == 0)
+			env->shell->exit_status = echo(cmd_args + 1, i - 1, fd_out, env->shell);
+		else if (ft_strcmp(cmd_args[0], "env") == 0)
+			env->shell->exit_status = ft_env(env);
+		else if (ft_strcmp(cmd_args[0], "exit") == 0)
+			env->shell->exit_status = bash_exit(cmd_args + 1, i - 1, env);
+		else if (ft_strcmp(cmd_args[0], "export") == 0)
+			env->shell->exit_status = ft_export(cmd_args[1], env);
+		else if (ft_strcmp(cmd_args[0], "pwd") == 0)
+		{
+			pwd = ft_pwd(env->shell, 1);
+			return (free(pwd), 0);
+		}
+		else if (ft_strcmp(cmd_args[0], "unset") == 0)
+			return (ft_unset(cmd_args[1], env), 0);
+	}
+	free_envp(cmd_args);
 	return (env->shell->exit_status);
 }
 

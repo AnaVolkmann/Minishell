@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 11:46:22 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/13 11:10:44 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/15 18:12:55 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped,
 	f_args = prepare_cmd_args(cmd[0], env->original_env, 0);
 	cmd_args = merge_cmd_args(f_args, cmd);
 	if (command_is_builtin(cmd_args[0]))
-	env->shell->exit_status = (manage_builtin_execution(cmd_args, fd, env, piped));
-		//status = run_command_builtin(cmd_args, env, env->shell);
+		env->shell->exit_status = (manage_builtin_execution(cmd_args, fd, env, piped));
 	else
 	{
 		piped->children_count++;
@@ -41,8 +40,8 @@ int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped,
 			free_envp(cmd_args);
 		}
 		else
-		env->shell->exit_status = execute_cmd_with_redirect(cmd_args, fd,
-					env->original_env, piped);
+			env->shell->exit_status = execute_cmd_with_redirect(cmd_args, fd,
+						env->original_env, piped);
 	}
 	if (piped->executed_pipes_index > 1)
 		piped->executed_pipes_index--;

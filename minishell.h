@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/13 12:19:56 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/15 18:33:46 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ int			bash_exit(char **args, int arg_count, t_env *env);
 int			ft_cd(char *path, t_env *env);
 int			ft_export(char *path, t_env *env);
 int			ft_unset(char *name, t_env *env);
-int			echo(char **args, int argc, int fd, t_shell *shell);
+int			echo(char **args, int argc, int *fd, t_shell *shell);
 int			ft_env(t_env *env);
 char		*ft_pwd(t_shell *shell, int flag);
 
@@ -233,7 +233,8 @@ int			is_path_accessible(char *path, int mode);
 char		**prepare_cmd_args(char *cmd, char **envp, int c);
 char		*find_next_substring(char *str, char del, int *index);
 int			sizeof_str(char *str, char end);
-int			run_command_builtin(char **arguments, t_env *env, int *fd_out, t_pipe_state *piped);
+//int			run_command_builtin(char **arguments, t_env *env, int *fd_out, t_pipe_state *piped);
+int	run_command_builtin(char **cmd_args, t_env *env, int *fd_out, t_pipe_state *piped);
 int			execute_cmd_with_redirect(char **cmd, int *fd, char **env,
 				t_pipe_state *piped);
 char		*get_file_path(char *file, char **envp, char *env_var, int mode);
