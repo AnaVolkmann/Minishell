@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 14:12:47 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/02/15 18:35:14 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/19 10:17:00 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	echo(char **args, int argc, int *fd, t_shell *shell)
 
 	i = 0;
 	n = 1;
-	if (fd < 0 || write(*fd, "", 1) == -1)
+	if (*fd < 0 || write(*fd, "", 1) == -1)
 		return (update_exit(1, shell), perror("echo"), 1);
 	if (!args || !args[i] || argc == 0)
 		return (write (*fd, "\n", 1), update_exit(0, shell), 0);
