@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 13:22:23 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 16:21:59 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:32:49 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,28 @@ int	ft_cd(char *path, t_env *env)
 	{
 		tmp = get_env("HOME", env->parsed_env);
 		if (tmp == NULL)
-			return (update_exit(1, env->shell),
+			return (update_exit(1, env),
 				ft_putstr_fd("Error: HOME unset\n", 2), 1);
-		return (set_pwd(tmp, env), free (tmp), update_exit(0, env->shell), 0);
+		return (set_pwd(tmp, env), free (tmp), update_exit(0, env), 0);
 	}
 	else if (ft_strncmp(path, "-", 2) == 0)
 	{
 		tmp = get_env("OLDPWD", env->parsed_env);
 		if (tmp == NULL)
-			return (update_exit(1, env->shell),
+			return (update_exit(1, env),
 				ft_putstr_fd("Error: OLDPWD unset\n", 2), 1);
 		set_pwd(tmp, env);
-		return (printf("%s\n", tmp), free(tmp), update_exit(0, env->shell), 0);
+		return (printf("%s\n", tmp), free(tmp), update_exit(0, env), 0);
 	}
 	if (set_pwd(path, env) != 0)
-		return (update_exit(1, env->shell), 1);
-	return (update_exit(0, env->shell), 0);
+		return (update_exit(1, env), 1);
+	return (update_exit(0, env), 0);
 }
 
 /** @brief updates OLD PWD and PWD. first it saves the pwd to char *old pwd
  * then tries to change dir (it fails if no permission)
- * then updates old pwd 
- * it then gets the new pwd value and updates the env 
+ * then updates old pwd
+ * it then gets the new pwd value and updates the env
  * what if pwd is unset?  */
 static int	set_pwd(char *path, t_env *env)
 {
@@ -65,7 +65,7 @@ static int	set_pwd(char *path, t_env *env)
 		ft_export(export, env);
 		free(export);
 	}
-	new_pwd = ft_pwd(env->shell, 0);
+	new_pwd = ft_pwd(env, 0);
 	if (!new_pwd)
 		return (ft_putstr_fd("Error: Unable to fetch current directory\n", 2),
 			free (old_pwd), 1);

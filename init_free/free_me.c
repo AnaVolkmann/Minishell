@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:21:06 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/13 12:19:35 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/19 11:49:47 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ void	cleanup_and_exit_shell(t_env *env, int status)
 	{
 		if (env->parsed_env)
 			free_envp(env->parsed_env);
-		if (env->shell)
-			free(env->shell);
 	}
 	//rl_clear_history();
 	free(env);
@@ -45,13 +43,13 @@ void	cleanup_and_exit_shell(t_env *env, int status)
 void	ft_exit(char **cmd, t_env *env)
 {
 	if (cmd[1] && cmd[2])
-	env->shell->exit_status = 1;
+	env->exit_status = 1;
 	else if (cmd[1] && !is_string_numeric(cmd[1]))
-	env->shell->exit_status = 255;
+	env->exit_status = 255;
 	else if (cmd[1])
-	env->shell->exit_status = string_to_int(cmd[1]);
+	env->exit_status = string_to_int(cmd[1]);
 	free_envp(cmd);
-	exit(env->shell->exit_status);
+	exit(env->exit_status);
 }
 
 void	free_envp(char **envp)

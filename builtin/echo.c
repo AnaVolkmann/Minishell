@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 14:12:47 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/02/19 10:17:00 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/19 11:33:23 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	check_flag(char *str);
  * while it has arguments, prints them on the FD, in the end checks
  * for the -n flag
 */
-int	echo(char **args, int argc, int *fd, t_shell *shell)
+int	echo(char **args, int argc, int *fd, t_env *env)
 {
 	int	i;
 	int	n;
@@ -26,9 +26,9 @@ int	echo(char **args, int argc, int *fd, t_shell *shell)
 	i = 0;
 	n = 1;
 	if (*fd < 0 || write(*fd, "", 1) == -1)
-		return (update_exit(1, shell), perror("echo"), 1);
+		return (update_exit(1, env), perror("echo"), 1);
 	if (!args || !args[i] || argc == 0)
-		return (write (*fd, "\n", 1), update_exit(0, shell), 0);
+		return (write (*fd, "\n", 1), update_exit(0, env), 0);
 	while (i < argc && args[i] && check_flag(args[i]))
 	{
 		n = 0;
@@ -44,7 +44,7 @@ int	echo(char **args, int argc, int *fd, t_shell *shell)
 		write(*fd, args[i], ft_strlen(args[i]));
 	if (n != 0)
 		write(*fd, "\n", 1);
-	return (update_exit(0, shell), 0);
+	return (update_exit(0, env), 0);
 }
 
 static int	check_flag(char *str)

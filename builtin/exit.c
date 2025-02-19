@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 14:11:29 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/02/15 18:02:25 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:34:13 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ int	bash_exit(char **args, int arg_count, t_env *env)
 	long int	exit_value;
 
 	if (arg_count == 0)
-		return (ft_putendl_fd("exit", 2), update_exit(0, env->shell),
+		return (ft_putendl_fd("exit", 2), update_exit(0, env),
 			cleanup_and_exit_shell(env, 0), 0);
 	if (arg_count == 1)
 	{
 		if (!str_is_digit(args[0]))
-			return (update_exit (2, env->shell), exit_error(args[0]),
+			return (update_exit (2, env), exit_error(args[0]),
 				cleanup_and_exit_shell(env, 2), 2);
 		else
 		{
@@ -51,20 +51,20 @@ int	bash_exit(char **args, int arg_count, t_env *env)
 			if (exit_value > INT_MAX || exit_value < INT_MIN)
 			{
 				ft_putstr_fd("bash: exit: overflow or underflow\n", 2);
-				return (update_exit (2, env->shell),
+				return (update_exit (2, env),
 					cleanup_and_exit_shell(env, 2), 2);
 			}
-			return (update_exit((int)exit_value, env->shell),
+			return (update_exit((int)exit_value, env),
 				cleanup_and_exit_shell(env, (int)exit_value), 0);
 		}
 	}
-	return (update_exit(2, env->shell),
+	return (update_exit(2, env),
 		ft_putstr_fd("bash: exit: too many arguments\n", 2), 2);
 }
 // editar essa funco para utilizar nas demais
-void	update_exit(int i, t_shell *shell)
+void	update_exit(int i, t_env *env)
 {
-	shell->exit_status = i;
+	env->exit_status = i;
 }
 
 int	get_shell_exit_status(int err)

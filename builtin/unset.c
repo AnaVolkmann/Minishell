@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 17:07:08 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 16:35:13 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:37:49 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	ft_unset(char *name, t_env *env)
 	int	index;
 
 	if (!name || !*name || !env->parsed_env)
-		return (update_exit (1, env->shell), unset_error(name, env, 0), 1);
+		return (update_exit (1, env), unset_error(name, env, 0), 1);
 	index = find_env(env, name);
 	if (index >= 0)
-		return (update_exit (0, env->shell),
+		return (update_exit (0, env),
 			remove_env(env->parsed_env, index), 0);
-	return (update_exit (1, env->shell), unset_error(name, env, 1), 1);
+	return (update_exit (1, env), unset_error(name, env, 1), 1);
 }
 
 static void	unset_error(char *name, t_env *env, int i)

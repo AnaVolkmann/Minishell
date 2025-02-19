@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/19 10:15:38 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/19 12:03:07 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ typedef struct s_env
 {
 	char				**original_env;
 	char				**parsed_env;
-	struct s_shell		*shell;
+	int					last_pid;
+	int					exit_status;
+	int					pid;
 }					t_env;
 
 /***********************TOKEN STRUCT*****************/
@@ -96,14 +98,11 @@ typedef struct s_token
 
 /*************************SHELL STRUCT******************/
 
-typedef struct s_shell
+/* typedef struct s_shell
 {
-	int					pid;
-	int					last_pid;
-	int					exit_status;
 	int					output_fd;
 	int					input_fd;
-}					t_shell;
+}					t_shell; */
 
 typedef struct s_ast_node
 {
@@ -145,7 +144,6 @@ int			is_invalid_operator(const char **input);
 
 char		**init_dinam_env(char **original_env);
 int			init_environment(t_env *env, char **original_env);
-t_shell		*init_shell(t_shell *shell);
 t_ast_node	*init_ast(t_ast_node *ast);
 void		is_sus_dir(char *path_, char *file, int *status);
 int			specify_error(char *file, int _status);
@@ -172,13 +170,13 @@ int			bash_exit(char **args, int arg_count, t_env *env);
 int			ft_cd(char *path, t_env *env);
 int			ft_export(char *path, t_env *env);
 int			ft_unset(char *name, t_env *env);
-int			echo(char **args, int argc, int *fd, t_shell *shell);
+int			echo(char **args, int argc, int *fd, t_env *env);
 int			ft_env(t_env *env);
-char		*ft_pwd(t_shell *shell, int flag);
+char		*ft_pwd(t_env *env, int flag);
 
 /********************Extras************************/
 
-char		*expansion(char *path, t_shell *shell, t_env *env);
+char		*expansion(char *path, t_env *env);
 char		*new_env_var(char *name, char *value);
 char		*get_env(char *var, char **envp);
 char		**realloc_envp(char **envp, int size);
@@ -188,7 +186,7 @@ void		handle_ctrl_c(int a);
 void		child_ctrl_c(int sig_num);
 void		setup_signal_handlers(void);
 void		remove_env(char **envp, int index);
-void		update_exit(int i, t_shell *shell);
+void		update_exit(int i, t_env *env);
 int			str_cmp(char *s_1, char *s_2, char *s_3);
 int			check_line(char **input);
 int			count_substrings(char *str, char del);
@@ -233,8 +231,8 @@ int			is_path_accessible(char *path, int mode);
 char		**prepare_cmd_args(char *cmd, char **envp, int c);
 char		*find_next_substring(char *str, char del, int *index);
 int			sizeof_str(char *str, char end);
-//int			run_command_builtin(char **arguments, t_env *env, int *fd_out, t_pipe_state *piped);
-int	run_command_builtin(char **cmd_args, t_env *env, int *fd_out, t_pipe_state *piped);
+int			run_command_builtin(char **arguments, t_env *env, int *fd_out);
+//int			run_command_builtin(char **cmd_args, t_env *env, int *fd_out);
 int			execute_cmd_with_redirect(char **cmd, int *fd, char **env,
 				t_pipe_state *piped);
 char		*get_file_path(char *file, char **envp, char *env_var, int mode);
@@ -290,11 +288,11 @@ char		*replace_var_with_value(char *old_val, char *new_val, int start, int end);
 int	manage_single_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
 int	exec_builtin_with_simple_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
 int	exec_builtin_with_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
-void	exec_builtin_and_exit(char **cmd_args, t_env *env, int *fd_out, t_pipe_state *piped);
+void	exec_builtin_and_exit(char **cmd_args, t_env *env, int *fd_out);
 int	run_child_with_redirs(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
 int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
 int	manage_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
 
-//int			execute(char *cmd, char *const *argument, t_env *envp);
+//int			execute(char *cmd, char *const *argument, t_env *envp, int *fd);
 
 #endif
