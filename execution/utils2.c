@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/09 11:44:03 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/12 13:19:54 by alawrence        ###   ########.fr       */
+/*   Created: 2025/02/15 17:46:50 by ana-lda-          #+#    #+#             */
+/*   Updated: 2025/02/15 17:46:53 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../minishell.h"
 
@@ -67,7 +68,7 @@ int	wait_for_children(int status, t_pipe_state *piped)
 		signal(SIGINT, handle_ctrl_c);
 		signal(SIGQUIT, SIG_IGN);
 		if (!g_signal)
-			return (WEXITSTATUS(status)); // funcao permitida?
+			return (WEXITSTATUS(status)); //clear to use
 		else
 			return (g_signal);
 	}
