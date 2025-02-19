@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:08:55 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/01 15:11:27 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:49:05 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 //TO-DO CHECAR AONDE SERIA POSSIVEL UTILIZAR EXIT_STATUS DA ESTRUTURA AO INVEZ DE CRIAR UM INT NOVO EM CADA FUNCAOOOO
 // TODO - CHECK_LINE
-// execute_with_redirect;
-// FINISH FUNCTION chech_file_permission
 
  /*      TO DO'S      */
 // testar heredoc
@@ -79,13 +77,13 @@ void	run_minishell(t_env *env)
 		add_history(input);
 		tokens = process_to_tokenize_input(input);
 		if (!tokens)
-			env->shell->exit_status = 258;
-		if (!env->shell->exit_status)
+			env->exit_status = 258;
+		if (!env->exit_status)
 		{
 			ast = parse_tokens(&tokens);
 			/* if (ast->left == NULL && ast->right == NULL)
 				execute(ast->args[0], ast->args, env); */
-			command_executer(ast, env, &env->shell->exit_status);
+			command_executer(ast, env, &env->exit_status);
 			free_ast(&ast);
 		}
 		/* update_env_status? */

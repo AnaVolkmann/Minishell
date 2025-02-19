@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/02/12 19:34:59 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/19 11:11:02 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env)
 			|| head->type == T_REDIR_APPEND
 			|| head->type == T_REDIR_HEREDOC)
 			status = handle_redirection_cmd(head, piped_state, env, fd);
-	}
+		}
 	if (head->file_type == EXECUTE_FILE)
 		status = prepare_and_execute_cmd(head->args, fd, piped_state, env);
 	status = wait_for_children(status, piped_state);

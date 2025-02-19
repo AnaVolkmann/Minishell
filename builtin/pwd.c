@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.co      +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 12:58:59 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/11/03 13:07:53 by lufiguei         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:37:34 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@
  * 	it has a flag that makes it print or not ( for cd use ) */
 static void	pwd_error(void);
 
-char	*ft_pwd(t_shell *shell, int flag)
+char	*ft_pwd(t_env *env, int flag)
 {
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)
-		return (update_exit(1, shell), pwd_error(), NULL);
+		return (update_exit(1, env), pwd_error(), NULL);
 	if (flag == 1)
-		return (update_exit(0, shell), printf("%s\n", pwd), pwd);
-	return (update_exit(0, shell), pwd);
+		return (update_exit(0, env), printf("%s\n", pwd), pwd);
+	return (update_exit(0, env), pwd);
 }
 
 static void	pwd_error(void)

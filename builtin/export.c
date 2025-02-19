@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 17:07:44 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 16:34:22 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:37:07 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,25 @@ int	ft_export(char *path, t_env *env)
 	int		i;
 
 	i = 0;
-	if (!env->shell || !env->parsed_env)
-		return (update_exit(2, env->shell), -1);
+	if (!env || !env->parsed_env)
+		return (update_exit(2, env), -1);
 	if (!path)
-		return (update_exit(0, env->shell),
+		return (update_exit(0, env),
 			ordered(copy_envp(env->parsed_env)), 0);
 	keysplit = ft_split(path, '=');
 	if (!keysplit || !keysplit[0])
-		return (update_exit(2, env->shell), free_envp(keysplit),
+		return (update_exit(2, env), free_envp(keysplit),
 			export_error(path), -1);
 	while (keysplit[i])
 		i++;
 	if (i != 2)
-		return (update_exit(2, env->shell), free_envp(keysplit), 1);
+		return (update_exit(2, env), free_envp(keysplit), 1);
 	new_var = ft_strdup(path);
 	if (!new_var)
-		return (update_exit(1, env->shell), free_envp(keysplit), -1);
+		return (update_exit(1, env), free_envp(keysplit), -1);
 	if (ft_add(new_var, env, keysplit) != 0)
 		return (1);
-	return (update_exit(0, env->shell), free_envp(keysplit), 0);
+	return (update_exit(0, env), free_envp(keysplit), 0);
 }
 
 /** @brief looks for the variable inside envp
@@ -66,7 +66,7 @@ static int	ft_add(char	*new_var, t_env *env, char **keysplit)
 		i = count_envp(env->parsed_env);
 		env->parsed_env = realloc_envp(env->parsed_env, i + 2);
 		if (!env->parsed_env)
-			return (update_exit(1, env->shell),
+			return (update_exit(1, env),
 				free_envp(keysplit), free(new_var), -1);
 		env->parsed_env[i] = new_var;
 		env->parsed_env[i + 1] = NULL;
