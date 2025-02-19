@@ -6,7 +6,7 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 14:11:29 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/04 17:07:42 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:02:25 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	bash_exit(char **args, int arg_count, t_env *env)
 	return (update_exit(2, env->shell),
 		ft_putstr_fd("bash: exit: too many arguments\n", 2), 2);
 }
-
+// editar essa funco para utilizar nas demais
 void	update_exit(int i, t_shell *shell)
 {
 	shell->exit_status = i;
@@ -84,10 +84,10 @@ void exit_cmd(char **cmd_args, t_shell *shell)
 
     if (!cmd_args[1]) {
         free_and_exit(shell);
-    } 
+    }
     else if (str_is_digit(cmd_args[1])) {
         exit_number(cmd_args, shell);
-    } 
+    }
     else {
         shell->exit_status = EXIT_SYNTAX;
         ft_printf(STDERR_FILENO, "minishell: exit:

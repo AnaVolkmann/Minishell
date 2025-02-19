@@ -1,12 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_manager2.c                               :+:      :+:    :+:   */
+/*   manager2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lufiguei <lufiguei@student.42porto.co      +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 11:46:22 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/09 11:46:33 by lufiguei         ###   ########.fr       */
+<<<<<<< HEAD
+/*   Updated: 2025/02/19 09:57:45 by alawrence        ###   ########.fr       */
+=======
+/*   Updated: 2025/02/15 18:12:55 by ana-lda-         ###   ########.fr       */
+>>>>>>> a7c90756837d71a3ff84ad65a2f00d4ebb97d97a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +30,31 @@ int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped,
 {
 	char	**cmd_args;
 	char	**f_args;
-	int		status;
 
 	f_args = prepare_cmd_args(cmd[0], env->original_env, 0);
 	cmd_args = merge_cmd_args(f_args, cmd);
 	if (command_is_builtin(cmd_args[0]))
-		status = run_command_builtin(cmd_args, env, env->shell);
+<<<<<<< HEAD
+	env->shell->exit_status = (manage_builtin_execution(cmd_args, fd, env, piped));
+	//	env->shell->exit_status = run_command_builtin(cmd_args, env, fd, piped);
+=======
+		env->shell->exit_status = (manage_builtin_execution(cmd_args, fd, env, piped));
+>>>>>>> a7c90756837d71a3ff84ad65a2f00d4ebb97d97a
 	else
 	{
-		piped->children_count += 1;
+		piped->children_count++;
 		if (!piped->is_redirection_or_pipe)
 		{
-			status = execute_basic_cmd(cmd_args, fd, env->original_env, piped);
+			env->shell->exit_status = execute_basic_cmd(cmd_args, fd, env->original_env, piped);
 			free_envp(cmd_args);
 		}
 		else
-			status = execute_cmd_with_redirect(cmd_args, fd,
-					env->original_env, piped);
+			env->shell->exit_status = execute_cmd_with_redirect(cmd_args, fd,
+						env->original_env, piped);
 	}
 	if (piped->executed_pipes_index > 1)
-		piped->executed_pipes_index -= 1;
-	return (status);
+		piped->executed_pipes_index--;
+	return (env->shell->exit_status);
 }
 
 /** @brief Opens files for input/output redirection based on file type.

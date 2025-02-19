@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:08:55 by lufiguei          #+#    #+#             */
 /*   Updated: 2025/02/01 15:11:27 by ana-lda-         ###   ########.fr       */
@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+//TO-DO CHECAR AONDE SERIA POSSIVEL UTILIZAR EXIT_STATUS DA ESTRUTURA AO INVEZ DE CRIAR UM INT NOVO EM CADA FUNCAOOOO
 // TODO - CHECK_LINE
 // execute_with_redirect;
 // FINISH FUNCTION chech_file_permission
@@ -50,17 +51,17 @@ int	main(int argc, char **argv, char **original_env)
 }
 
 /** @brief Main loop to run the minishell.
- * 
- * This function runs the interactive shell, repeatedly prompting 
- * the user for input with a `> ` prompt. 
- * It processes the input by checking if the input is empty or a 
- * newline, tokenizes the input, 
+ *
+ * This function runs the interactive shell, repeatedly prompting
+ * the user for input with a `> ` prompt.
+ * It processes the input by checking if the input is empty or a
+ * newline, tokenizes the input,
  * parses it into an abstract syntax tree (AST), and then executes
  *  the corresponding commands.
- * The function will continue to loop until the user exits 
+ * The function will continue to loop until the user exits
  * (e.g., by entering `exit` or providing no input).
  *
- * @param env The environment structure containing environment 
+ * @param env The environment structure containing environment
  * 								variables and shell state.*/
 void	run_minishell(t_env *env)
 {
@@ -79,14 +80,14 @@ void	run_minishell(t_env *env)
 		tokens = process_to_tokenize_input(input);
 		if (!tokens)
 			env->shell->exit_status = 258;
-		ast = parse_tokens(&tokens);
-		if (ast)
+		if (!env->shell->exit_status)
 		{
-			if (ast->left == NULL && ast->right == NULL)
-				execute(ast->args[0], ast->args, env);
-			else
-				command_executer(ast, env, &env->shell->exit_status);
+			ast = parse_tokens(&tokens);
+			/* if (ast->left == NULL && ast->right == NULL)
+				execute(ast->args[0], ast->args, env); */
+			command_executer(ast, env, &env->shell->exit_status);
+			free_ast(&ast);
 		}
-		free_ast(&ast);
+		/* update_env_status? */
 	}
 }

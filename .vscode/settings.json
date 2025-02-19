@@ -2,5 +2,18 @@
     "files.associations": {
         "minishell.h": "c",
         "signal.h": "c"
-    }
+    },
+    "editor.formatOnSave": true, // Formatar código automaticamente ao salvar
+    "editor.tabSize": 4, // Definir o tamanho da tabulação como 4 espaços
+    "editor.insertSpaces": true, // Usar espaços em vez de tabulação
+    "C_Cpp.clang_format_style": "file", // Usar o clang-format para formatação
+    "C_Cpp.default.compilerPath": "/usr/bin/gcc", // Definir o caminho do compilador C (GCC)
+    "C_Cpp.default.includePath": [
+        "/usr/include", 
+        "/usr/local/include"
+    ], // Incluir diretórios de cabeçalhos para C
+    "C_Cpp.intelliSenseEngine": "Default", // Usar o mecanismo de IntelliSense padrão
+    "files.trimTrailingWhitespace": true, // Remover espaços em branco no final ao salvar
+    "files.autoSave": "afterDelay", // Salvar automaticamente após um curto tempo de inatividade
+    "files.autoSaveDelay": 1000 // Atraso de 1 segundo para o auto-save
 }

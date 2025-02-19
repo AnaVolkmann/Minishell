@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_manager.c                                :+:      :+:    :+:   */
+/*   manager.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/04 17:40:38 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/12 19:34:59 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,7 @@ int	handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state,
 			|| head->left->type == T_REDIR_OUT
 			|| head->left->type == T_REDIR_APPEND
 			|| head->left->type == T_REDIR_HEREDOC))
-	{
 		status = handle_redirection_cmd(head->left, piped_state, env, fd);
-	}
 	return (status);
 }
 

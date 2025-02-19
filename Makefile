@@ -37,6 +37,10 @@ execution/process_manager.c\
 parsing/parser.c\
 parsing/parser_utils.c\
 general_utils.c\
+var_expansion/var_expansion_utils.c\
+var_expansion/expansion_manager.c\
+execution/builtin_cmd_execution.c\
+
 
 # Generate the object files, each one placed inside obj/ based on its directory structure
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))

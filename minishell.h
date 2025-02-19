@@ -6,7 +6,11 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2024/12/04 17:42:00 by ana-lda-         ###   ########.fr       */
+<<<<<<< HEAD
+/*   Updated: 2025/02/19 09:52:27 by alawrence        ###   ########.fr       */
+=======
+/*   Updated: 2025/02/15 18:33:46 by ana-lda-         ###   ########.fr       */
+>>>>>>> a7c90756837d71a3ff84ad65a2f00d4ebb97d97a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +36,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
-# include <term.h>
+/*# include <term.h>*/
 # include <termios.h>
 # include <unistd.h>
 # include <readline/history.h>
@@ -41,7 +45,7 @@
 # include <stdbool.h>
 # include <limits.h>
 
-/*****************GLOBAL VARIABLE*****************/
+	/*****************GLOBAL VARIABLE*****************/
 
 extern int	g_signal;
 
@@ -164,7 +168,7 @@ t_ast_node	*create_new_ast_node(t_token_type type);
 t_ast_node	*create_file_node(t_token *token);
 int			count_command_args(t_token *current);
 t_ast_node	*build_redirection_node(t_token **tokens, t_token *tmp);
-t_ast_node	*expand_vars_in_ast(t_ast_node *ast, t_env *env);
+void		expand_vars_in_ast(t_ast_node *head, t_env *env);
 
 /********************Builtin Commands****************/
 
@@ -172,7 +176,7 @@ int			bash_exit(char **args, int arg_count, t_env *env);
 int			ft_cd(char *path, t_env *env);
 int			ft_export(char *path, t_env *env);
 int			ft_unset(char *name, t_env *env);
-int			echo(char **args, int argc, int fd, t_shell *shell);
+int			echo(char **args, int argc, int *fd, t_shell *shell);
 int			ft_env(t_env *env);
 char		*ft_pwd(t_shell *shell, int flag);
 
@@ -194,6 +198,10 @@ int			check_line(char **input);
 int			count_substrings(char *str, char del);
 int			str_cmp(char *s_1, char *s_2, char *s_3);
 char		*strcopy(char *src);
+int			count_strings_in_array(char **array);
+int			find_env_var_index(t_env *env, char *name);
+void		s_strcopy(char *s1, char *s2, int start, int end);
+int			is_string_numeric(char *s1);
 char		*remove_quotes_from_str(char *str, int si_q_c, int do_q_c, int a);
 
 /********************Free*************************/
@@ -202,6 +210,8 @@ void		free_envp(char **envp);
 void		free_ast(t_ast_node **ast);
 void		cleanup_and_exit_shell(t_env *env, int status);
 void		free_parsed_env(t_env *env);
+void		ft_exit(char **cmd, t_env *env);
+int			string_to_int(char *str);
 
 /*******************Shell Utilities****************/
 
@@ -227,7 +237,8 @@ int			is_path_accessible(char *path, int mode);
 char		**prepare_cmd_args(char *cmd, char **envp, int c);
 char		*find_next_substring(char *str, char del, int *index);
 int			sizeof_str(char *str, char end);
-int			run_command_builtin(char **arguments, t_env *env, t_shell *shell);
+//int			run_command_builtin(char **arguments, t_env *env, int *fd_out, t_pipe_state *piped);
+int	run_command_builtin(char **cmd_args, t_env *env, int *fd_out, t_pipe_state *piped);
 int			execute_cmd_with_redirect(char **cmd, int *fd, char **env,
 				t_pipe_state *piped);
 char		*get_file_path(char *file, char **envp, char *env_var, int mode);
@@ -264,6 +275,30 @@ void		read_and_write(t_pipe_state *pipe_state, char *limiter,
 void		parent_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
 void		child_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);
 
-int			execute(char *cmd, char *const *argument, t_env *envp);
+/**************************expansion**********************/
+
+int			simple_refactor(char **array, int index, char *str, int i);
+int			count_special_chars(char *str, int s_q, int d_q);
+int			count_whitespace_flaws(char *str, int a, int b, int res);
+int			count_total_flaws(char **array);
+void		expand_vars_in_ast(t_ast_node *head, t_env *env);
+char		**refactor_args_array(char **args, int *sintax_fix);
+char		*recursively_expand_vars(char *var, t_env *env, int control, int *array);
+char 		*expand_vars_in_string(char *str, t_env *env, int start, int *expand_idx);
+int			is_valid_var_start(char *str, int index, int control);
+char		*replace_var_with_value(char *old_val, char *new_val, int start, int end);
+
+
+/*********************************execution**********************/
+
+int	manage_single_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
+int	exec_builtin_with_simple_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
+int	exec_builtin_with_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
+void	exec_builtin_and_exit(char **cmd_args, t_env *env, int *fd_out, t_pipe_state *piped);
+int	run_child_with_redirs(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
+int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
+int	manage_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
+
+//int			execute(char *cmd, char *const *argument, t_env *envp);
 
 #endif
