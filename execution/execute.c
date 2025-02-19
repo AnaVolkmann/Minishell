@@ -115,7 +115,7 @@ int	run_command_builtin(char **cmd_args, t_env *env, int *fd_out)
  /** @brief it compares the command with all 7 builtins
  * if any match is found, it runs the command with its argument, otherwise
  * it returns -1 to signalize that it didnt ran */
-/*int	run_command_builtin(char **arguments, t_env *env, int *fd)
+int	run_command_builtin_2(char **arguments, t_env *env, int *fd)
 {
 	int		i;
 	char	*pwd;
@@ -212,9 +212,9 @@ static int	run_command_exec(char *cmd, char *const *argument, t_env *envp)
 //  * returns error if none found
 int	execute(char *cmd, char *const *argument, t_env *env, int *fd)
 {
-	if (run_command_builtin((char **)argument, env, fd) == 0)
+	if (run_command_builtin_2((char **)argument, env, fd) == 0)
 		return (0);
 	else if (run_command_exec(cmd, argument, env) == 0)
 		return (0);
 	return (1);
-} */
+}

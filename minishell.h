@@ -232,7 +232,7 @@ char		**prepare_cmd_args(char *cmd, char **envp, int c);
 char		*find_next_substring(char *str, char del, int *index);
 int			sizeof_str(char *str, char end);
 int			run_command_builtin(char **arguments, t_env *env, int *fd_out);
-//int			run_command_builtin(char **cmd_args, t_env *env, int *fd_out);
+int			run_command_builtin_2(char **cmd_args, t_env *env, int *fd_out);
 int			execute_cmd_with_redirect(char **cmd, int *fd, char **env,
 				t_pipe_state *piped);
 char		*get_file_path(char *file, char **envp, char *env_var, int mode);
@@ -293,6 +293,6 @@ int	run_child_with_redirs(char **cmd_args, int *fd, t_env *env, t_pipe_state *pi
 int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
 int	manage_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
 
-//int			execute(char *cmd, char *const *argument, t_env *envp, int *fd);
+int			execute(char *cmd, char *const *argument, t_env *envp, int *fd);
 
 #endif
