@@ -6,11 +6,18 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:08:55 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/19 11:49:05 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/22 18:57:19 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// incrmentacao do i dentro da run_command_builtin rever
+// env-parsed_env || env->original-> env
+// int status e env->exit_status
+// declaracao fd variavel local e env->fd_out
+// redisplay && readline
+
 
 //TO-DO CHECAR AONDE SERIA POSSIVEL UTILIZAR EXIT_STATUS DA ESTRUTURA AO INVEZ DE CRIAR UM INT NOVO EM CADA FUNCAOOOO
 // TODO - CHECK_LINE

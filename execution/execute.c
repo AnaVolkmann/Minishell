@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:18:13 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/19 12:03:28 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/25 14:13:54 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ int	run_child_with_redirs(char **cmd_args, int *fd, t_env *env, t_pipe_state *pi
 {
 	pid_t	pid;
 	int		fd_out[2];
+
 	fd_out[1] = 1;
 	if (piped->is_redirection_or_pipe && piped->has_output_file)
-		fd_out[1] = piped->input_files_count;
+		fd_out[1] = piped->current_input_fd;
 	if (piped->executed_pipes_index > 1 && (!piped->is_redirection_or_pipe || !piped->has_output_file))
 		pipe(fd_out);
 	pid = fork();
@@ -48,10 +49,11 @@ int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 	pid_t	pid;
 	int		fd_s[2];
 	int		fd_out[2];
+
 	(pipe(fd_s), pid = fork());
 	if (!pid)
 	{
-		if (piped->executed_pipes_index && piped->executed_pipes_index <= piped->current_output_fd)
+		if (piped->executed_pipes_index && piped->executed_pipes_index <= piped->pipes_count)
 			dup2(fd[0], 0);
 		if (piped->executed_pipes_index > 1)
 			dup2(fd_s[1], 1);
@@ -71,7 +73,7 @@ int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 }
 int	manage_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 {
-	piped->children_count++;
+	piped->children_count += 1;
 	if (piped->executed_pipes_index)
 	{
 		if (!piped->is_redirection_or_pipe)

@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/02/19 11:11:02 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/25 12:37:24 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,20 @@ int	handle_output_redirection(t_ast_node *head, t_pipe_state *pipe_state)
 int	handle_piped_cmd_exec(t_ast_node *head, t_pipe_state *piped_state,
 	t_env *env, int *fd)
 {
-	int	status;
-
 	if (head->file_type == EXECUTE_FILE)
 	{
 		piped_state->is_redirection_or_pipe = 0;
-		status = prepare_and_execute_cmd(head->args, fd, piped_state, env);
+		env->exit_status = prepare_and_execute_cmd(head->args, fd, piped_state, env);
 	}
 	if (head->type == T_REDIR_IN || head->type == T_REDIR_OUT
 		|| head->type == T_REDIR_APPEND
 		|| head->type == T_REDIR_HEREDOC)
 		return (handle_redirection_cmd(head, piped_state, env, fd));
 	if (head->left)
-		status = handle_piped_cmd_exec(head->left, piped_state, env, fd);
+		env->exit_status = handle_piped_cmd_exec(head->left, piped_state, env, fd);
 	if (head->right)
-		status = handle_piped_cmd_exec(head->right, piped_state, env, fd);
-	return (status);
+		env->exit_status = handle_piped_cmd_exec(head->right, piped_state, env, fd);
+	return (env->exit_status);
 }
 
 /** @brief Handles redirection commands, updating pipe and file descriptors.
@@ -73,31 +71,29 @@ int	handle_piped_cmd_exec(t_ast_node *head, t_pipe_state *piped_state,
 int	handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state,
 	t_env *env, int *fd)
 {
-	int	status;
-
 	piped_state->second_heredoc_status = 1;
 	if (head->right)
 	{
-		status = open_file_for_redirection(head->right, piped_state, env, 0);
-		if ((status || !head->left) && piped_state->pipes_count > 1)
-			piped_state->pipes_count -= 1;
+		env->exit_status = open_file_for_redirection(head->right, piped_state, env, 0);
+		if ((env->exit_status || !head->left) && piped_state->executed_pipes_index > 1)
+			piped_state->executed_pipes_index -= 1;
 	}
 	if (head->left && head->left->file_type == EXECUTE_FILE
-		&& piped_state->second_heredoc_status && !status)
+		&& piped_state->second_heredoc_status && !env->exit_status)
 	{
 		piped_state->is_redirection_or_pipe = 1;
-		status = prepare_and_execute_cmd(head->left->args,
+		env->exit_status = prepare_and_execute_cmd(head->left->args,
 				fd, piped_state, env);
 	}
 	if (head->left && head->left->type == T_PIPE
 		&& piped_state->second_heredoc_status)
-		status = handle_piped_cmd_exec(head->left, piped_state, env, fd);
+		env->exit_status = handle_piped_cmd_exec(head->left, piped_state, env, fd);
 	if (head->left && (head->left->type == T_REDIR_IN
 			|| head->left->type == T_REDIR_OUT
 			|| head->left->type == T_REDIR_APPEND
 			|| head->left->type == T_REDIR_HEREDOC))
-		status = handle_redirection_cmd(head->left, piped_state, env, fd);
-	return (status);
+		env->exit_status = handle_redirection_cmd(head->left, piped_state, env, fd);
+	return (env->exit_status);
 }
 
 /** @brief Executes an AST node by determining
@@ -110,30 +106,29 @@ int	handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state,
  * @return Final status after execution.*/
 int	execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env)
 {
-	int	status;
 	int	fd[2];
 
 	fd[0] = -1;
 	fd[1] = -1;
-	if (head->type != T_WORD)
+	if (head->type == FILE_READY)
 	{
-		if (head->file_type == FILE_READY)
-			status = handle_piped_cmd_exec(head, piped_state, env, fd);
+		if (head->file_type == T_PIPE)
+			env->exit_status = handle_piped_cmd_exec(head, piped_state, env, fd);
 		if (head->type == T_REDIR_IN || head->type == T_REDIR_OUT
 			|| head->type == T_REDIR_APPEND
 			|| head->type == T_REDIR_HEREDOC)
-			status = handle_redirection_cmd(head, piped_state, env, fd);
+			env->exit_status = handle_redirection_cmd(head, piped_state, env, fd);
 		}
 	if (head->file_type == EXECUTE_FILE)
-		status = prepare_and_execute_cmd(head->args, fd, piped_state, env);
-	status = wait_for_children(status, piped_state);
+		env->exit_status = prepare_and_execute_cmd(head->args, fd, piped_state, env);
+	env->exit_status = wait_for_children(env->exit_status, piped_state);
 	if (piped_state->has_input_file)
 		close(piped_state->current_input_fd);
 	if (piped_state->has_output_file)
 		close(piped_state->current_output_fd);
 	if (fd[0] != -1 || fd[1] != -1)
 		(close(fd[0]), close(fd[1]));
-	return (g_signal = 0, status);
+	return (g_signal = 0, env->exit_status);
 }
 
 /** @brief Main entry point for executing commands in the AST.
@@ -156,9 +151,9 @@ void	command_executer(t_ast_node *head, t_env *env, int *status)
 	_status = check_file_permissions(head, env->original_env);
 	if (!_status)
 	{
-		if (head->left == NULL && head->right == NULL)
+		/* if (head->left == NULL && head->right == NULL)
 			execute(head->args[0], head->args, env, &piped_state.current_output_fd);
-		else
+		else */
 			*status = execute_ast_node(head, &piped_state, env);
 	}
 }

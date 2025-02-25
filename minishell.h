@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/19 12:03:07 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/25 14:21:55 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ typedef enum e_token_type
 typedef struct s_pipe_state
 {
 	int					executed_pipes_index;
+	int					current_input_fd;
+	int					current_output_fd;
 	int					input_files_count;
 	int					output_files_count;
 	int					pipes_count;
-	int					current_input_fd;
-	int					current_output_fd;
 	int					has_input_file;
 	int					has_output_file;
 	int					is_redirection_or_pipe;
@@ -255,6 +255,8 @@ int			wait_for_children(int status, t_pipe_state *piped);
 int			find_substr_index(char **str, char *sub_str, int n);
 char		*create_subpath_from_var(char *env_var, char *file,
 				int env_var_len, int *flag);
+int			switch_fds_identifier(t_pipe_state *state, int index, int con);
+
 
 /*******************HeheDoc Handling******************/
 
