@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_execution.c                                    :+:      :+:    :+:   */
+/*   execute2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 12:11:12 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/04 16:40:04 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:08:16 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /** @brief Checks if the given command is a shell builtin.
- * 
+ *
  * @param cmd The command to check.
  * @return `1` if the command is a builtin, `0` otherwise.*/
 int	command_is_builtin(char *cmd)
@@ -36,7 +36,7 @@ int	command_is_builtin(char *cmd)
 }
 
 /** @brief Safely closes the read and write ends of a pipe.
- * 
+ *
  * @param read_fd File descriptor for the read end.
  * @param write_fd File descriptor for the write end.*/
 void	close_pipe_ends(int read_fd, int write_fd)
@@ -48,7 +48,7 @@ void	close_pipe_ends(int read_fd, int write_fd)
 }
 
 /** @brief Executes a command without redirection or complex piping.
- * 
+ *
  * @param cmd Array containing the command and its arguments.
  * @param fd File descriptor for pipe communication.
  * @param env Array of environment variables.
@@ -63,10 +63,10 @@ int	execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped)
 	pid = fork();
 	signal(SIGINT, child_ctrl_c);
 	signal(SIGQUIT, child_ctrl_c);
-	if (pid == 0)
+	if (!pid)
 	{
 		if (piped->executed_pipes_index
-			&& piped->executed_pipes_index <= piped->current_output_fd)
+			&& piped->executed_pipes_index <= piped->pipes_count)
 			dup2(fd[0], 0);
 		if (piped->executed_pipes_index > 1)
 			dup2(pipe_fds[1], 1);
@@ -74,9 +74,9 @@ int	execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped)
 			close(fd[0]);
 		close_pipe_ends(pipe_fds[0], pipe_fds[1]);
 		execve(cmd[0], cmd, env);
-		//update_exit(127, env->shell);
+		(ft_putendl_fd(strerror(errno), 2), exit(127));
 	}
-	close_pipe_ends(pipe_fds[0], pipe_fds[1]);
+	close_pipe_ends(pipe_fds[1], fd[0]);
 	if (piped->executed_pipes_index > 1)
 		fd[0] = pipe_fds[0];
 	else
@@ -85,7 +85,7 @@ int	execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped)
 }
 
 /** @brief Executes a command with file redirection support.
- * 
+ *
  * @param cmd Array containing the command and its arguments.
  * @param fd File descriptor for pipe communication.
  * @param env Array of environment variables.
@@ -103,11 +103,12 @@ int	execute_cmd_with_redirect(char **cmd, int *fd, char **env,
 	signal(SIGQUIT, child_ctrl_c);
 	if (!pid)
 	{
-		child_fds_managment(piped, pipe_fds, fd);
+		child_fds_managment(piped, fd, pipe_fds);
 		execve(cmd[0], cmd, env);
-		//update_extit(127, env->shell);
+		ft_putendl_fd(strerror(errno), 2);
+		exit(127);
 	}
-	parent_fds_managment(piped, pipe_fds, fd);
+	parent_fds_managment(piped, fd, pipe_fds);
 	free_envp(cmd);
 	return (1);
 }

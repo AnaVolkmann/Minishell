@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 12:17:54 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/02/01 13:48:20 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:21:57 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /** @brief Checks if a path is accessible with the specified mode.
- * 
+ *
  * @param path Path to the file or directory.
  * @param mode Accessibility check mode (e.g., `R_OK`, `W_OK`, `X_OK`).
  * @return Returns `1` if the path is accessible; otherwise, returns `0`.*/
@@ -26,7 +26,7 @@ int	is_path_accessible(char *path, int mode)
 
 /** @brief Verifies the path of a file without
  * referencing environment variables.
- * 
+ *
  * @param file The file name or path to verify.
  * @param mode Accessibility check mode (e.g., `R_OK`, `W_OK`, `X_OK`).
  * @return Allocated string containing the verified path if accessible;
@@ -48,7 +48,7 @@ char	*verify_path_without_env(char *file, int mode)
 }
 
 /** @brief Calculates the length of a string up to the specified end character.
- * 
+ *
  * @param str Input string.
  * @param end Character where the count should stop.
  * @return Number of characters up to `end` or the end of the string.*/
@@ -64,7 +64,7 @@ int	sizeof_str(char *str, char end)
 
 /** @brief Extracts the next substring from a string using
  * a delimiter, skipping quotes.
- * 
+ *
  * @param str Input string to parse.
  * @param del Delimiter separating substrings.
  * @param index Pointer to the current parsing index.
@@ -95,7 +95,7 @@ char	*find_next_substring(char *str, char del, int *index)
 
 /** @brief Parses a command string into arguments and
  * resolves the command's executable path.
- * 
+ *
  * @param cmd The command string to parse (e.g., `"ls -la"`).
  * @param envp Array of environment variables.
  * @param c Counter for parsed arguments.
@@ -109,8 +109,6 @@ char	**prepare_cmd_args(char *cmd, char **envp, int c)
 	index[1] = count_substrings(cmd, ' ');
 	parsed_cmd = malloc(sizeof(char *) * (index[1] + 1));
 	index[0] = 0;
-	if (index[1] <= 0)
-		return (NULL);
 	while (c < index[1])
 	{
 		cmd_holder = find_next_substring(cmd, '\0', index);
@@ -124,8 +122,8 @@ char	**prepare_cmd_args(char *cmd, char **envp, int c)
 		else
 			parsed_cmd[c] = cmd_holder;
 		if (!parsed_cmd[c])
-			return (free_envp(parsed_cmd), NULL);
-		c++;
+			return (NULL);
+		c += 1;
 	}
 	parsed_cmd[c] = NULL;
 	return (parsed_cmd);

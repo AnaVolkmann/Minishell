@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_management.c                               :+:      :+:    :+:   */
+/*   process_manager.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 17:27:54 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/02 17:39:40 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:31:05 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	child_fds_managment(t_pipe_state *piped, int *_fd, int *fd_)
 		&& (!piped->is_redirection_or_pipe || !piped->has_input_file))
 		dup2(_fd[0], 0);
 	if (piped->executed_pipes_index > 1
-		&& (piped->is_redirection_or_pipe || !piped->has_output_file))
+		&& (!piped->is_redirection_or_pipe || !piped->has_output_file))
 		dup2(fd_[1], 1);
 	else
 		close(fd_[0]);
@@ -43,7 +43,7 @@ void	child_fds_managment(t_pipe_state *piped, int *_fd, int *fd_)
 	close(fd_[1]);
 }
 
-/** @brief Manages file descriptors for a parent process, 
+/** @brief Manages file descriptors for a parent process,
  * cleaning up pipes and redirections.
  *
  * @param piped Pipe state structure with redirection and piping info.
