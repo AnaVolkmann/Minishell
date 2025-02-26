@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 12:11:12 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/02/25 14:08:16 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/26 12:07:56 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ int	execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped)
 	pid_t	pid;
 	int		pipe_fds[2];
 
-	pipe(pipe_fds);
-	pid = fork();
+	pipe(pipe_fds), pid = fork();
 	signal(SIGINT, child_ctrl_c);
 	signal(SIGQUIT, child_ctrl_c);
 	if (!pid)
@@ -74,7 +73,7 @@ int	execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped)
 			close(fd[0]);
 		close_pipe_ends(pipe_fds[0], pipe_fds[1]);
 		execve(cmd[0], cmd, env);
-		(ft_putendl_fd(strerror(errno), 2), exit(127));
+		ft_putendl_fd(strerror(errno), 2), exit(127);
 	}
 	close_pipe_ends(pipe_fds[1], fd[0]);
 	if (piped->executed_pipes_index > 1)
