@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:27:45 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/02/13 12:08:21 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/26 14:36:17 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	adjust_ast_node_for_execution(t_ast_node *head)
  * @param mode Accessibility check mode (e.g., `R_OK`, `W_OK`, `X_OK`).
  * @return Allocated string containing the absolute path if found and
  * accessible; `NULL` otherwise.*/
-char	*get_file_path(char *file, char **envp, char *env_var, int mode)
+/* char	*get_file_path(char *file, char **envp, char *env_var, int mode)
 {
 	char	*tmp_path;
 	int		var_len;
@@ -83,6 +83,35 @@ char	*get_file_path(char *file, char **envp, char *env_var, int mode)
 			flag = 1;
 	}
 	return (NULL);
+} */
+
+char	*get_file_path(char *file, char **envp, char *env_var, int mode)
+{
+	char				*tmp_path;
+	int					indx_s[4];
+
+	indx_s[3] = 0;
+	indx_s[1] = sizeof_str(env_var, '\0');
+	indx_s[0] = find_substr_index(envp, env_var, indx_s[1]);
+	if (indx_s[0] < 0
+		|| (file[0] && file[1] && file[0] == '.' && file[1] == '/'))
+		return (verify_path_without_env(file, mode));
+	indx_s[2] = sizeof_str(envp[indx_s[0]], '\0');
+	if (sizeof_str(file, ' ') != sizeof_str(file, '\0')
+		&& !is_path_accessible(file, mode))
+		return (NULL);
+	while (envp[indx_s[0]][indx_s[1]])
+	{
+		tmp_path = create_subpath_from_var(envp[indx_s[0]], file, indx_s);
+		if (!tmp_path)
+			return (NULL);
+		if (is_path_accessible(tmp_path, mode))
+			return (tmp_path);
+		free(tmp_path);
+		if (!indx_s[3])
+			indx_s[3] = 1;
+	}
+	return (NULL);
 }
 
 /** @brief Checks file permissions for commands and redirection files.
@@ -104,12 +133,14 @@ int	check_file_permissions(t_ast_node *head, char **env)
 		&& head->file_type == READ_FILE)
 	{
 		path = get_file_path(head->args[0], env, "PWD", R_OK);
-		if (path)
+		if (!path)
+			status = 0;
+		else
 		{
 			is_sus_dir(path, head->args[0], &status);
 			free(path);
-			status = specify_error(head->args[0], status);
 		}
+		status = specify_error(head->args[0], status);
 	}
 	if (!status && head->left)
 		status = check_file_permissions(head->left, env);
