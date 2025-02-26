@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/25 14:21:55 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/02/26 14:41:47 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,8 +253,8 @@ int			handle_output_redirection(t_ast_node *head,
 				t_pipe_state *pipe_state);
 int			wait_for_children(int status, t_pipe_state *piped);
 int			find_substr_index(char **str, char *sub_str, int n);
-char		*create_subpath_from_var(char *env_var, char *file,
-				int env_var_len, int *flag);
+char		*create_subpath_from_var(char *env_var, char *file, int *indx_s);
+void		increment_path_index(char *env_var, int *indx_s, int *a);
 int			switch_fds_identifier(t_pipe_state *state, int index, int con);
 
 

@@ -62,7 +62,7 @@ $(LIBFT):
 
 # Link the final executable
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ) -s -o $(NAME) $(LIBFT) -lreadline
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LIBFT) -lreadline
 	@printf "\r \e[1;32mMINISHELL\e[0m compiled successfully\n"
 
 # Compile source files into object files and place them inside the obj/ directory with subdirectories

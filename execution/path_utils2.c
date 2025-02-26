@@ -3,18 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:21:01 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/03 11:46:48 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:41:56 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void	increment_path_index(char *env_var, int *indx_s, int *a)
+{
+	if (indx_s[3])
+	{
+		indx_s[1] += 1;
+		*a = indx_s[1];
+		while (env_var[indx_s[1]] != '\0'
+			&& env_var[indx_s[1]] != ':')
+			indx_s[1] += 1;
+	}
+	else
+		*a = indx_s[1];
+}
+
 /** @brief Combines an environment variable and file path into a new path.
- * 
- * Concatenates the environment variable and file, optionally adding a slash 
+ *
+ * Concatenates the environment variable and file, optionally adding a slash
  * between them based on the flag.
  *
  * @param env_var Base environment variable.
@@ -22,30 +36,29 @@
  * @param env_var_len Length of the environment variable.
  * @param flag Flag to control slash addition.
  * @return A new path string or NULL if allocation fails.*/
-char	*create_subpath_from_var(char *env_var, char *file,
-			int env_var_len, int *flag)
+char	*create_subpath_from_var(char *env_var, char *file, int *indx_s)
 {
-	char	*tmp_path;
-	int		start_index;
-	int		b;
-	int		file_size;
-	int		env_var_index;
+	char		*tmp_path;
+	int			a;
+	int			b;
+	int			file_size;
 
-	b = 0;
-	start_index = 0;
-	env_var_index = env_var_len;
+	increment_path_index(env_var, indx_s, &a);
 	file_size = sizeof_str(file, ' ');
-	tmp_path = malloc(env_var_index + file_size + 2);
+	tmp_path = malloc((indx_s[1] - a) + file_size + 2);
 	if (!tmp_path)
 		return (NULL);
-	while (b < (env_var_index + file_size + 1))
+	b = 0;
+	while (b < ((indx_s[1] - a) + file_size + 1))
 	{
-		if (*flag && b < env_var_index)
-			tmp_path[b] = env_var[start_index + b];
-		else if (*flag && env_var[env_var_len - 1] != '/' && b == env_var_index)
+		if (indx_s[3] && (b < indx_s[1] - a))
+			tmp_path[b] = env_var[a + b];
+		else if (indx_s[3]
+			&& env_var[indx_s[1] - 1] != '/'
+			&& (b == indx_s[1] - a))
 			tmp_path[b] = '/';
 		else
-			tmp_path[b] = file[b - env_var_index - *flag];
+			tmp_path[b] = file[b - (indx_s[1] - a) - indx_s[3]];
 		b++;
 	}
 	tmp_path[b] = '\0';
@@ -53,8 +66,8 @@ char	*create_subpath_from_var(char *env_var, char *file,
 }
 
 /** @brief Counts the number of substrings separated by a delimiter.
- * 
- * Traverses the string and counts substrings 
+ *
+ * Traverses the string and counts substrings
  * separated by the specified delimiter.
  *
  * @param str The input string.
@@ -85,7 +98,7 @@ int	count_substrings(char *str, char del)
 }
 
 /** @brief Finds the index of a substring in an array of strings.
- * 
+ *
  * Searches for a substring in an array and
  * returns the index of the matching string.
  *
