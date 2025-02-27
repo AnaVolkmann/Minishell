@@ -50,18 +50,27 @@ int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 	int		fd_s[2];
 	int		fd_out[2];
 
-	(pipe(fd_s), pid = fork());
+	fd_s[0] = -1;
+	fd_s[1] = -1;
+	fd_out[1] = -1;
+	if (pipe(fd_s) == -1)
+		return (-1);
+	pid = fork();
+	if (pid == -1)
+		return (-1);
 	if (!pid)
 	{
 		if (piped->executed_pipes_index && piped->executed_pipes_index <= piped->pipes_count)
-			dup2(fd[0], 0);
+			if (fd[0] > 0)
+				dup2(fd[0], 0);
 		if (piped->executed_pipes_index > 1)
 			dup2(fd_s[1], 1);
 		else
 			close(fd[0]);
 		close_pipe_ends(fd_s[0], fd_s[1]);
-		dup2(1, fd_out[1]);
+		dup2(fd_out[1], 1); //inverti os parametros
 		env->exit_status = run_command_builtin(cmd_args, env, fd_out);
+		close(fd_out[1]);
 		exit(WEXITSTATUS(env->exit_status));
 	}
 	close_pipe_ends(fd_s[1], fd[0]);

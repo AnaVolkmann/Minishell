@@ -222,7 +222,7 @@ int			prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped,
 int			open_file_for_redirection(t_ast_node *head,
 				t_pipe_state *pipe_state, t_env *env, int status);
 char		**merge_cmd_args(char **f_args, char **cmd);
-int			execute_basic_cmd(char **cmd, int *_fd, char **env,
+int			execute_basic_cmd(char **cmd, int *_fd, t_env *env,
 				t_pipe_state *piped);
 void		close_pipe_ends(int read_fd, int write_fd);
 int			command_is_builtin(char *cmd);
@@ -233,7 +233,7 @@ char		*find_next_substring(char *str, char del, int *index);
 int			sizeof_str(char *str, char end);
 int			run_command_builtin(char **arguments, t_env *env, int *fd_out);
 int			run_command_builtin_2(char **cmd_args, t_env *env, int *fd_out);
-int			execute_cmd_with_redirect(char **cmd, int *fd, char **env,
+int			execute_cmd_with_redirect(char **cmd, int *fd, t_env *env,
 				t_pipe_state *piped);
 char		*get_file_path(char *file, char **envp, char *env_var, int mode);
 void		child_fds_managment(t_pipe_state *piped, int *_fd, int *fd_);

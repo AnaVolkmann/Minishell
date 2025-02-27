@@ -27,22 +27,19 @@ int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped,
 	char	**cmd_args;
 	char	**f_args;
 
-	f_args = prepare_cmd_args(cmd[0], env->original_env, 0);
+	f_args = prepare_cmd_args(cmd[0], env->parsed_env, 0);
 	cmd_args = merge_cmd_args(f_args, cmd);
- 	if (command_is_builtin(cmd_args[0]))
-		env->exit_status = (manage_builtin_execution(cmd_args, fd, env, piped));
- 	else
+ 	if (!command_is_builtin(cmd_args[0]))
+		//env->exit_status = (manage_builtin_execution(cmd_args, fd, env, piped));
+        piped->children_count += 1;
+	if (!piped->is_redirection_or_pipe)
 	{
-		piped->children_count += 1;
-		if (!piped->is_redirection_or_pipe)
-		{
-			env->exit_status = execute_basic_cmd(cmd_args, fd, env->original_env, piped);
-			free_envp(cmd_args);
-		}
-		else
-			env->exit_status = execute_cmd_with_redirect(cmd_args, fd,
-						env->original_env, piped);
+		env->exit_status = execute_basic_cmd(cmd_args, fd, env, piped);
+		free_envp(cmd_args);
 	}
+	else
+		env->exit_status = execute_cmd_with_redirect(cmd_args, fd,
+					env, piped);
 	if (piped->executed_pipes_index > 1)
 		piped->executed_pipes_index -= 1;
 	return (env->exit_status);

@@ -54,7 +54,7 @@ void	close_pipe_ends(int read_fd, int write_fd)
  * @param env Array of environment variables.
  * @param piped Pointer to the pipe state structure.
  * @return `1` on success; handles process exit on failure.*/
-int	execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped)
+int	execute_basic_cmd(char **cmd, int *fd, t_env *env, t_pipe_state *piped)
 {
 	pid_t	pid;
 	int		pipe_fds[2];
@@ -72,7 +72,11 @@ int	execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped)
 		else
 			close(fd[0]);
 		close_pipe_ends(pipe_fds[0], pipe_fds[1]);
-		execve(cmd[0], cmd, env);
+		if (command_is_builtin(cmd[0]) == 0)
+			run_command_builtin_2(cmd, env, fd);
+		else
+			execve(cmd[0], cmd, env->parsed_env);
+		//execute(cmd[0], cmd, env, fd);
 		ft_putendl_fd(strerror(errno), 2), exit(127);
 	}
 	close_pipe_ends(pipe_fds[1], fd[0]);
@@ -90,7 +94,7 @@ int	execute_basic_cmd(char **cmd, int *fd, char **env, t_pipe_state *piped)
  * @param env Array of environment variables.
  * @param piped Pointer to the pipe state structure.
  * @return `1` on success; handles process exit on failure.*/
-int	execute_cmd_with_redirect(char **cmd, int *fd, char **env,
+int	execute_cmd_with_redirect(char **cmd, int *fd, t_env *env,
 	t_pipe_state *piped)
 {
 	pid_t	pid;
@@ -103,7 +107,11 @@ int	execute_cmd_with_redirect(char **cmd, int *fd, char **env,
 	if (!pid)
 	{
 		child_fds_managment(piped, fd, pipe_fds);
-		execve(cmd[0], cmd, env);
+		if (command_is_builtin(cmd[0]) == 0)
+			run_command_builtin_2(cmd, env, fd);
+		else
+			execve(cmd[0], cmd, env->parsed_env);
+		//execute(cmd[0], cmd, env, fd);
 		ft_putendl_fd(strerror(errno), 2);
 		exit(127);
 	}

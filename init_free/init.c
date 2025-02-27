@@ -29,12 +29,12 @@ int	init_environment(t_env *env, char **original_env)
 	env->parsed_env = init_dinam_env(original_env);
 	if (ft_export("SHELL=minishell", env) != 0)
 	{
-		free(env->parsed_env);
+		free_envp(env->parsed_env);
 		return (0);
 	}
 	if (ft_export("?=0", env) != 0)
 	{
-		free(env->parsed_env);
+		free_envp(env->parsed_env);
 		return (0);
 	}
 	return (1);

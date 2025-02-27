@@ -139,12 +139,12 @@ void command_executer(t_ast_node *head, t_env *env, int *status)
     init_or_reset_pipe_state(&piped_state, 0);
     adjust_ast_node_for_execution(head);
     expand_vars_in_ast(head, env);
-    _status = check_file_permissions(head, env->original_env);
+    _status = check_file_permissions(head, env->parsed_env);
     if (!_status)
     {
-      //  if (head->left == NULL && head->right == NULL)
-         //   execute(head->args[0], head->args, env, &piped_state.current_output_fd);
-      //  else
+       if (head->left == NULL && head->right == NULL)
+           execute(head->args[0], head->args, env, &piped_state.current_output_fd);
+       else
             *status = execute_ast_node(head, &piped_state, env);
     }
 }
