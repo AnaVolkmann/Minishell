@@ -89,7 +89,7 @@ int	manage_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state 
 			env->exit_status = run_builtin_child(cmd_args, fd, env, piped);
 		else
 			env->exit_status = run_child_with_redirs(cmd_args, fd, env, piped);
-		free_envp(cmd_args);
+		//free_envp(cmd_args);
 	}
 	else
 		env->exit_status = manage_single_builtin_execution(cmd_args, fd, env, piped);

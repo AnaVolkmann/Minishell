@@ -122,7 +122,7 @@ char	**merge_cmd_args(char **f_args, char **cmd)
 		while (cmd[++i])
 			new_args[i] = strcopy(cmd[i]);
 	}
-	new_args[i] = 0;
+	new_args[i] = NULL;
 	free_envp(f_args);
 	return (new_args);
 }

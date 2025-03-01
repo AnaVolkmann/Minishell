@@ -114,7 +114,7 @@ int execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env)
         env->exit_status = prepare_and_execute_cmd(head->args, fd, piped_state, env);
     env->exit_status = wait_for_children(env->exit_status, piped_state);
     if (piped_state->has_input_file)
-        close(piped_state->current_input_fd);
+            close(piped_state->current_input_fd);
     if (piped_state->has_output_file)
         close(piped_state->current_output_fd);
     if (fd[0] != -1 || fd[1] != -1)

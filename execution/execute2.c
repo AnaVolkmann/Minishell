@@ -59,7 +59,8 @@ int	execute_basic_cmd(char **cmd, int *fd, t_env *env, t_pipe_state *piped)
 	pid_t	pid;
 	int		pipe_fds[2];
 
-	pipe(pipe_fds), pid = fork();
+	pipe(pipe_fds);
+	pid = fork();
 	signal(SIGINT, child_ctrl_c);
 	signal(SIGQUIT, child_ctrl_c);
 	if (!pid)
@@ -70,12 +71,9 @@ int	execute_basic_cmd(char **cmd, int *fd, t_env *env, t_pipe_state *piped)
 		if (piped->executed_pipes_index > 1)
 			dup2(pipe_fds[1], 1);
 		else
-			close(fd[0]);
+				close(fd[0]);
 		close_pipe_ends(pipe_fds[0], pipe_fds[1]);
-		if (command_is_builtin(cmd[0]) == 0)
-			run_command_builtin_2(cmd, env, fd);
-		else
-			execve(cmd[0], cmd, env->parsed_env);
+		execve(cmd[0], cmd, env->parsed_env);
 		//execute(cmd[0], cmd, env, fd);
 		ft_putendl_fd(strerror(errno), 2), exit(127);
 	}
@@ -107,10 +105,7 @@ int	execute_cmd_with_redirect(char **cmd, int *fd, t_env *env,
 	if (!pid)
 	{
 		child_fds_managment(piped, fd, pipe_fds);
-		if (command_is_builtin(cmd[0]) == 0)
-			run_command_builtin_2(cmd, env, fd);
-		else
-			execve(cmd[0], cmd, env->parsed_env);
+		execve(cmd[0], cmd, env->parsed_env);
 		//execute(cmd[0], cmd, env, fd);
 		ft_putendl_fd(strerror(errno), 2);
 		exit(127);
