@@ -37,8 +37,8 @@ void	child_fds_managment(t_pipe_state *piped, int *_fd, int *fd_)
 	if (piped->executed_pipes_index > 1
 		&& (!piped->is_redirection_or_pipe || !piped->has_output_file))
 		dup2(fd_[1], 1);
-	else
-		close(fd_[0]);
+	// else
+	// 	close(fd_[0]);
 	close(fd_[0]);
 	close(fd_[1]);
 }

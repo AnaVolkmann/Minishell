@@ -71,10 +71,9 @@ int	execute_basic_cmd(char **cmd, int *fd, t_env *env, t_pipe_state *piped)
 		if (piped->executed_pipes_index > 1)
 			dup2(pipe_fds[1], 1);
 		else
-				close(fd[0]);
+			close(fd[0]);
 		close_pipe_ends(pipe_fds[0], pipe_fds[1]);
 		execve(cmd[0], cmd, env->parsed_env);
-		//execute(cmd[0], cmd, env, fd);
 		ft_putendl_fd(strerror(errno), 2), exit(127);
 	}
 	close_pipe_ends(pipe_fds[1], fd[0]);
@@ -106,7 +105,6 @@ int	execute_cmd_with_redirect(char **cmd, int *fd, t_env *env,
 	{
 		child_fds_managment(piped, fd, pipe_fds);
 		execve(cmd[0], cmd, env->parsed_env);
-		//execute(cmd[0], cmd, env, fd);
 		ft_putendl_fd(strerror(errno), 2);
 		exit(127);
 	}

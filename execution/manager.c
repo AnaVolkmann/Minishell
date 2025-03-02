@@ -142,9 +142,9 @@ void command_executer(t_ast_node *head, t_env *env, int *status)
     _status = check_file_permissions(head, env->parsed_env);
     if (!_status)
     {
-       if (head->left == NULL && head->right == NULL)
-           execute(head->args[0], head->args, env, &piped_state.current_output_fd);
-       else
+        // if (head->left == NULL && head->right == NULL)
+        //     execute(head->args[0], head->args, env, &piped_state.current_output_fd);
+        // else
             *status = execute_ast_node(head, &piped_state, env);
     }
 }
