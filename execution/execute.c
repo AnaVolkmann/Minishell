@@ -24,7 +24,7 @@ int	run_child_with_redirs(char **cmd_args, int *fd, t_env *env, t_pipe_state *pi
 
 	fd_out[1] = 1;
 	if (piped->is_redirection_or_pipe && piped->has_output_file)
-		fd_out[1] = piped->current_input_fd;
+		fd_out[1] = piped->current_output_fd;
 	if (piped->executed_pipes_index > 1 && (!piped->is_redirection_or_pipe || !piped->has_output_file))
 		pipe(fd_out);
 	pid = fork();
@@ -100,8 +100,8 @@ int	run_command_builtin(char **cmd_args, t_env *env, int *fd_out)
 	int		i;
 	char	*pwd;
 
-	i = 0;
-	while(cmd_args[i])
+	i = -1;
+	while(cmd_args[++i])
 	{
 		if (ft_strcmp(cmd_args[0], "cd") == 0)
 			env->exit_status = ft_cd(cmd_args[1], env);
@@ -130,6 +130,7 @@ int	run_command_builtin_2(char **arguments, t_env *env, int *fd)
 {
 	int		i;
 	char	*pwd;
+
 	i = 0;
 	while (arguments[i])
 		i++;

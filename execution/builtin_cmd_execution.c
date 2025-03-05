@@ -44,7 +44,7 @@ int	exec_builtin_with_simple_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_s
 int	manage_single_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 {
 	int				ex_status;
-
+	(void)piped;
 	if (str_cmp(cmd_args[0], "exit", NULL))
 	{
 		ex_status = 0;
@@ -58,9 +58,11 @@ int	manage_single_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe
 		ft_putendl_fd("EXIT", 1);
 		cleanup_and_exit_shell(env, ex_status);
 	}
-	else if (!piped->is_redirection_or_pipe)
-	 	env->exit_status = exec_builtin_with_pipe(cmd_args, fd, env, piped);
-	else
-	 	env->exit_status = exec_builtin_with_simple_pipe(cmd_args, fd, env, piped);
+	else if (command_is_builtin(cmd_args[0]))
+		env->exit_status = run_command_builtin(cmd_args, env, fd);
+	// else if (!piped->is_redirection_or_pipe)
+	//  	env->exit_status = exec_builtin_with_pipe(cmd_args, fd, env, piped);
+	// else
+	//  	env->exit_status = exec_builtin_with_simple_pipe(cmd_args, fd, env, piped);
 	return (env->exit_status);
 }
