@@ -63,7 +63,7 @@ int	execute_basic_cmd(char **cmd, int *fd, t_env *env, t_pipe_state *piped)
 	pid = fork();
 	signal(SIGINT, child_ctrl_c);
 	signal(SIGQUIT, child_ctrl_c);
-	if (!pid)
+	if (!pid && !command_is_builtin(cmd[0]))
 	{
 		if (piped->executed_pipes_index
 			&& piped->executed_pipes_index <= piped->pipes_count)
@@ -101,7 +101,7 @@ int	execute_cmd_with_redirect(char **cmd, int *fd, t_env *env,
 	pid = fork();
 	signal(SIGINT, child_ctrl_c);
 	signal(SIGQUIT, child_ctrl_c);
-	if (!pid)
+	if (!pid && !command_is_builtin(cmd[0]))
 	{
 		child_fds_managment(piped, fd, pipe_fds);
 		execve(cmd[0], cmd, env->parsed_env);
