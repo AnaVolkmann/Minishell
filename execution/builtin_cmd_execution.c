@@ -10,7 +10,7 @@ int	exec_builtin_with_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_state *p
 	env->exit_status = run_command_builtin(cmd_args, env, fd_out);
 	if (piped->executed_pipes_index > 1)
 	{
-		close(fd_out[1]);
+		safe_close(fd_out[1]);
 		fd[0] = fd_out[0];
 	}
 	return (env->exit_status);
@@ -28,14 +28,14 @@ int	exec_builtin_with_simple_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_s
 			env->exit_status = run_command_builtin(cmd_args, env, fd_out);
 	if (piped->is_redirection_or_pipe && piped->has_output_file)
 	{
-		close(fd_out[1]);
+		safe_close(fd_out[1]);
 		piped->has_output_file = 0;
 	}
 	if (!piped->has_input_file && !piped->has_output_file)
 		piped->is_redirection_or_pipe = 0;
 	if (piped->executed_pipes_index > 1 && (!piped->is_redirection_or_pipe || !piped->has_output_file))
 	{
-		close(fd_out[1]);
+		safe_close(fd_out[1]);
 		fd[0] = fd_out[0];
 	}
 	return (env->exit_status);

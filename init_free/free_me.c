@@ -98,3 +98,11 @@ void	free_parsed_env(t_env *env)
 		env->parsed_env = NULL;
 	}
 }
+
+void	safe_close(int fd)
+{
+	if (fd >= 0)
+		close(fd);
+	else
+		return ;
+}

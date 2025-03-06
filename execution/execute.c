@@ -32,14 +32,14 @@ int	run_child_with_redirs(char **cmd_args, int *fd, t_env *env, t_pipe_state *pi
 		exec_builtin_and_exit(cmd_args, env, fd_out);
 	if (piped->is_redirection_or_pipe && piped->has_output_file)
 	{
-		close(fd_out[1]);
+		safe_close(fd_out[1]);
 		piped->has_output_file = 0;
 	}
 	if (!piped->has_input_file && !piped->has_output_file)
 		piped->is_redirection_or_pipe = 0;
 	if (piped->executed_pipes_index > 1 && (!piped->is_redirection_or_pipe || !piped->has_input_file))
 	{
-		close(fd_out[1]);
+		safe_close(fd_out[1]);
 		fd[0] = fd_out[0];
 	}
 	return (1);
@@ -66,18 +66,18 @@ int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 		if (piped->executed_pipes_index > 1)
 			dup2(fd_s[1], 1);
 		else
-			close(fd[0]);
+			safe_close(fd[0]);
 		close_pipe_ends(fd_s[0], fd_s[1]);
 		dup2(fd_out[1], 1); //inverti os parametros
 		env->exit_status = run_command_builtin(cmd_args, env, fd_out);
-		close(fd_out[1]);
+		safe_close(fd_out[1]);
 		exit(WEXITSTATUS(env->exit_status));
 	}
 	close_pipe_ends(fd_s[1], fd[0]);
 	if (piped->executed_pipes_index > 1)
 		fd[0] = fd_s[0];
 	else
-		close(fd_s[0]);
+		safe_close(fd_s[0]);
 	return (1);
 }
 int	manage_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)

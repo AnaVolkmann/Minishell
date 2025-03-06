@@ -89,13 +89,13 @@ int switch_fds_identifier(t_pipe_state *state, int index, int con)
         if (index == 1)  // Entrada
         {
             if (state->current_input_fd)
-                close(state->current_output_fd); // Fecha o FD de saída se necessário
+                safe_close(state->current_output_fd); // Fecha o FD de saída se necessário
             state->current_input_fd = 1;  // Define o FD de entrada
         }
         else if (index == 2)  // Saída
         {
             if (state->current_output_fd)
-                close(state->current_input_fd); // Fecha o FD de entrada se necessário
+                safe_close(state->current_input_fd); // Fecha o FD de entrada se necessário
             state->current_output_fd = 1;  // Define o FD de saída
         }
     }

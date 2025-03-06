@@ -296,5 +296,6 @@ int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 int	manage_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped);
 
 int			execute(char *cmd, char *const *argument, t_env *envp, int *fd);
+void	safe_close(int fd);
 
 #endif
