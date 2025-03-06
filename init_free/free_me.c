@@ -14,8 +14,8 @@
 
 int	string_to_int(char *str)
 {
-	int			nbr;
-	int			i;
+	int	nbr;
+	int	i;
 
 	nbr = 0;
 	i = 0;
@@ -35,7 +35,6 @@ void	cleanup_and_exit_shell(t_env *env, int status)
 		if (env->parsed_env)
 			free_envp(env->parsed_env);
 	}
-	//rl_clear_history();
 	free(env);
 	exit(status);
 }

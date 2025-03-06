@@ -17,6 +17,7 @@ void	exec_builtin_and_exit(char **cmd_args, t_env *env, int *fd_out)
 	env->exit_status = run_command_builtin(cmd_args, env, fd_out);
 	exit(WEXITSTATUS(env->exit_status));
 }
+
 int	run_child_with_redirs(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 {
 	pid_t	pid;
@@ -44,6 +45,7 @@ int	run_child_with_redirs(char **cmd_args, int *fd, t_env *env, t_pipe_state *pi
 	}
 	return (1);
 }
+
 int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 {
 	pid_t	pid;
@@ -80,6 +82,7 @@ int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 		safe_close(fd_s[0]);
 	return (1);
 }
+
 int	manage_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 {
 	piped->children_count += 1;
@@ -95,6 +98,7 @@ int	manage_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state 
 		env->exit_status = manage_single_builtin_execution(cmd_args, fd, env, piped);
 	return (env->exit_status);
 }
+
 int	run_command_builtin(char **cmd_args, t_env *env, int *fd_out)
 {
 	int		i;
@@ -123,6 +127,7 @@ int	run_command_builtin(char **cmd_args, t_env *env, int *fd_out)
 	}
 	return (free_envp(cmd_args), env->exit_status);
 }
+
  /** @brief it compares the command with all 7 builtins
  * if any match is found, it runs the command with its argument, otherwise
  * it returns -1 to signalize that it didnt ran */
@@ -153,6 +158,7 @@ int	run_command_builtin_2(char **arguments, t_env *env, int *fd)
 		return (ft_unset(arguments[1], env), 0);
 	return (-1);
 }
+
 // * @brief it splits the PATH variable ":" and tries to access the
 //  * command to see if its inside this path. if not, frees and goes to
 //  * the next. if it find it, returns the full path, otherwise
@@ -182,6 +188,7 @@ static char	*loop_path(char *cmd, char *path_env)
 	free_envp(path);
 	return (NULL);
 }
+
 //  @brief checks if the command is already an absolute "/"
 //  * or an relative "." path if not,
 //  * it calls the loop_path to find the program
@@ -197,6 +204,7 @@ static char	*get_path(char *cmd, char **envp)
 	full_path = loop_path(cmd, cmd_path);
 	return (free(cmd_path), full_path);
 }
+
 // @brief it runs the execve commands
 static int	run_command_exec(char *cmd, char *const *argument, t_env *envp)
 {
@@ -219,6 +227,7 @@ static int	run_command_exec(char *cmd, char *const *argument, t_env *envp)
 		return (free(cmd_path), perror("fork"), 1);
 	return (free(cmd_path), 0);
 }
+
 // @brief it first tries to execute the builtin functions,
 //  * if its not inside that, it straight up goes to execve,
 //  * returns error if none found

@@ -2,7 +2,7 @@
 
 int	exec_builtin_with_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 {
-	int				fd_out[2];
+	int	fd_out[2];
 
 	fd_out[1] = 1;
 	if (piped->executed_pipes_index > 1)
@@ -18,7 +18,7 @@ int	exec_builtin_with_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_state *p
 
 int	exec_builtin_with_simple_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 {
-	int				fd_out[2];
+	int	fd_out[2];
 
 	fd_out[1] = 1;
 	if (piped->is_redirection_or_pipe && piped->has_output_file)
@@ -43,7 +43,7 @@ int	exec_builtin_with_simple_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_s
 
 int	manage_single_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 {
-	int				ex_status;
+	int	ex_status;
 
 	if (str_cmp(cmd_args[0], "exit", NULL))
 	{

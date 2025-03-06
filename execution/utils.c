@@ -193,7 +193,7 @@ void	count_redirect_and_pipes(t_ast_node *head, t_pipe_state *piped_state)
 
 int	count_strings_in_array(char **array)
 {
-	int			i;
+	int	i;
 
 	i = 0;
 	while (array[i] != 0)
@@ -203,7 +203,7 @@ int	count_strings_in_array(char **array)
 
 int	is_string_numeric(char *s1)
 {
-	int				i;
+	int	i;
 
 	i = 0;
 	while (s1[i])
