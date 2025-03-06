@@ -106,9 +106,9 @@ int execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env)
     if (head->file_type == FILE_READY)
     {
         if (head->type == T_PIPE)
-            env->exit_status = handle_piped_cmd_exec(head, piped_state, env, fd);
+        env->exit_status = handle_piped_cmd_exec(head, piped_state, env, fd);
         if (head->type == T_REDIR_IN || head->type == T_REDIR_OUT || head->type == T_REDIR_APPEND || head->type == T_REDIR_HEREDOC)
-            env->exit_status = handle_redirection_cmd(head, piped_state, env, fd);
+        env->exit_status = handle_redirection_cmd(head, piped_state, env, fd);
     }
     if (head->file_type == EXECUTE_FILE)
         env->exit_status = prepare_and_execute_cmd(head->args, fd, piped_state, env);
@@ -133,6 +133,8 @@ void command_executer(t_ast_node *head, t_env *env, int *status)
 {
     t_pipe_state piped_state;
     int _status;
+    char	**cmd_args;
+	char	**f_args;
 
     init_or_reset_pipe_state(&piped_state, 1);
     count_redirect_and_pipes(head, &piped_state);
@@ -142,9 +144,12 @@ void command_executer(t_ast_node *head, t_env *env, int *status)
     _status = check_file_permissions(head, env->parsed_env);
     if (!_status)
     {
-        // if (head->left == NULL && head->right == NULL)
-        //     execute(head->args[0], head->args, env, &piped_state.current_output_fd);
-        // else
-            *status = execute_ast_node(head, &piped_state, env);
+        if (head->left == NULL && head->right == NULL)
+        {
+            f_args = prepare_cmd_args(head->args[0], env->parsed_env, 0);
+            cmd_args = merge_cmd_args(f_args, head->args);
+            execute(cmd_args[0], cmd_args, env, &piped_state.current_output_fd);
+        }
+        *status = execute_ast_node(head, &piped_state, env);
     }
 }
