@@ -35,13 +35,14 @@ int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped,
 	{
 		piped->children_count += 1;
 		env->exit_status = execute_basic_cmd(cmd_args, fd, env, piped);
-		free_envp(cmd_args);
 	}
 	else
 		env->exit_status = execute_cmd_with_redirect(cmd_args, fd,
 					env, piped);
 	if (piped->executed_pipes_index > 1)
 		piped->executed_pipes_index -= 1;
+	if (cmd_args)
+		free_envp(cmd_args);
 	return (env->exit_status);
 }
 

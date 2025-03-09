@@ -60,10 +60,10 @@ void	free_envp(char **envp)
 		return ;
 	while (envp[i])
 	{
-		free(envp[i]);
+		safe_free((void **)&envp[i]);
 		i++;
 	}
-	free(envp);
+	safe_free((void **)&envp);
 }
 
 void	free_ast(t_ast_node **ast)
@@ -102,6 +102,17 @@ void	safe_close(int fd)
 {
 	if (fd >= 0)
 		close(fd);
+	else
+		return ;
+}
+
+void	safe_free(void **ptr)
+{
+	if (ptr && *ptr)
+	{
+		free(*ptr);
+		*ptr = NULL;
+	}
 	else
 		return ;
 }

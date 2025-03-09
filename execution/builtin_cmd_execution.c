@@ -13,7 +13,7 @@ int	exec_builtin_with_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_state *p
 		safe_close(fd_out[1]);
 		fd[0] = fd_out[0];
 	}
-	return (env->exit_status);
+	return (free_envp(cmd_args), env->exit_status); //testando
 }
 
 int	exec_builtin_with_simple_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
@@ -38,7 +38,7 @@ int	exec_builtin_with_simple_pipe(char **cmd_args, int *fd, t_env *env, t_pipe_s
 		safe_close(fd_out[1]);
 		fd[0] = fd_out[0];
 	}
-	return (env->exit_status);
+	return (free_envp(cmd_args), env->exit_status); //testando
 }
 
 int	manage_single_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)

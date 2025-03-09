@@ -149,6 +149,8 @@ void command_executer(t_ast_node *head, t_env *env, int *status)
 			f_args = prepare_cmd_args(head->args[0], env->parsed_env, 0);
 			cmd_args = merge_cmd_args(f_args, head->args);
 			execute(cmd_args[0], cmd_args, env, &piped_state.current_output_fd);
+			if (cmd_args)
+				free_envp(cmd_args);
 		}
 		*status = execute_ast_node(head, &piped_state, env);
 	}

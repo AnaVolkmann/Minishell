@@ -168,7 +168,7 @@ void	expand_vars_in_ast(t_ast_node *head, t_env *env)
 		{
 			ft_memset(array, 0, 3 * sizeof(int));
 			head->args[i] = recursively_expand_vars(head->args[i], env, 0, array);
-			head->args[i] = remove_quotes_from_str(head->args[i], 0, 0, 0);
+			head->args[i] = remove_quotes_from_str(head->args[i], 0, 0, 0); // free?
 			i++;
 		}
 	}

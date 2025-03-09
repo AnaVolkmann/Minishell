@@ -297,5 +297,6 @@ int	manage_builtin_execution(char **cmd_args, int *fd, t_env *env, t_pipe_state 
 
 int			execute(char *cmd, char *const *argument, t_env *envp, int *fd);
 void	safe_close(int fd);
+void	safe_free(void **ptr);
 
 #endif
