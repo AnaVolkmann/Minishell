@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_heredoc.c                                   :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:24:12 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/12/04 17:42:00 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/03/10 12:52:45 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	str_compare(char *s1, char *s2, int max)
  * Outputs a newline and exits the child process.
  *
  * @param n Signal number (ignored in this implementation).*/
-void	quite_heredoc(int n)
+void	quit_heredoc(int n)
 {
 	(void)n;
 	write(1, "\n", 1);
@@ -64,7 +64,7 @@ int	have_quotes(char *s)
  * @param env Environment variables for variable expansion.
  * @param is_expandable Flag indicating whether variable expansion
  * is enabled.*/
-void	read_and_write(t_pipe_state *pipe_state, char *limiter,
+/* void	read_and_write(t_pipe_state *pipe_state, char *limiter,
 						t_env *env, int is_expandable)
 {
 	char	*buf;
@@ -93,6 +93,34 @@ void	read_and_write(t_pipe_state *pipe_state, char *limiter,
 		free(buf);
 	}
 	free(limiter);
+} */
+void	read_and_write(int std_out, char *limiter, t_env *env, int is_expandable)
+{
+	char	*buf;
+	int		f_arr[3];
+
+	limiter = remove_quotes_from_str(limiter, 0, 0, 0);
+	while (1)
+	{
+		buf = readline(">> ");
+		if (!buf || str_compare(limiter, buf, sizeof_str(buf, '\n')))
+		{
+			free(buf);
+			break ;
+		}
+		if (is_expandable)
+		{
+			buf[sizeof_str(buf, '\n')] = '\0';
+			ft_memset(f_arr, 0, 3 * sizeof(int));
+			buf = recursively_expand_vars(buf, env, 0, f_arr);
+			ft_memset(f_arr, 0, 3 * sizeof(int));
+			buf = recursively_expand_vars(buf, env, 1, f_arr);
+		}
+		write(std_out, buf, sizeof_str(buf, '\0'));
+		write(std_out, "\n", 1);
+		free(buf);
+	}
+	free(limiter);
 }
 
 /** @brief Executes a heredoc operation.
@@ -110,22 +138,20 @@ int	exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env)
 	int		status;
 	int		out_fd[2];
 
-	(void)env; // tirar quando arrumar
-	(void)limiter; // tirar quando arrumar
 	pipe(out_fd);
 	pid = fork();
 	signal(SIGINT, SIG_IGN);
 	if (!pid)
 	{
-		signal(SIGINT, quite_heredoc);
+		signal(SIGINT, quit_heredoc);
 		safe_close(out_fd[0]);
-		//read_and_write(out_fd[1], limiter, env, have_quotes(limiter));
+		read_and_write(out_fd[1], limiter, env, have_quotes(limiter));
 		exit(1);
 	}
 	waitpid(pid, &status, 0);
 	safe_close(out_fd[1]);
 	pipe_state->current_input_fd = out_fd[0];
-	pipe_state->heredoc_status = (WEXITSTATUS(status)) - 1; // função permitida?
+	pipe_state->heredoc_status = (WEXITSTATUS(status)) - 1;
 	if (pipe_state->heredoc_status < 0)
 		pipe_state->heredoc_status += 2;
 	pipe_state->second_heredoc_status = status;
