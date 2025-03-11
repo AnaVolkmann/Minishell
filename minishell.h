@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:56:04 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/26 14:41:47 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/03/10 12:50:33 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,11 +260,10 @@ int			switch_fds_identifier(t_pipe_state *state, int index, int con);
 
 /*******************HeheDoc Handling******************/
 
-void		quite_heredoc(int n);
+void		quit_heredoc(int n);
 int			have_quotes(char *s);
 int			exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env);
-void		read_and_write(t_pipe_state *pipe_state, char *limiter,
-				t_env *env, int is_expandable);
+void		read_and_write(int std_out, char *limiter, t_env *env, int is_expandable);
 
 /****************************FD**************************/
 
