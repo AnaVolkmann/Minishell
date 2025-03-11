@@ -201,7 +201,7 @@ char		*remove_quotes_from_str(char *str, int si_q_c, int do_q_c, int a);
 /********************Free*************************/
 
 void		free_envp(char **envp);
-void		free_ast(t_ast_node **ast);
+void		free_ast(t_ast_node *ast);
 void		cleanup_and_exit_shell(t_env *env, int status);
 void		free_parsed_env(t_env *env);
 void		ft_exit(char **cmd, t_env *env);

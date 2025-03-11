@@ -89,7 +89,7 @@ void	run_minishell(t_env *env)
 		{
 			ast = parse_tokens(&tokens);
 			command_executer(ast, env, &env->exit_status);
-			free_ast(&ast);
+			free_ast(ast);
 		}
 		/* update_env_status? */
 	}

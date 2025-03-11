@@ -15,6 +15,8 @@
 void	exec_builtin_and_exit(char **cmd_args, t_env *env, int *fd_out)
 {
 	env->exit_status = run_command_builtin(cmd_args, env, fd_out);
+	free_envp(cmd_args); //testando
+	cleanup_and_exit_shell(env, env->exit_status); //testando
 	exit(WEXITSTATUS(env->exit_status));
 }
 
@@ -73,6 +75,7 @@ int	run_builtin_child(char **cmd_args, int *fd, t_env *env, t_pipe_state *piped)
 		dup2(fd_out[1], 1); //inverti os parametros
 		env->exit_status = run_command_builtin(cmd_args, env, fd_out);
 		safe_close(fd_out[1]);
+		cleanup_and_exit_shell(env, env->exit_status); //testando
 		exit(WEXITSTATUS(env->exit_status));
 	}
 	close_pipe_ends(fd_s[1], fd[0]);

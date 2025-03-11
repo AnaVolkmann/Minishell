@@ -124,6 +124,7 @@ char	**merge_cmd_args(char **f_args, char **cmd)
 	}
 	new_args[i] = NULL;
 	free_envp(f_args);
+	free_envp(cmd);
 	return (new_args);
 }
 

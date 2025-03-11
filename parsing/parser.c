@@ -14,14 +14,14 @@
 
 /** @brief Parses a command and creates a corresponding AST node.
  *
- * processes the tokens representing a command and creates an AST node to 
+ * processes the tokens representing a command and creates an AST node to
  * represent
  * the command, including its arguments. It dynamically allocates memory
- * for the arguments and 
+ * for the arguments and
  * populates them from the tokens. The tokens are consumed in the process.
  *
  * @param token A pointer to the token list to be parsed.
- * @return A pointer to the created AST node, or NULL if memory allocation 
+ * @return A pointer to the created AST node, or NULL if memory allocation
  * fails.*/
 t_ast_node	*parse_command(t_token **token)
 {
@@ -34,7 +34,7 @@ t_ast_node	*parse_command(t_token **token)
 	arg_count = count_command_args(*token);
 	command_node->args = malloc(sizeof(char *) * (arg_count + 1));
 	if (!command_node->args)
-		return (NULL);
+		return (free(command_node), NULL);
 	i = 0;
 	while (i < arg_count)
 	{
@@ -51,15 +51,15 @@ t_ast_node	*parse_command(t_token **token)
 
 /** @brief Parses redirection tokens and creates a redirection AST node.
  *
- * This function processes redirection tokens, builds an AST node to represent 
+ * This function processes redirection tokens, builds an AST node to represent
  * the redirection,
- * and links the corresponding left and right child nodes. The redirection 
+ * and links the corresponding left and right child nodes. The redirection
  * can be one of several
- * types (e.g., input, output, or heredoc). It also consumes tokens in the 
+ * types (e.g., input, output, or heredoc). It also consumes tokens in the
  * process.
  *
  * @param tokens A pointer to the token list to be parsed.
- * @return A pointer to the created redirection AST node, or NULL if 
+ * @return A pointer to the created redirection AST node, or NULL if
  * no redirection is found.*/
 t_ast_node	*parse_redirection(t_token **tokens)
 {
@@ -92,15 +92,15 @@ t_ast_node	*parse_redirection(t_token **tokens)
 
 /** @brief Parses redirection tokens and creates a redirection AST node.
  *
- * This function processes redirection tokens, builds an AST node 
+ * This function processes redirection tokens, builds an AST node
  * to represent the redirection,
- * and links the corresponding left and right child nodes. 
+ * and links the corresponding left and right child nodes.
  * The redirection can be one of several
- * types (e.g., input, output, or heredoc). 
+ * types (e.g., input, output, or heredoc).
  * It also consumes tokens in the process.
  *
  * @param tokens A pointer to the token list to be parsed.
- * @return A pointer to the created redirection AST node, or NULL if 
+ * @return A pointer to the created redirection AST node, or NULL if
  * no redirection is found.*/
 t_ast_node	*parse_pipeline(t_token **tokens)
 {
@@ -129,13 +129,13 @@ t_ast_node	*parse_pipeline(t_token **tokens)
 
 /** @brief Parses a list of tokens and creates the root AST node.
  *
- * This function is responsible for initiating the 
- * parsing process by calling the appropriate 
- * parsing functions (pipeline, redirection, command) and 
+ * This function is responsible for initiating the
+ * parsing process by calling the appropriate
+ * parsing functions (pipeline, redirection, command) and
  * building the AST from the provided tokens.
  *
  * @param tokens A pointer to the token list to be parsed.
- * @return A pointer to the root of the AST, or 
+ * @return A pointer to the root of the AST, or
  * NULL if the token list is empty or invalid.*/
 t_ast_node	*parse_tokens(t_token **tokens)
 {

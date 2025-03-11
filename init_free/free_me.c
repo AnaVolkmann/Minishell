@@ -60,25 +60,22 @@ void	free_envp(char **envp)
 		return ;
 	while (envp[i])
 	{
-		safe_free((void **)&envp[i]);
+		free(envp[i]);
+		envp[i] = NULL;
 		i++;
 	}
-	safe_free((void **)&envp);
+	free(envp);
+	envp = NULL;
 }
 
-void	free_ast(t_ast_node **ast)
+void	free_ast(t_ast_node *ast)
 {
-	t_ast_node	*tmp;
-
-	if (!ast || !*ast)
+	if (!ast)
 		return ;
-	tmp = *ast;
-	free_ast(&tmp->left);
-	free_ast(&tmp->right);
-	if (tmp->args)
-		free_envp(tmp->args);
-	free(tmp);
-	*ast = NULL;
+	free_ast(ast->left);
+	free_ast(ast->right);
+	free(ast);
+	ast = NULL;
 }
 
 void	free_parsed_env(t_env *env)
