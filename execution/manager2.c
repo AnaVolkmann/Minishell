@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 11:46:22 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/26 11:47:35 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/03/12 19:20:20 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,58 +55,108 @@ int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped,
  * @param env Environment variables and shell state.
  * @param status Current execution status.
  * @return Updated status after handling file operations.*/
-int open_file_for_redirection(t_ast_node *head, t_pipe_state *state, t_env *env, int status)
+/* int	open_file_for_redirection(
+	t_ast_node *head, t_pipe_state *piped, t_env *env, int status)
 {
-	int	mode;
+	int			mode;
 
 	if (head->file_type == READ_FILE)
 	{
-		switch_fds_identifier(state, 1, 1);  // Passa apenas a estrutura e o índice de entrada
-		state->current_input_fd = open(head->args[0], O_RDONLY);
-		if (state->current_input_fd < 0)
-			status = switch_fds_identifier(state, 0, 0);  // Se falhar, volta ao estado original
+		switch_fds_identifier(piped, 6, 1, 1);
+		piped->current_input_fd = open(head->args[0], O_RDONLY);
+		if (piped->current_input_fd < 0)
+			status = switch_fds_identifier(piped, 0, 0, 0);
 	}
 	else if (head->file_type == READ_FROM_APPEND)
 	{
-		switch_fds_identifier(state, 1, 1);  // Usamos apenas o índice de entrada
-		status = exec_here_doc(head->args[0], state, env);
+		switch_fds_identifier(piped, 6, 1, 1);
+		status = exec_here_doc(head->args[0], piped, env);
 		signal(SIGINT, handle_ctrl_c);
 	}
 	else
 	{
-		switch_fds_identifier(state, 2, 1);  // Usamos o índice de saída
+		switch_fds_identifier(piped, 7, 2, 1);
 		mode = O_TRUNC;
 		if (head->file_type == WRITE_FILE_APPEND)
 			mode = O_APPEND;
-		state->current_output_fd = open(head->args[0], O_WRONLY | O_CREAT | mode, 0666);
+		piped->current_output_fd = open(head->args[0], O_WRONLY | O_CREAT | mode, 0666);
 	}
+	return (status);
+} */
+
+int open_file_for_redirection(
+    t_ast_node *head, t_pipe_state *piped, t_env *env, int status)
+{
+    int mode;
+
+    if (head->file_type == READ_FILE)  // Caso seja "< arquivo"
+    {
+        switch_fds_identifier(piped, 6, piped->current_input_fd, 1);
+        piped->current_input_fd = open(head->args[0], O_RDONLY);
+        if (piped->current_input_fd < 0)
+		{
+			perror("Error opening file for input redirection");
+            status = switch_fds_identifier(piped, 0, 0, 0);
+		}
+    }
+    else if (head->file_type == READ_FROM_APPEND)  // Caso seja "<< limiter" (heredoc)
+    {
+        switch_fds_identifier(piped, 6, piped->current_input_fd, 1);
+        status = exec_here_doc(head->args[0], piped, env);  // Chama o heredoc
+        signal(SIGINT, handle_ctrl_c);
+    }
+    else  // Caso seja "> arquivo" ou ">> arquivo"
+    if (head->args[0] == NULL) {
+        fprintf(stderr, "*****Error: Output file path is NULL.\n");
+        return -1;
+    }
+    printf("Attempting to open file: %s\n", head->args[0]);  // Debugging the file path
+    switch_fds_identifier(piped, 7, piped->current_output_fd, 1);
+    mode = O_TRUNC;
+    if (head->file_type == WRITE_FILE_APPEND)  // Caso seja ">>"
+       mode = O_APPEND;
+    piped->current_output_fd = open(head->args[0], O_WRONLY | O_CREAT | mode, 0666);
+    if (piped->current_output_fd < 0)
+	{
+        perror("Error opening file for output redirection");
+        return -1;
+    }
 	return status;
 }
 
-int switch_fds_identifier(t_pipe_state *state, int index, int con)
+int switch_fds_identifier(t_pipe_state *piped, int index, int fd_to_close, int con)
 {
-	if (con)
-	{
-		if (index == 1)  // Entrada
-		{
-			if (state->current_input_fd)
-				safe_close(state->current_output_fd); // Fecha o FD de saída se necessário
-			state->current_input_fd = 1;  // Define o FD de entrada
-		}
-		else if (index == 2)  // Saída
-		{
-			if (state->current_output_fd)
-				safe_close(state->current_input_fd); // Fecha o FD de entrada se necessário
-			state->current_output_fd = 1;  // Define o FD de saída
-		}
-	}
-	else
-	{
-		ft_putendl_fd("err: file not found", 2);
-		state->current_input_fd = 0;  // Reset de erro
-	}
-	return (1);
+    if (con)
+    {
+        if (index == 6)  // Se for input file ("<") ou heredoc ("<<")
+        {
+            if (piped->has_input_file && piped->current_input_fd > 0)
+                close(piped->current_input_fd);  // Fecha o FD antigo
+
+            piped->has_input_file = 1;
+            piped->current_input_fd = fd_to_close;  // Atualiza com o FD do heredoc
+        }
+        else if (index == 7)  // Se for output file (">" ou ">>")
+        {
+            if (piped->has_output_file && piped->current_output_fd > 0)
+                close(piped->current_output_fd);
+
+            piped->has_output_file = 1;
+            piped->current_output_fd = fd_to_close;
+        }
+    }
+    else
+    {
+        ft_putendl_fd("Erro: arquivo não encontrado", 2);
+        if (index == 6)
+            piped->has_input_file = 0;
+        else if (index == 7)
+            piped->has_output_file = 0;
+    }
+    return 1;
 }
+
+
 
 
 /** @brief Handles input redirection by opening

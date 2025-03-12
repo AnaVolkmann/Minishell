@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/03/10 12:41:57 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/03/12 19:09:36 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int handle_output_redirection(t_ast_node *head, t_pipe_state *pipe_state)
 										O_WRONLY | O_CREAT | mode, 0666);
 	pipe_state->has_output_file = (pipe_state->current_output_fd >= 0);
 	if (!pipe_state->has_output_file)
+	{
+		perror("Error!! opening file for output redirection");
 		return (-1);
+	}
 	return (0);
 }
 

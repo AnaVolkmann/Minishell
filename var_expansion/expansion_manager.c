@@ -98,7 +98,7 @@ char *expand_vars_in_string(char *str, t_env *env, int start, int *expand_idx)
 		if (var[array[0]] == 34)
 			array[2]++;
 		if (is_valid_var_start(var, array[0], 1)
-			&& ((!(array[2] % 2) && control) || (array[2] % 2 && control)))
+			&& ((!(array[2] % 2) && control) || (array[2] % 2 && !control)))
 			return (new_var = expand_vars_in_string(var, env, array[0], &array[0]),
 				recursively_expand_vars(new_var, env, control, array));
 		array[0]++;

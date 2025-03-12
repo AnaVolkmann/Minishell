@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:24:12 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/03/10 12:52:45 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/03/12 18:47:55 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,36 +64,6 @@ int	have_quotes(char *s)
  * @param env Environment variables for variable expansion.
  * @param is_expandable Flag indicating whether variable expansion
  * is enabled.*/
-/* void	read_and_write(t_pipe_state *pipe_state, char *limiter,
-						t_env *env, int is_expandable)
-{
-	char	*buf;
-	int		f_arr[3];
-
-	(void)env; // tirar quando arrumar
-	limiter = remove_quotes_from_str(limiter, 0, 0, 0);
-	while (1)
-	{
-		buf = readline(">> ");
-		if (!buf || str_compare(limiter, buf, sizeof_str(buf, '\n')))
-		{
-			free(buf);
-			break ;
-		}
-		if (is_expandable)
-		{
-			buf[sizeof_str(buf, '\n')] = '\0';
-			ft_memset(f_arr, 0, 3 * sizeof(int));
-			//buf = recursively_expand_variables(buf, env, 0, f_arr);
-			ft_memset(f_arr, 0, 3 * sizeof(int));
-			//buf = recursively_expand_variables(buf, env, 1, f_arr);
-		}
-		write(pipe_state->current_output_fd, buf, sizeof_str(buf, '\0'));
-		write(pipe_state->current_output_fd, "\n", 1);
-		free(buf);
-	}
-	free(limiter);
-} */
 void	read_and_write(int std_out, char *limiter, t_env *env, int is_expandable)
 {
 	char	*buf;
@@ -132,14 +102,14 @@ void	read_and_write(int std_out, char *limiter, t_env *env, int is_expandable)
  * @param pipe_state Pipe state to manage heredoc input and output descriptors.
  * @param env Environment variables for variable expansion.
  * @return 0 if heredoc was processed successfully, non-zero on error.*/
-int	exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env)
+/* int	exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env)
 {
 	pid_t	pid;
-	int		status;
 	int		out_fd[2];
 
 	pipe(out_fd);
 	pid = fork();
+	printf("entrou no heredoc %i", env->exit_status);
 	signal(SIGINT, SIG_IGN);
 	if (!pid)
 	{
@@ -148,12 +118,37 @@ int	exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env)
 		read_and_write(out_fd[1], limiter, env, have_quotes(limiter));
 		exit(1);
 	}
-	waitpid(pid, &status, 0);
+	waitpid(pid, &env->exit_status, 0);
 	safe_close(out_fd[1]);
 	pipe_state->current_input_fd = out_fd[0];
-	pipe_state->heredoc_status = (WEXITSTATUS(status)) - 1;
+	pipe_state->heredoc_status = (WEXITSTATUS(env->exit_status)) - 1;
 	if (pipe_state->heredoc_status < 0)
 		pipe_state->heredoc_status += 2;
-	pipe_state->second_heredoc_status = status;
+	pipe_state->second_heredoc_status = env->exit_status;
 	return (pipe_state->heredoc_status);
+} */
+int exec_here_doc(char *limiter, t_pipe_state *pipe_state, t_env *env)
+{
+    pid_t pid;
+    int out_fd[2];
+
+    pipe(out_fd);
+    pid = fork();
+    signal(SIGINT, SIG_IGN);
+    if (!pid)
+    {
+        signal(SIGINT, quit_heredoc);
+        safe_close(out_fd[0]);
+        read_and_write(out_fd[1], limiter, env, have_quotes(limiter));
+        exit(1);
+    }
+    waitpid(pid, &env->exit_status, 0);
+    safe_close(out_fd[1]);
+    pipe_state->current_input_fd = out_fd[0];
+    pipe_state->heredoc_status = (WEXITSTATUS(env->exit_status)) - 1;
+    if (pipe_state->heredoc_status < 0)
+        pipe_state->heredoc_status += 2;
+    pipe_state->second_heredoc_status = env->exit_status;
+    return (pipe_state->heredoc_status);
 }
+
