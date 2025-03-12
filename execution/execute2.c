@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 12:11:12 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/02/26 12:07:56 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/03/12 17:12:45 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,3 +112,4 @@ int	execute_cmd_with_redirect(char **cmd, int *fd, t_env *env,
 	free_envp(cmd);
 	return (1);
 }
+
