@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:08:55 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/22 18:57:19 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/03/12 11:48:48 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	run_minishell(t_env *env)
 			command_executer(ast, env, &env->exit_status);
 			free_ast(ast);
 		}
+		env->exit_status = 0;
 		/* update_env_status? */
 	}
 }
