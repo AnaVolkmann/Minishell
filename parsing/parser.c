@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 13:27:54 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/03/12 11:55:56 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/03/13 18:10:59 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_ast_node	*parse_command(t_token **token)
  * @param tokens A pointer to the token list to be parsed.
  * @return A pointer to the created redirection AST node, or NULL if
  * no redirection is found.*/
-t_ast_node	*parse_redirection(t_token **tokens)
+/* t_ast_node	*parse_redirection(t_token **tokens)
 {
 	t_token		*temp;
 	t_token		*file_token;
@@ -88,6 +88,35 @@ t_ast_node	*parse_redirection(t_token **tokens)
 		*tokens = (*tokens)->next;
 	}
 	return (parse_command(&temp));
+} */
+
+t_ast_node	*parse_redirection(t_token **tokens)
+{
+	t_token		*tmp;
+	t_ast_node	*redirect_node;
+	t_token		*next_token;
+
+	if (!*tokens)
+		return (NULL);
+	tmp = *tokens;
+	if ((*tokens)->type >= T_REDIR_IN
+		&& (*tokens)->type <= T_REDIR_HEREDOC)
+		return (build_redirection_node(tokens, tmp));
+	while (*tokens && (*tokens)->next)
+	{
+		next_token = (*tokens)->next;
+		if ((*tokens)->next->type >= T_REDIR_IN
+			&& (*tokens)->next->type <= T_REDIR_HEREDOC)
+		{
+			redirect_node = create_new_ast_node((*tokens)->next->type);
+			(*tokens)->next = next_token->next->next;
+			redirect_node->left = parse_redirection(&tmp);
+			redirect_node->right = create_file_node((next_token->next));
+			return (free(next_token->value), free(next_token), redirect_node);
+		}
+		*tokens = next_token;
+	}
+	return (parse_command(&tmp));
 }
 
 /** @brief Parses redirection tokens and creates a redirection AST node.

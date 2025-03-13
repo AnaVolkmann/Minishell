@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:19:58 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/02/12 19:08:20 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/03/13 18:12:56 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_ast_node	*build_redirection_node(t_token **tokens, t_token *tmp)
 	t_ast_node	*redirect_node;
 
 	redirect_node = create_new_ast_node((*tokens)->type);
-	*tokens = (*tokens)->next;
+	*tokens = (*tokens)->next->next;
 	//redirect_node->left = parse_command(&tmp);
 	redirect_node->left = parse_redirection(tokens);
 	redirect_node->right = create_file_node(tmp->next);

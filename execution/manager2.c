@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 11:46:22 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/03/12 19:20:20 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/03/13 18:21:48 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,17 @@ int open_file_for_redirection(
         perror("Error opening file for output redirection");
         return -1;
     }
+	// Verifica se o arquivo foi aberto corretamente
+	printf("File opened successfully: %s\n", head->args[0]);
+
+	// Redireciona a saída para o arquivo aberto
+	if (dup2(piped->current_output_fd, STDOUT_FILENO) < 0) {
+		perror("Error redirecting output to file");
+		return -1;
+	}
+
+	// Escreve uma linha de teste no arquivo para confirmar se a escrita funciona
+	write(STDOUT_FILENO, "Test writing to file\n", 22);
 	return status;
 }
 
