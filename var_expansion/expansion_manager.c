@@ -82,28 +82,46 @@ char *expand_vars_in_string(char *str, t_env *env, int start, int *expand_idx)
  * @brief Recursively expands variables in a string, handling nested variables and quotes.
  *
  * Expands variables in the string, considering nested variable expansions and quoted parts of the string.*/
- char	*recursively_expand_vars(char *var, t_env *env, int control, int *array)
-{
-	char	*new_var;
+//  char	*recursively_expand_vars(char *var, t_env *env, int control, int *array)
+// {
+// 	char	*new_var;
 
-	while (var[array[0]])
-	{
-		if (var[array[0]] == 39)
-		{
-			array[0]++;
-			array[1]++;
-			while (!(array[2] % 2) && var[array[0]] && var[array[0]] != 39)
-				array[0]++;
-		}
-		if (var[array[0]] == 34)
-			array[2]++;
-		if (is_valid_var_start(var, array[0], 1)
-			&& ((!(array[2] % 2) && control) || (array[2] % 2 && !control)))
-			return (new_var = expand_vars_in_string(var, env, array[0], &array[0]),
-				recursively_expand_vars(new_var, env, control, array));
-		array[0]++;
+// 	while (var[array[0]])
+// 	{
+// 		if (var[array[0]] == 39)
+// 		{
+// 			array[0]++;
+// 			array[1]++;
+// 			while (!(array[2] % 2) && var[array[0]] && var[array[0]] != 39)
+// 				array[0]++;
+// 		}
+// 		if (var[array[0]] == 34)
+// 			array[2]++;
+// 		if (is_valid_var_start(var, array[0], 1)
+// 			&& ((!(array[2] % 2) && control) || (array[2] % 2 && !control)))
+// 			return (new_var = expand_vars_in_string(var, env, array[0], &array[0]),
+// 				recursively_expand_vars(new_var, env, control, array));
+// 		array[0]++;
+// 	}
+// 	return (var);
+// }
+char *recursively_expand_vars(char *str, t_env *env, int first_pass, int *array)
+{
+	char	*env_var_name;
+	char	*expanded_value;
+	(void)first_pass;
+	(void)array;
+
+    if (!str || str[0] != '$')
+    {
+		return (str);
 	}
-	return (var);
+	env_var_name = str + 1;
+    expanded_value = get_env(env_var_name, env->parsed_env);
+    if (expanded_value)
+        return (free(str), expanded_value);
+    else
+        return (str);
 }
 
 /**
