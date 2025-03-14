@@ -90,6 +90,26 @@ t_ast_node	*parse_command(t_token **token)
 	return (parse_command(&temp));
 } */
 
+// static t_ast_node	*build_heredoc(t_token **tokens)
+// {
+// 	t_ast_node	*heredoc_node;
+// 	t_token		*delimiter;
+
+// 	if (!tokens || !*tokens || !(*tokens)->next)
+// 		return (printf("Error: heredoc missing delimiter.\n"), NULL);
+// 	heredoc_node = create_new_ast_node(T_REDIR_HEREDOC);
+// 	delimiter = (*tokens)->next;
+// 	heredoc_node->args = malloc(sizeof(char *) * 2);
+// 	if (!heredoc_node->args)
+// 		return (free(heredoc_node), NULL);
+// 	heredoc_node->args[0] = ft_strdup(delimiter->value);
+// 	if (!heredoc_node->args[0])
+// 		return (free(heredoc_node->args), free(heredoc_node), NULL);
+// 	heredoc_node->args[1] = NULL;
+// 	*tokens = delimiter->next;
+// 	return (free(delimiter), heredoc_node);
+// }
+
 t_ast_node	*parse_redirection(t_token **tokens)
 {
 	t_token		*tmp;

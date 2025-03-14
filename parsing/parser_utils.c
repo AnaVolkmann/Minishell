@@ -69,24 +69,38 @@ t_ast_node	*create_new_ast_node(t_token_type type)
  * @param token The token representing the file to be used in the AST node.
  * @return A pointer to the created file AST node,
  * or NULL if memory allocation fails.*/
+// t_ast_node	*create_file_node(t_token *token)
+// {
+// 	t_ast_node	*file_node;
+
+// 	file_node = malloc(sizeof(t_ast_node));
+// 	if (!file_node)
+// 		return (NULL);
+// 	file_node->type = token->type;
+// 	file_node->args = malloc(sizeof(char *) * 2);
+// 	if (!file_node->args)
+// 	{
+// 		free (file_node);
+// 		return (NULL);
+// 	}
+// 	file_node->args[0] = token->value;
+// 	file_node->args[1] = NULL;
+// 	file_node->left = NULL;
+// 	file_node->right = NULL;
+// 	return (file_node);
+// }
 t_ast_node	*create_file_node(t_token *token)
 {
 	t_ast_node	*file_node;
 
-	file_node = malloc(sizeof(t_ast_node));
+	file_node = create_new_ast_node(token->type);
 	if (!file_node)
 		return (NULL);
-	file_node->type = token->type;
 	file_node->args = malloc(sizeof(char *) * 2);
 	if (!file_node->args)
-	{
-		free (file_node);
-		return (NULL);
-	}
+		return (free(file_node), NULL);
 	file_node->args[0] = token->value;
 	file_node->args[1] = NULL;
-	file_node->left = NULL;
-	file_node->right = NULL;
 	return (file_node);
 }
 
