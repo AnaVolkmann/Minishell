@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 11:46:22 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/03/13 18:21:48 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/03/14 11:38:43 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,57 +83,72 @@ int	prepare_and_execute_cmd(char **cmd, int *fd, t_pipe_state *piped,
 	}
 	return (status);
 } */
-
 int open_file_for_redirection(
     t_ast_node *head, t_pipe_state *piped, t_env *env, int status)
 {
     int mode;
 
-    if (head->file_type == READ_FILE)  // Caso seja "< arquivo"
+    // Redirecionamento de leitura (input)
+    if (head->file_type == READ_FILE)  // "< arquivo"
     {
         switch_fds_identifier(piped, 6, piped->current_input_fd, 1);
         piped->current_input_fd = open(head->args[0], O_RDONLY);
         if (piped->current_input_fd < 0)
-		{
-			perror("Error opening file for input redirection");
+        {
+            perror("Error opening file for input redirection");
             status = switch_fds_identifier(piped, 0, 0, 0);
-		}
+        }
     }
-    else if (head->file_type == READ_FROM_APPEND)  // Caso seja "<< limiter" (heredoc)
+    // Here-doc (<<)
+    else if (head->file_type == READ_FROM_APPEND)  // "<< limiter"
     {
         switch_fds_identifier(piped, 6, piped->current_input_fd, 1);
         status = exec_here_doc(head->args[0], piped, env);  // Chama o heredoc
         signal(SIGINT, handle_ctrl_c);
     }
-    else  // Caso seja "> arquivo" ou ">> arquivo"
-    if (head->args[0] == NULL) {
-        fprintf(stderr, "*****Error: Output file path is NULL.\n");
-        return -1;
-    }
-    printf("Attempting to open file: %s\n", head->args[0]);  // Debugging the file path
-    switch_fds_identifier(piped, 7, piped->current_output_fd, 1);
-    mode = O_TRUNC;
-    if (head->file_type == WRITE_FILE_APPEND)  // Caso seja ">>"
-       mode = O_APPEND;
-    piped->current_output_fd = open(head->args[0], O_WRONLY | O_CREAT | mode, 0666);
-    if (piped->current_output_fd < 0)
-	{
-        perror("Error opening file for output redirection");
-        return -1;
-    }
-	// Verifica se o arquivo foi aberto corretamente
-	printf("File opened successfully: %s\n", head->args[0]);
+    // Redirecionamento de escrita (>)
+    else if (head->file_type == WRITE_FILE || head->file_type == WRITE_FILE_APPEND)
+    {
+        if (head->args[0] == NULL) {
+            fprintf(stderr, "Error: Output file path is NULL.\n");
+            return -1;
+        }
 
-	// Redireciona a saída para o arquivo aberto
-	if (dup2(piped->current_output_fd, STDOUT_FILENO) < 0) {
-		perror("Error redirecting output to file");
-		return -1;
-	}
+        printf("Attempting to open file: %s\n", head->args[0]);
+        switch_fds_identifier(piped, 7, piped->current_output_fd, 1);
 
-	// Escreve uma linha de teste no arquivo para confirmar se a escrita funciona
-	write(STDOUT_FILENO, "Test writing to file\n", 22);
-	return status;
+        // Definindo o modo de abertura (modo de sobrescrição ou append)
+        mode = O_TRUNC;
+        if (head->file_type == WRITE_FILE_APPEND)  // Se for ">>"
+            mode = O_APPEND;
+
+        // Abre o arquivo com as permissões apropriadas
+        piped->current_output_fd = open(head->args[0], O_WRONLY | O_CREAT | mode, 0666);
+        if (piped->current_output_fd < 0) {
+            perror("Error opening file for output redirection");
+            return -1;
+        }
+
+        printf("File opened successfully: %s\n", head->args[0]);
+        printf("Redirecting output to file...\n");
+
+        // Redireciona a saída para o arquivo
+        if (dup2(piped->current_output_fd, STDOUT_FILENO) < 0) {
+            perror("Error redirecting output to file");
+            return -1;
+        }
+
+        printf("Output redirected successfully!\n");
+
+        // Fecha o descritor de arquivo após o redirecionamento
+        close(piped->current_output_fd);
+        printf("File descriptor closed, proceeding...\n");
+    }
+
+    return status;
 }
+
+
 
 int switch_fds_identifier(t_pipe_state *piped, int index, int fd_to_close, int con)
 {

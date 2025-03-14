@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:18:13 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/02/25 14:13:54 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/03/14 11:15:27 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,11 +208,12 @@ static char	*get_path(char *cmd, char **envp)
 }
 
 // @brief it runs the execve commands
-static int	run_command_exec(char *cmd, char *const *argument, t_env *envp)
+/* static int	run_command_exec(char *cmd, char *const *argument, t_env *envp)
 {
 	char	*cmd_path;
 	pid_t	pid;
 	int		status;
+
 	cmd_path = get_path(cmd, envp->parsed_env);
 	if (!cmd_path)
 		return (printf("Command not found: %s\n", cmd), 1); // tem que ser no stderr
@@ -228,7 +229,49 @@ static int	run_command_exec(char *cmd, char *const *argument, t_env *envp)
 	else
 		return (free(cmd_path), perror("fork"), 1);
 	return (free(cmd_path), 0);
+} */
+static int	run_command_exec(char *cmd, char *const *argument, t_env *envp)
+{
+    char	*cmd_path;
+    pid_t	pid;
+    int		status;
+
+    cmd_path = get_path(cmd, envp->parsed_env);
+    if (!cmd_path)
+    {
+        fprintf(stderr, "Command not found: %s\n", cmd);
+        return (1);
+    }
+
+    pid = fork();
+    if (pid == 0) // Processo filho
+    {
+        if (execve(cmd_path, argument, envp->parsed_env) == -1)
+        {
+            free(cmd_path);
+            fprintf(stderr, "execve error: %s: %s\n", cmd, strerror(errno));
+            exit(127); // Finaliza corretamente
+        }
+    }
+    else if (pid > 0) // Processo pai
+    {
+        waitpid(pid, &status, 0);
+        if (WIFEXITED(status))
+            status = WEXITSTATUS(status); // Obtém status do filho
+        else
+            status = 1;
+    }
+    else // Erro no fork
+    {
+        perror("fork");
+        free(cmd_path);
+        return (1);
+    }
+
+    free(cmd_path);
+    return (status);
 }
+
 
 // @brief it first tries to execute the builtin functions,
 //  * if its not inside that, it straight up goes to execve,

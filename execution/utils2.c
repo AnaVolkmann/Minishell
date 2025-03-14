@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 17:46:50 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/02/15 17:46:53 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/03/14 11:24:24 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	init_or_reset_pipe_state(t_pipe_state *pipe_state, int f)
  * number of active child processes.
  * @return Exit status of the last child process, or the global signal status if
  * interrupted.*/
-int	wait_for_children(int status, t_pipe_state *piped)
+/* int	wait_for_children(int status, t_pipe_state *piped)
 {
 	if (status != 2 && status != 127
 		&& status != 126 && piped->children_count
@@ -73,7 +73,30 @@ int	wait_for_children(int status, t_pipe_state *piped)
 			return (g_signal);
 	}
 	return (status);
+} */
+int wait_for_children(int status, t_pipe_state *piped)
+{
+    printf("Waiting for %d children...\n", piped->children_count);  // Debug
+
+    if (status != 2 && status != 127 && status != 126 && piped->children_count
+        && piped->second_heredoc_status)
+    {
+        while (piped->children_count)
+        {
+            printf("Waiting for child, remaining: %d\n", piped->children_count);  // Debug
+            wait(&status);
+            piped->children_count -= 1;
+        }
+        signal(SIGINT, handle_ctrl_c);
+        signal(SIGQUIT, SIG_IGN);
+        if (!g_signal)
+            return (WEXITSTATUS(status));
+        else
+            return (g_signal);
+    }
+    return (status);
 }
+
 
 char	*strcopy(char *src)
 {
