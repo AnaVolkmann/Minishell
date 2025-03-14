@@ -6,7 +6,7 @@
 /*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/03/12 19:09:36 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/03/14 11:23:15 by alawrence        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,15 +108,24 @@ int execute_ast_node(t_ast_node *head, t_pipe_state *piped_state, t_env *env)
 	fd[1] = -1;
 	if (head->file_type == FILE_READY)
 	{
+		printf("File type is READY\n");
 		if (head->type == T_PIPE)
+		{
+			printf("Handling PIPE execution...\n");
 			env->exit_status = handle_piped_cmd_exec(head, piped_state, env, fd);
+		}
 		if (head->type == T_REDIR_IN || head->type == T_REDIR_OUT || head->type == T_REDIR_APPEND || head->type == T_REDIR_HEREDOC)
+		{
+			printf("Handling REDIRECTION execution...\n");
 			env->exit_status = handle_redirection_cmd(head, piped_state, env, fd);
+		}
 	}
 	if (head->file_type == EXECUTE_FILE)
 		env->exit_status = prepare_and_execute_cmd(head->args, fd, piped_state, env);
-	env->exit_status = wait_for_children(env->exit_status, piped_state);
-	if (piped_state->has_input_file)
+	printf("AST execution complete, waiting for children...\n");
+		env->exit_status = wait_for_children(env->exit_status, piped_state);
+	printf("Children finished executing.\n");
+		if (piped_state->has_input_file)
 		safe_close(piped_state->current_input_fd);
 	if (piped_state->has_output_file)
 		safe_close(piped_state->current_output_fd);
