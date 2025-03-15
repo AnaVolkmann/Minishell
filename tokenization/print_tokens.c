@@ -6,11 +6,11 @@
 /*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:47:31 by ana-lda-          #+#    #+#             */
-/*   Updated: 2024/11/20 16:27:54 by ana-lda-         ###   ########.fr       */
+/*   Updated: 2025/03/15 14:32:44 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /* const char	*get_token_type_name(t_token_type type)
 {
@@ -31,7 +31,7 @@ void	display_tokens(t_token *tokens)
 {
 	t_token	*token;
 	token = tokens;
-    
+
 	while (token)
 	{
 		printf("Token: \033[0;36m %-20s \033[0m |\t \
