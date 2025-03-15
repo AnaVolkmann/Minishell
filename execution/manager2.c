@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 11:46:22 by lufiguei          #+#    #+#             */
-/*   Updated: 2025/03/14 11:38:43 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/03/15 14:09:31 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,18 +133,17 @@ int open_file_for_redirection(
         printf("Redirecting output to file...\n");
 
         // Redireciona a saída para o arquivo
+        // Imprimir antes e depois do redirecionamento
+        printf("Antes do redirecionamento: current_output_fd = %d\n", piped->current_output_fd);
         if (dup2(piped->current_output_fd, STDOUT_FILENO) < 0) {
-            perror("Error redirecting output to file");
+            perror("Erro ao redirecionar saída para o arquivo");
             return -1;
         }
-
-        printf("Output redirected successfully!\n");
-
-        // Fecha o descritor de arquivo após o redirecionamento
-        close(piped->current_output_fd);
-        printf("File descriptor closed, proceeding...\n");
+        printf("Após o dup2: stdout foi redirecionado para o arquivo.\n");
+        // Verificar se o arquivo foi criado e tem conteúdo após a execução do comando
+        printf("Verificando conteúdo de 'a':\n");
+        system("cat a");
     }
-
     return status;
 }
 

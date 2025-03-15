@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alawrence <alawrence@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ana-lda- <ana-lda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:14:36 by ana-lda-          #+#    #+#             */
-/*   Updated: 2025/03/14 11:23:15 by alawrence        ###   ########.fr       */
+/*   Updated: 2025/03/15 14:25:54 by ana-lda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int handle_piped_cmd_exec(t_ast_node *head, t_pipe_state *piped_state,
  * @param env Environment variables and shell state.
  * @param fd File descriptors for redirection.
  * @return Status after processing redirection. */
-int handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state,
+/* int handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state,
 							t_env *env, int *fd)
 {
 	piped_state->second_heredoc_status = 1;
@@ -90,7 +90,60 @@ int handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state,
 	if (head->left && (head->left->type == T_REDIR_IN || head->left->type == T_REDIR_OUT || head->left->type == T_REDIR_APPEND || head->left->type == T_REDIR_HEREDOC))
 		env->exit_status = handle_redirection_cmd(head->left, piped_state, env, fd);
 	return (env->exit_status);
+} */
+int handle_redirection_cmd(t_ast_node *head, t_pipe_state *piped_state, t_env *env, int *fd)
+{
+    int saved_stdout;  // Salvar o descritor de stdout original
+
+    // Salva o stdout original
+    saved_stdout = dup(STDOUT_FILENO);
+    if (saved_stdout == -1) {
+        perror("Erro ao salvar o descritor de stdout");
+        return -1;
+    }
+
+    piped_state->second_heredoc_status = 1;
+
+    // Verifica se há um redirecionamento à direita (arquivo de saída)
+    if (head->right) {
+        env->exit_status = open_file_for_redirection(head->right, piped_state, env, 0);
+        if ((env->exit_status || !head->left) && piped_state->executed_pipes_index > 1) {
+            piped_state->executed_pipes_index -= 1;
+        }
+    }
+
+    // Caso o nó esquerdo seja um comando para ser executado
+    if (head->left && head->left->file_type == EXECUTE_FILE && piped_state->second_heredoc_status && !env->exit_status) {
+        piped_state->is_redirection_or_pipe = 1;
+        env->exit_status = prepare_and_execute_cmd(head->left->args, fd, piped_state, env);
+    }
+
+    // Caso o nó esquerdo seja um pipe
+    if (head->left && head->left->type == T_PIPE && piped_state->second_heredoc_status) {
+        env->exit_status = handle_piped_cmd_exec(head->left, piped_state, env, fd);
+    }
+
+    // Verifica se há outros redirecionamentos à esquerda (input, output, append, heredoc)
+    if (head->left && (head->left->type == T_REDIR_IN || head->left->type == T_REDIR_OUT || head->left->type == T_REDIR_APPEND || head->left->type == T_REDIR_HEREDOC)) {
+        env->exit_status = handle_redirection_cmd(head->left, piped_state, env, fd);
+    }
+
+    // Restaura o stdout original após o redirecionamento
+    if (dup2(saved_stdout, STDOUT_FILENO) == -1) {
+        perror("Erro ao restaurar o stdout");
+        return -1;
+    }
+
+    // Fecha o descritor de stdout salvo
+    close(saved_stdout);
+
+    // Não feche piped->current_output_fd imediatamente, isso pode ser feito mais tarde após a execução do comando
+
+    return env->exit_status;
 }
+
+
+
 
 /** @brief Executes an AST node by determining
  * its type and processing commands or redirections.
